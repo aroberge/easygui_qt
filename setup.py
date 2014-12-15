@@ -39,7 +39,7 @@ setup(
     keywords='easygui_qt',
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
-        'Intended Audience :: Students and teachers',
+        'Intended Audience :: Education',
         'License :: OSI Approved :: BSD License',
         'Natural Language :: English',
         'Programming Language :: Python :: 3',
