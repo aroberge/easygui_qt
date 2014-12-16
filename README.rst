@@ -7,6 +7,9 @@ cookiecutter; very little actual code is to be found.  Do not waste your
 time going through its file until this notice is removed!
 
 .. image:: https://badge.fury.io/py/easygui_qt.png
+    :target: http://badge.fury.io/py/easygui_qt
+
+.. image:: https://pypip.in/d/easygui_qt/badge.png
         :target: https://pypi.python.org/pypi/easygui_qt
 
 "Inspired by easygui, designed for PyQt"
