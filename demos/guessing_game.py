@@ -1,3 +1,6 @@
+import os
+import sys
+sys.path.insert(0, os.path.join(os.getcwd(), "../"))
 from easygui_qt import easygui_qt as eg
 from random import randint
 
