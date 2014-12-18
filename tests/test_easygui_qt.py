@@ -68,5 +68,16 @@ class TestTextInput(unittest.TestCase):
         self.output = subprocess.check_output(self.args, **self.kwd)
         self.assertEqual('None', self.output, "escape key")
 
+class TestTextInputWithDefaultArgument(TestTextInput):
+
+    def setUp(self):
+        self.args = 'pyconda tests/show_text_input2.py'
+        self.kwd = {'universal_newlines': True}
+
+    def test_ok(self):
+        self.set_writer(['tab', 'enter'])
+        self.output = subprocess.check_output(self.args, **self.kwd)
+        self.assertEqual("Hello", self.output, "OK button activated")
+
 if __name__ == '__main__':
     unittest.main()
