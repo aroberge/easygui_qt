@@ -209,12 +209,24 @@ def message_box(message="Message", title="Title"):
 @with_app
 def integer_input(message="Choose a number", title="Title",
                   default_value=1, min_=0, max_=100, step=1):
-    """Simple dialog to ask a user to select a number within a certain range"""
+    """Simple dialog to ask a user to select an integer within a certain range"""
     flags = QtCore.Qt.WindowSystemMenuHint | QtCore.Qt.WindowTitleHint
     number, ok = QtGui.QInputDialog.getInteger(None,
                                                title, message,
                                                default_value, min_, max_, step,
                                                flags)
+    if ok:
+        return number
+
+@with_app
+def float_input(message="Choose a number", title="Title",
+                  default_value=0., min_=-10000, max_=10000, step=1):
+    """Simple dialog to ask a user to select a floating point within a certain range"""
+    flags = QtCore.Qt.WindowSystemMenuHint | QtCore.Qt.WindowTitleHint
+    number, ok = QtGui.QInputDialog.getDouble(None,
+                                              title, message,
+                                              default_value, min_, max_, step,
+                                              flags)
     if ok:
         return number
 
@@ -230,8 +242,10 @@ def set_font_size(font_size):
 
 if __name__ == '__main__':
     try:
-        from demos.guessing_game import guessing_game
+        import sys
+        sys.path.insert(0, os.path.join(os.getcwd(), '../demos/'))
+        import guessing_game
 
-        guessing_game()
+        guessing_game.guessing_game()
     except ImportError:
         print("Could not find demo.")
