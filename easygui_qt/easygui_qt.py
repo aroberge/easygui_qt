@@ -230,6 +230,17 @@ def float_input(message="Choose a number", title="Title",
     if ok:
         return number
 
+@with_app
+def get_choice(message="Choices", title="Title", choices=None):
+    """Simple dialog to ask a user to select an item within a list"""
+    if choices is None:
+        choices = ["Item 1", "Item 2", "Item 3"]
+    flags = QtCore.Qt.WindowSystemMenuHint | QtCore.Qt.WindowTitleHint
+    choice, ok = QtGui.QInputDialog.getItem(None, title,
+            message, choices, 0, False, flags)
+    if ok:
+        return choice
+
 
 def set_font_size(font_size):
     """Simple method to set font size.
