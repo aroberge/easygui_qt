@@ -152,7 +152,7 @@ def set_global_font():
 
 
 @with_app
-def text_input(message="Enter your response", title="Title",
+def get_string(message="Enter your response", title="Title",
                default_response=""):
     """Simple text input box.  Used to query the user and get a string back.
     """
@@ -197,7 +197,7 @@ def set_locale(locale, app=None):
 
 
 @with_app
-def message_box(message="Message", title="Title"):
+def show_message(message="Message", title="Title"):
     """Simple message box."""
     box = QtGui.QMessageBox(None)
     box.setWindowTitle(title)
@@ -207,7 +207,7 @@ def message_box(message="Message", title="Title"):
 
 
 @with_app
-def integer_input(message="Choose a number", title="Title",
+def get_int(message="Choose a number", title="Title",
                   default_value=1, min_=0, max_=100, step=1):
     """Simple dialog to ask a user to select an integer within a certain range"""
     flags = QtCore.Qt.WindowSystemMenuHint | QtCore.Qt.WindowTitleHint
@@ -219,7 +219,7 @@ def integer_input(message="Choose a number", title="Title",
         return number
 
 @with_app
-def float_input(message="Choose a number", title="Title",
+def get_float(message="Choose a number", title="Title",
                   default_value=0., min_=-10000, max_=10000, step=1):
     """Simple dialog to ask a user to select a floating point within a certain range"""
     flags = QtCore.Qt.WindowSystemMenuHint | QtCore.Qt.WindowTitleHint

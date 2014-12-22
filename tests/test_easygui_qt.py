@@ -40,7 +40,7 @@ class TypewriteThread(threading.Thread):
 class TestTextInput(unittest.TestCase):
 
     def setUp(self):
-        self.args = 'pyconda tests/show_text_input.py'
+        self.args = 'pyconda tests/show_get_string.py'
         self.kwd = {'universal_newlines': True}
 
     def set_writer(self, arg):
@@ -71,7 +71,7 @@ class TestTextInput(unittest.TestCase):
 class TestTextInputWithDefaultArgument(TestTextInput):
 
     def setUp(self):
-        self.args = 'pyconda tests/show_text_input2.py'
+        self.args = 'pyconda tests/show_get_string2.py'
         self.kwd = {'universal_newlines': True}
 
     def test_ok(self):
