@@ -30,10 +30,11 @@ Features
 * EasyGUI_Qt is NOT event-driven: all GUI interactions are invoked
   by simple function calls.
 
-* EasyGui provides an easy-to-use interface for simple GUI interaction with a
+* EasyGui_Qt provides an easy-to-use interface for simple GUI interaction with a
   user.  For example, instead of using a print() function to display a message,
   show_message() is used which pops a message window; similarly, instead
   of Python's input(), get_string() creates a window in which a user
   can enter the required information.
 
-.. image:: docs/images/get_string.png
+.. image:: images/get_string.png
+
