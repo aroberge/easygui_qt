@@ -31,7 +31,11 @@ project_root = os.path.dirname(cwd)
 # version is used.
 sys.path.insert(0, project_root)
 
-from unittest.mock import MagicMock
+
+try:
+    from unittest.mock import MagicMock
+except:      # next added for readthedocs
+    from mock import Mock as MagicMock
 
 class Mock(MagicMock):
     @classmethod
