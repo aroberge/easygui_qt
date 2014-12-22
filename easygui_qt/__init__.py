@@ -247,6 +247,16 @@ def get_float(message="Choose a number", title="Title",
 def get_string(message="Enter your response", title="Title",
                default_response=""):
     """Simple text input box.  Used to query the user and get a string back.
+
+       >>> import easygui_qt as eg
+       >>> reply = eg.get_string()
+
+       .. image:: ../docs/images/get_string.png
+
+       >>> reply = eg.get_string("new message", default_response="ready")
+
+
+       .. image:: ../docs/images/get_string2.png
     """
     flags = QtCore.Qt.WindowSystemMenuHint | QtCore.Qt.WindowTitleHint
     text, ok = QtGui.QInputDialog.getText(None, title, message,
