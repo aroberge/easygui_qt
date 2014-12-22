@@ -6,9 +6,22 @@ import functools
 import inspect
 from PyQt4 import QtGui, QtCore
 
+__all__ = [
+    'get_choice',
+    'get_float',
+    'get_int',
+    'get_string',
+    'set_global_font',
+    'set_locale',
+    'show_message',
+]
+
+
+
 CONFIG = {'font': QtGui.QFont(),
           'translator': QtCore.QTranslator(),
           'locale': 'default'}
+QM_FILES = None
 
 
 def with_app(func):
@@ -49,8 +62,6 @@ def find_qm_files():
                 all_files[locale] = root
     return all_files
 
-QM_FILES = find_qm_files()
-
 
 class SimpleApp(QtGui.QApplication):
     """A simple extention of the basic QApplication
@@ -68,6 +79,10 @@ class SimpleApp(QtGui.QApplication):
            from a locale - provided that the corresponding qm files
            are present in the PyQt distribution.
         """
+        global QM_FILES
+        if QM_FILES is None:
+            QM_FILES = find_qm_files()
+
         if locale in QM_FILES:
             if CONFIG['translator'].load("qt_" + locale, QM_FILES[locale]):
                 self.installTranslator(CONFIG['translator'])
@@ -151,18 +166,6 @@ def set_global_font():
         CONFIG['font'] = font
 
 
-@with_app
-def get_string(message="Enter your response", title="Title",
-               default_response=""):
-    """Simple text input box.  Used to query the user and get a string back.
-    """
-    flags = QtCore.Qt.WindowSystemMenuHint | QtCore.Qt.WindowTitleHint
-    text, ok = QtGui.QInputDialog.getText(None, title, message,
-                                          QtGui.QLineEdit.Normal,
-                                          default_response, flags)
-    if ok:
-        return text
-
 
 @with_app
 def yes_no_question(question="Answer this question", title="Title"):
@@ -229,6 +232,18 @@ def get_float(message="Choose a number", title="Title",
                                               flags)
     if ok:
         return number
+
+@with_app
+def get_string(message="Enter your response", title="Title",
+               default_response=""):
+    """Simple text input box.  Used to query the user and get a string back.
+    """
+    flags = QtCore.Qt.WindowSystemMenuHint | QtCore.Qt.WindowTitleHint
+    text, ok = QtGui.QInputDialog.getText(None, title, message,
+                                          QtGui.QLineEdit.Normal,
+                                          default_response, flags)
+    if ok:
+        return text
 
 @with_app
 def get_choice(message="Choices", title="Title", choices=None):
