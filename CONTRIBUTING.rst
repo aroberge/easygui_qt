@@ -47,12 +47,15 @@ articles, and such.
 Submit Feedback
 ~~~~~~~~~~~~~~~
 
-The best way to send feedback is to file an issue at https://github.com/aroberge/easygui_qt/issues.
+The best way to send feedback is to file an issue at
+https://github.com/aroberge/easygui_qt/issues.
 
 If you are proposing a feature:
 
 * Explain in detail how it would work.
 * Keep the scope as narrow as possible, to make it easier to implement.
+* Try to provide a specific use-case. Please note that some good ideas may
+  not be implemented so as to keep the API easy to use for beginners.
 * Remember that this is a volunteer-driven project, and that contributions
   are welcome :)
 
@@ -66,7 +69,8 @@ Ready to contribute? Here's how to set up `easygui_qt` for local development.
 
     $ git clone git@github.com:your_name_here/easygui_qt.git
 
-3. Install your local copy into a virtualenv. Assuming you have virtualenvwrapper installed, this is how you set up your fork for local development::
+3. Install your local copy into a virtualenv.
+   Assuming you have virtualenvwrapper installed, this is how you set up your fork for local development::
 
     $ mkvirtualenv easygui_qt
     $ cd easygui_qt/
@@ -92,14 +96,16 @@ Ready to contribute? Here's how to set up `easygui_qt` for local development.
 Pull Request Guidelines
 -----------------------
 
-IMPORTANT: I actually
- never did use git for a pull request; in all previous projects, I always
- did a diff of the proposed code (usually submitted as a patch or
- comparing actual submitted files using a diff program.)
+IMPORTANT: I actually have
+never used git for a pull request; in all previous projects, I always
+did a diff of the proposed code (usually submitted as a patch or
+comparing actual submitted files using a diff program) and carefully
+reviewed suggested changes before incorporating them "by hand".
+
 
 Before you submit a pull request, check that it meets these guidelines:
 
-1. The pull request should include tests.  Or possibly some working demos
+1. The pull request should include tests - or possibly some working demos
    as this might be more useful given the visual nature of this project.
 2. If the pull request adds functionality, the docs should be updated. Put
    your new functionality into a function with a docstring, and add the

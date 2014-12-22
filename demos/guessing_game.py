@@ -21,7 +21,7 @@ def guessing_game():
     eg.show_message(message="If the text is too small or too large," +
                       " you can fix that",
                       title="For information")
-    eg.set_global_font()
+    eg.set_default_font()
     eg.show_message(message="Hello {}. Let's play a game".format(name),
                       title="Guessing game!")
 

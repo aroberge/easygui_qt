@@ -2,17 +2,19 @@
 Comparison with easygui
 -----------------------
 
-easygui_qt was inspired by easygui.
+EasyGUI_Qt was inspired by EasyGUI.
 
-Here is a brief summary of the corresponding function names
-for widgets used in each projects.
+Here is a brief summary table of the corresponding function names
+for widgets with similar purpose being used in each project.
+This table is not complete, and is only provided as a guide.
 
 +-----------------------+-----------------------------+----------------------------------------------------------------------------------------------+
-|  easygui              |  easygui_qt                 | Description                                                                                  |
+|  EasyGUI              |  EasyGUI_Qt                 | Description                                                                                  |
 +=======================+=============================+==============================================================================================+
 |  enterbox             |  get_string                 | Gets a string from the user                                                                  |
 +-----------------------+-----------------------------+----------------------------------------------------------------------------------------------+
-|  integerbox           |  get_int                    | Gets an integer from the user                                                                |
+|  integerbox           |  | get_int                  | Gets an integer from the user                                                                |
+|                       |  | get_integer              |                                                                                              |
 +-----------------------+-----------------------------+----------------------------------------------------------------------------------------------+
 |                       |  get_float                  | Gets a float from the user                                                                   |
 +-----------------------+-----------------------------+----------------------------------------------------------------------------------------------+
@@ -24,7 +26,7 @@ for widgets used in each projects.
 +-----------------------+-----------------------------+----------------------------------------------------------------------------------------------+
 |  buttonbox            |                             | Gets choices from user, each choice represented by a button; returns string on button        |
 +-----------------------+-----------------------------+----------------------------------------------------------------------------------------------+
-|  choicebox            |                             | User selects a single choice from a list                                                     |
+|  choicebox            |  get_choice                 | User selects a single choice from a list                                                     |
 +-----------------------+-----------------------------+----------------------------------------------------------------------------------------------+
 |  multichoicebox       |                             | User can select multiple choices from a list                                                 |
 +-----------------------+-----------------------------+----------------------------------------------------------------------------------------------+

@@ -2,13 +2,11 @@
 __author__ = 'André Roberge'
 __email__ = 'andre.roberge@gmail.com'
 __version__ = '0.1.0'
-"""easygui_qt: procedural gui based on PyQt
+"""EasyGUI_Qt: procedural gui based on PyQt
 
-easygui_qt is inspired by easygui and contains a number
+EasyGUI_Qt is inspired by EasyGUI and contains a number
 of different basic graphical user interface components
 """
-
-
 
 import os
 import collections
@@ -23,12 +21,10 @@ __all__ = [
     'get_integer',
     'get_string',
     'set_font_size',
-    'set_global_font',
+    'set_default_font',
     'set_locale',
     'show_message',
 ]
-
-
 
 CONFIG = {'font': QtGui.QFont(),
           'translator': QtCore.QTranslator(),
@@ -171,7 +167,7 @@ class _LanguageSelector(QtGui.QDialog):
 
 
 @with_app
-def set_global_font():
+def set_default_font():
     """GUI component to set default font"""
     font, ok = QtGui.QFontDialog.getFont(CONFIG['font'], None)
     if ok:
@@ -207,7 +203,12 @@ def select_language(title="Select language", name="Language codes",
 
 @with_app
 def set_locale(locale, app=None):
-    """Sets the locale, if available"""
+    """Sets the locale, if available
+
+    :param locale: standard code for locale (e.g. 'fr', 'en_CA')
+
+    Does not create a GUI component.
+    """
     app.set_locale(locale)
 
 
@@ -241,8 +242,8 @@ def get_int(message="Choose a number", title="Title",
        :return: an integer, or ``None`` if "cancel" is clicked or window
                 is closed.
 
-       >>> import easygui_qt as eg
-       >>> number = eg.get_int()
+       >>> import easygui_qt as easy
+       >>> number = easy.get_int()
 
        .. image:: ../docs/images/get_int.png
 
@@ -250,7 +251,7 @@ def get_int(message="Choose a number", title="Title",
        If ``default_value`` is larger than ``max_``, it is set to ``max_``;
        if it is smaller than ``min_``, it is set to ``min_``.
 
-       >>> number = eg.get_integer("Enter a number", default_value=125)
+       >>> number = easy.get_integer("Enter a number", default_value=125)
 
        .. image:: ../docs/images/get_int2.png
 
@@ -284,8 +285,8 @@ def get_float(message="Choose a number", title="Title",
        :return: an integer, or ``None`` if "cancel" is clicked or window
                 is closed.
 
-       >>> import easygui_qt as eg
-       >>> number = eg.get_float()
+       >>> import easygui_qt as easy
+       >>> number = easy.get_float()
 
        .. image:: ../docs/images/get_float.png
     """
@@ -309,12 +310,12 @@ def get_string(message="Enter your response", title="Title",
        :return: a string, or ``None`` if "cancel" is clicked or window
                 is closed.
 
-       >>> import easygui_qt as eg
-       >>> reply = eg.get_string()
+       >>> import easygui_qt as easy
+       >>> reply = easy.get_string()
 
        .. image:: ../docs/images/get_string.png
 
-       >>> reply = eg.get_string("new message", default_response="ready")
+       >>> reply = easy.get_string("new message", default_response="ready")
 
        .. image:: ../docs/images/get_string2.png
     """
@@ -337,10 +338,10 @@ def get_choice(message="Select one item", title="Title", choices=None):
        :return: a string, or ``None`` if "cancel" is clicked or window
                 is closed.
 
-       >>> import easygui_qt as eg
+       >>> import easygui_qt as easy
        >>> choices = ["CPython", "Pypy", "Jython", "IronPython"]
-       >>> reply = eg.get_choice("What is the best Python implementation",
-       ...                       choices=choices)
+       >>> reply = easy.get_choice("What is the best Python implementation",
+       ...                         choices=choices)
 
        .. image:: ../docs/images/get_choice.png
     """
