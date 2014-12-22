@@ -223,7 +223,37 @@ def show_message(message="Message", title="Title"):
 @with_app
 def get_int(message="Choose a number", title="Title",
                   default_value=1, min_=0, max_=100, step=1):
-    """Simple dialog to ask a user to select an integer within a certain range"""
+    """Simple dialog to ask a user to select an integer within a certain range.
+
+       **Note**: **get_int()** and **get_integer()** are identical.
+
+       :param message: Message displayed to the user, inviting a response
+       :param title: Window title
+       :param default_value: Default value for integer appearing in the text
+                             box; set to the closest of ``min_`` or ``max_``
+                             if outside of allowed range.
+       :param min_: Minimum integer value allowed
+       :param max_: Maximum integer value allowed
+       :param step: Indicate the change in integer value when clicking on
+                    arrows on the right hand side
+
+       :return: an integer, or ``None`` if "cancel" is clicked or window
+                is closed.
+
+       >>> import easygui_qt as eg
+       >>> number = eg.get_int()
+
+       .. image:: ../docs/images/get_int.png
+
+
+       If ``default_value`` is larger than ``max_``, it is set to ``max_``;
+       if it is smaller than ``min_``, it is set to ``min_``.
+
+       >>> number = eg.get_integer("Enter a number", default_value=125)
+
+       .. image:: ../docs/images/get_int2.png
+
+    """
     flags = QtCore.Qt.WindowSystemMenuHint | QtCore.Qt.WindowTitleHint
     number, ok = QtGui.QInputDialog.getInteger(None,
                                                title, message,
@@ -237,7 +267,29 @@ get_integer = get_int
 @with_app
 def get_float(message="Choose a number", title="Title",
                   default_value=0., min_=-10000, max_=10000, step=1):
-    """Simple dialog to ask a user to select a floating point within a certain range"""
+    """Simple dialog to ask a user to select a floating point number
+       within a certain range.
+
+       :param message: Message displayed to the user, inviting a response
+       :param title: Window title
+       :param default_value: Default value for integer appearing in the text
+                             box; set to the closest of ``min_`` or ``max_``
+                             if outside of allowed range.
+       :param min_: Minimum integer value allowed
+       :param max_: Maximum integer value allowed
+       :param step: Indicate the change in integer value when clicking on
+                    arrows on the right hand side
+
+       :return: an integer, or ``None`` if "cancel" is clicked or window
+                is closed.
+
+       >>> import easygui_qt as eg
+       >>> number = eg.get_float()
+
+       .. image:: ../docs/images/get_float.png
+
+
+    """
     flags = QtCore.Qt.WindowSystemMenuHint | QtCore.Qt.WindowTitleHint
     number, ok = QtGui.QInputDialog.getDouble(None,
                                               title, message,

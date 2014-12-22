@@ -2,7 +2,7 @@
 EasyGUI_Qt
 ===============================
 
-*Inspired by easygui, designed for PyQt*
+*Inspired by EasyGUI, designed for PyQt*
 
 .. image:: images/contribute.png
 
