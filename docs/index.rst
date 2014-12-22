@@ -14,6 +14,7 @@ Contents:
    readme
    installation
    usage
+   easygui_compare
    contributing
    authors
    history
