@@ -22,6 +22,7 @@ __all__ = [
     'get_int',
     'get_integer',
     'get_string',
+    'set_font_size',
     'set_global_font',
     'set_locale',
     'show_message',
@@ -287,8 +288,6 @@ def get_float(message="Choose a number", title="Title",
        >>> number = eg.get_float()
 
        .. image:: ../docs/images/get_float.png
-
-
     """
     flags = QtCore.Qt.WindowSystemMenuHint | QtCore.Qt.WindowTitleHint
     number, ok = QtGui.QInputDialog.getDouble(None,
@@ -317,7 +316,6 @@ def get_string(message="Enter your response", title="Title",
 
        >>> reply = eg.get_string("new message", default_response="ready")
 
-
        .. image:: ../docs/images/get_string2.png
     """
     flags = QtCore.Qt.WindowSystemMenuHint | QtCore.Qt.WindowTitleHint
@@ -328,8 +326,24 @@ def get_string(message="Enter your response", title="Title",
         return text
 
 @with_app
-def get_choice(message="Choices", title="Title", choices=None):
-    """Simple dialog to ask a user to select an item within a list"""
+def get_choice(message="Select one item", title="Title", choices=None):
+    """Simple dialog to ask a user to select an item within a drop-down list
+
+       :param message: Message displayed to the user, inviting a response
+       :param title: Window title
+       :param choices: iterable (list or tuple) containing the names of
+                       the items that can be selected.
+
+       :return: a string, or ``None`` if "cancel" is clicked or window
+                is closed.
+
+       >>> import easygui_qt as eg
+       >>> choices = ["CPython", "Pypy", "Jython", "IronPython"]
+       >>> reply = eg.get_choice("What is the best Python implementation",
+       ...                       choices=choices)
+
+       .. image:: ../docs/images/get_choice.png
+    """
     if choices is None:
         choices = ["Item 1", "Item 2", "Item 3"]
     flags = QtCore.Qt.WindowSystemMenuHint | QtCore.Qt.WindowTitleHint
@@ -341,6 +355,10 @@ def get_choice(message="Choices", title="Title", choices=None):
 
 def set_font_size(font_size):
     """Simple method to set font size.
+
+    :param font_size: integer value
+
+    Does not create a GUI component.
     """
     try:
         CONFIG['font'].setPointSize(font_size)
