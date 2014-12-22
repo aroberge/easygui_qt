@@ -12,11 +12,11 @@ readme = open('README.rst').read()
 history = open('HISTORY.rst').read().replace('.. :changelog:', '')
 
 requirements = [
-    'pyautogui', 'pyautogui',# TODO: put package requirements here
+    # TODO: put package requirements here
 ]
 
 test_requirements = [
-    # TODO: put package test requirements here
+    'pyautogui', 'pyautogui',# TODO: put package test requirements here
 ]
 
 setup(
