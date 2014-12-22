@@ -4,6 +4,9 @@ EasyGUI_Qt
 
 *Inspired by easygui, designed for PyQt*
 
+.. image:: images/contribute.png
+
+
 EasyGUI_Qt is a module for simple and easy GUI programming in Python.
 
 EasyGUI_Qt was inspired by EasyGUI created by Stephen Ferg and
@@ -36,5 +39,5 @@ Features
   of Python's input(), get_string() creates a window in which a user
   can enter the required information.
 
-.. image:: images/get_string.png
+
 

@@ -20,6 +20,7 @@ __all__ = [
     'get_choice',
     'get_float',
     'get_int',
+    'get_integer',
     'get_string',
     'set_global_font',
     'set_locale',
@@ -230,6 +231,8 @@ def get_int(message="Choose a number", title="Title",
                                                flags)
     if ok:
         return number
+get_integer = get_int
+
 
 @with_app
 def get_float(message="Choose a number", title="Title",
@@ -252,7 +255,8 @@ def get_string(message="Enter your response", title="Title",
        :param title: Window title
        :param default_response: default response appearing in the text box
 
-       :return: a string, or `None` if "cancel" is clicked or window is closed.
+       :return: a string, or ``None`` if "cancel" is clicked or window
+                is closed.
 
        >>> import easygui_qt as eg
        >>> reply = eg.get_string()
