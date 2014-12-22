@@ -31,13 +31,18 @@ project_root = os.path.dirname(cwd)
 # version is used.
 sys.path.insert(0, project_root)
 
-import mock
 
-MOCK_MODULES = ['PyQt', 'QtGui', 'QtCore']
-for mod_name in MOCK_MODULES:
-sys.modules[mod_name] = mock.Mock()
 
 import easygui_qt
+from unittest.mock import MagicMock
+
+class Mock(MagicMock):
+    @classmethod
+    def __getattr__(cls, name):
+            return Mock()
+
+MOCK_MODULES = ['PyQt', 'QtGui', 'QtCore']
+sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULES)
 
 # -- General configuration ---------------------------------------------
 
