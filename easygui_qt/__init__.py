@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 __author__ = 'André Roberge'
 __email__ = 'andre.roberge@gmail.com'
-__version__ = '0.1.0'
+__version__ = '0.2.0'
 """EasyGUI_Qt: procedural gui based on PyQt
 
 EasyGUI_Qt is inspired by EasyGUI and contains a number
