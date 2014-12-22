@@ -248,6 +248,12 @@ def get_string(message="Enter your response", title="Title",
                default_response=""):
     """Simple text input box.  Used to query the user and get a string back.
 
+       :param message: Message displayed to the user, inviting a response
+       :param title: Window title
+       :param default_response: default response appearing in the text box
+
+       :return: a string, or `None` if "cancel" is clicked or window is closed.
+
        >>> import easygui_qt as eg
        >>> reply = eg.get_string()
 
