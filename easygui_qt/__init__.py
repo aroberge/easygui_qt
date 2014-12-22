@@ -22,6 +22,7 @@ __all__ = [
     'get_string',
     'set_font_size',
     'set_default_font',
+    'select_language',
     'set_locale',
     'show_message',
 ]
@@ -168,7 +169,23 @@ class _LanguageSelector(QtGui.QDialog):
 
 @with_app
 def set_default_font():
-    """GUI component to set default font"""
+    """GUI component to set default font
+
+       Allows the user to choose a default font that will be used from
+       that point forward.  The change is recorded in a global configuration
+       dict.
+
+       >>> import easygui_qt as easy
+       >>> easy.set_default_font()
+
+       .. image:: ../docs/images/set_default_font.png
+
+       >>> # after changing font
+       >>> easy.show_message()
+
+       .. image:: ../docs/images/after_set_default_font.png
+
+    """
     font, ok = QtGui.QFontDialog.getFont(CONFIG['font'], None)
     if ok:
         CONFIG['font'] = font
@@ -177,8 +194,18 @@ def set_default_font():
 
 @with_app
 def yes_no_question(question="Answer this question", title="Title"):
-    """Simple yes or no question; returns True for "Yes", False for "No"
-       and None for "Cancel".
+    """Simple yes or no question.
+
+       :param question: Question (string) asked
+       :param title: Window title (string)
+
+       :return: ``True`` for "Yes", ``False`` for "No",
+               and ``None`` for "Cancel".
+
+       >>> import easygui_qt as easy
+       >>> easy.yes_no_question()
+
+       .. image:: ../docs/images/yes_no_question.png
     """
     flags = QtGui.QMessageBox.Yes | QtGui.QMessageBox.No
     flags |= QtGui.QMessageBox.Cancel
@@ -194,8 +221,24 @@ def yes_no_question(question="Answer this question", title="Title"):
 def select_language(title="Select language", name="Language codes",
                     instruction="Click button when you are done", app=None):
     """Dialog to choose language based on some locale code for
-       files found on default path
-       """
+       files found on default path.
+
+       :param title: Window title
+       :param name: Heading for valid values of locale appearing in checkboxes
+       :param instruction: Like the name says
+
+       The first time an EasyGUI_Qt widget is created in a program, the
+       PyQt language files found in the standard location of the user's computer
+       are scanned and recorded; these provide some translations of standard
+       GUI components (like name of buttons).  Note that "en" is not found
+       as a locale (at least, not on the author's computer) but using "default"
+       reverts the choice to the original (English here).
+
+       >> import easygui_qt as easy
+       >> easy.select_language()
+
+       .. image:: ../docs/images/select_language.png
+    """
     selector = _LanguageSelector(app, title=title, name=name,
                                  instruction=instruction)
     selector.exec_()
@@ -205,16 +248,35 @@ def select_language(title="Select language", name="Language codes",
 def set_locale(locale, app=None):
     """Sets the locale, if available
 
-    :param locale: standard code for locale (e.g. 'fr', 'en_CA')
+       :param locale: standard code for locale (e.g. 'fr', 'en_CA')
 
-    Does not create a GUI component.
+       Does not create a GUI widget, but affect the appearance of
+       widgets created afterwards
+
+       >>> import easygui_qt as easy
+       >>> easy.set_locale('es')
+
+       >>> # after setting the locale
+       >>> easy.yes_no_question()
+
+       .. image:: ../docs/images/after_set_locale.png
+
     """
     app.set_locale(locale)
 
 
 @with_app
 def show_message(message="Message", title="Title"):
-    """Simple message box."""
+    """Simple message box.
+
+       :param message: message string
+       :param title: window title
+
+       >>> import easygui_qt as easy
+       >>> easy.show_message()
+
+       .. image:: ../docs/images/show_message.png
+    """
     box = QtGui.QMessageBox(None)
     box.setWindowTitle(title)
     box.setText(message)
@@ -359,7 +421,14 @@ def set_font_size(font_size):
 
     :param font_size: integer value
 
-    Does not create a GUI component.
+    Does not create a GUI widget; but affects the appearance of
+    future GUI widgets.
+
+    >>> import easygui_qt as easy
+    >>> easy.set_font_size(20)
+    >>> easy.show_message()
+
+    .. image:: ../docs/images/set_font_size.png
     """
     try:
         CONFIG['font'].setPointSize(font_size)
