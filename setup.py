@@ -21,8 +21,8 @@ test_requirements = [
 
 setup(
     name='easygui_qt',
-    version='0.1.0',
-    description='"Inspired by easygui, designed for PyQt"',
+    version='0.2.0',
+    description='"Inspired by EasyGUI, designed for PyQt"',
     long_description=readme + '\n\n' + history,
     author='André Roberge',
     author_email='andre.roberge@gmail.com',

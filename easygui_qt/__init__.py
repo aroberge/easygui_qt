@@ -415,6 +415,28 @@ def get_choice(message="Select one item", title="Title", choices=None):
     if ok:
         return choice
 
+@with_app
+def get_directory_name(title="Get directory"):
+    options = QtGui.QFileDialog.Options()
+    options |= QtGui.QFileDialog.DontUseNativeDialog
+    options |= QtGui.QFileDialog.DontResolveSymlinks
+    options |= QtGui.QFileDialog.ShowDirsOnly
+
+    directory = QtGui.QFileDialog.getExistingDirectory(None,
+                                            title, os.getcwd(), options)
+
+    return directory
+
+@with_app
+def get_file_names():
+    options = QtGui.QFileDialog.Options()
+    options |= QtGui.QFileDialog.DontUseNativeDialog
+    files = QtGui.QFileDialog.getOpenFileNames(None,
+            "QFileDialog.getOpenFileNames()", os.getcwd(),
+            "All Files (*.*)", options)
+    return files
+
+
 
 def set_font_size(font_size):
     """Simple method to set font size.
@@ -434,6 +456,9 @@ def set_font_size(font_size):
         CONFIG['font'].setPointSize(font_size)
     except TypeError:
         print("font_size must be an integer")
+
+
+
 
 
 if __name__ == '__main__':
