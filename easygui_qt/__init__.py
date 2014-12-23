@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 __author__ = 'André Roberge'
 __email__ = 'andre.roberge@gmail.com'
-__version__ = '0.2.0'
+__version__ = '0.2.1'
 """EasyGUI_Qt: procedural gui based on PyQt
 
 EasyGUI_Qt is inspired by EasyGUI and contains a number
@@ -19,12 +19,16 @@ __all__ = [
     'get_float',
     'get_int',
     'get_integer',
+    'get_directory_name',
+    'get_file_names',
     'get_string',
     'set_font_size',
     'set_default_font',
+    'set_save_file_name',
     'select_language',
     'set_locale',
     'show_message',
+    'yes_no_question',
 ]
 
 CONFIG = {'font': QtGui.QFont(),
@@ -397,7 +401,7 @@ def get_choice(message="Select one item", title="Title", choices=None):
        :param choices: iterable (list or tuple) containing the names of
                        the items that can be selected.
 
-       :return: a string, or ``None`` if "cancel" is clicked or window
+       :returns: a string, or ``None`` if "cancel" is clicked or window
                 is closed.
 
        >>> import easygui_qt as easy
@@ -415,27 +419,81 @@ def get_choice(message="Select one item", title="Title", choices=None):
     if ok:
         return choice
 
+
 @with_app
 def get_directory_name(title="Get directory"):
+    '''Gets the name (full path) of an existing directory
+
+       :param title: Window title
+       :return: the name of a directory or an empty string if cancelled.
+
+       >>> import easygui_qt as easy
+       >>> easy.get_directory_name()
+
+       .. image:: ../docs/images/get_directory_name.png
+
+       By default, this dialog initially displays the content of the current
+       working directory.
+    '''
     options = QtGui.QFileDialog.Options()
+    # Without the following option (i.e. using native dialogs),
+    # calling this function twice in a row made Python crash.
     options |= QtGui.QFileDialog.DontUseNativeDialog
     options |= QtGui.QFileDialog.DontResolveSymlinks
     options |= QtGui.QFileDialog.ShowDirsOnly
-
     directory = QtGui.QFileDialog.getExistingDirectory(None,
                                             title, os.getcwd(), options)
-
     return directory
 
+
 @with_app
-def get_file_names():
+def get_file_names(title="Get existing file names"):
+    '''Gets the names (full path) of existing files
+
+       :param title: Window title
+       :return: the list of names (paths) of files selected.
+               (It can be an empty list.)
+
+       >>> import easygui_qt as easy
+       >>> easy.get_file_names()
+
+       .. image:: ../docs/images/get_file_names.png
+
+       By default, this dialog initially displays the content of the current
+       working directory.
+    '''
+
     options = QtGui.QFileDialog.Options()
-    options |= QtGui.QFileDialog.DontUseNativeDialog
-    files = QtGui.QFileDialog.getOpenFileNames(None,
-            "QFileDialog.getOpenFileNames()", os.getcwd(),
-            "All Files (*.*)", options)
+    options |= QtGui.QFileDialog.DontUseNativeDialog  # see get_directory_name
+    files = QtGui.QFileDialog.getOpenFileNames(None, title, os.getcwd(),
+                                               "All Files (*.*)", options)
     return files
 
+
+@with_app
+def set_save_file_name(title="File name to save"):
+    '''Gets the name (full path) of of a file to be saved.
+
+       :param title: Window title
+       :return: the name (path) of file selected
+
+       The user is warned if the file already exists and can choose to
+       cancel.  However, this dialog actually does NOT save any file: it
+       only return a string containing the full path of the chosen file.
+
+       >>> import easygui_qt as easy
+       >>> easy.set_save_file_name()
+
+       .. image:: ../docs/images/set_save_file_name.png
+
+       By default, this dialog initially displays the content of the current
+       working directory.
+    '''
+    options = QtGui.QFileDialog.Options()
+    options |= QtGui.QFileDialog.DontUseNativeDialog  # see get_directory_name
+    file_name = QtGui.QFileDialog.getSaveFileName(None, title, os.getcwd(),
+                                               "All Files (*.*)", options)
+    return file_name
 
 
 def set_font_size(font_size):
@@ -456,10 +514,6 @@ def set_font_size(font_size):
         CONFIG['font'].setPointSize(font_size)
     except TypeError:
         print("font_size must be an integer")
-
-
-
-
 
 if __name__ == '__main__':
     try:
