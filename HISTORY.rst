@@ -3,6 +3,16 @@
 History
 -------
 
+0.2.1
+-----
+
+- Moved the demos directory to a more sensible location
+- added get_directory_name
+- added get_file_names
+- added set_save_file_name
+- attempt to fix bug for Python 3.2 where inspect.signature was not defined
+
+
 0.2.0
 ------
 

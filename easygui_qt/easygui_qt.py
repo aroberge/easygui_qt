@@ -5,6 +5,7 @@ of different basic graphical user interface components
 """
 
 import os
+import sys
 import collections
 import functools
 import inspect
@@ -48,12 +49,16 @@ def with_app(func):
         try:
             response = func(*args, **kwargs)
         except TypeError:  # perhaps 'app' was not a keyword argument for func
-            sig = inspect.signature(func)
-            if 'app' in sig.parameters.values():
-                raise
-            else:
+            if sys.version_info < (3, 3):  # assume it was the problem
                 del kwargs['app']
                 response = func(*args, **kwargs)
+            else:
+                sig = inspect.signature(func)  # sig did not exist before 3.3
+                if 'app' in sig.parameters.values():
+                    raise
+                else:
+                    del kwargs['app']
+                    response = func(*args, **kwargs)
         app.quit()
         return response
 
