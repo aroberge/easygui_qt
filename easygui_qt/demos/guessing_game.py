@@ -1,8 +1,15 @@
-import os
-import sys
-sys.path.insert(0, os.path.join(os.getcwd(), "../"))
-import easygui_qt as eg
+"""Simple 'guess the number' demo"""
+
 from random import randint
+
+if __name__ == '__main__':
+    import os
+    import sys
+    sys.path.insert(0, os.path.join(os.getcwd(), "../"))
+    import easygui_qt as eg
+else:
+    import easygui_qt as eg
+
 
 def guessing_game():
     name = eg.get_string(message="What is your name?",

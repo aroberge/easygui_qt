@@ -1,7 +1,3 @@
-# -*- coding: utf-8 -*-
-__author__ = 'André Roberge'
-__email__ = 'andre.roberge@gmail.com'
-__version__ = '0.2.1'
 """EasyGUI_Qt: procedural gui based on PyQt
 
 EasyGUI_Qt is inspired by EasyGUI and contains a number
@@ -517,10 +513,7 @@ def set_font_size(font_size):
 
 if __name__ == '__main__':
     try:
-        import sys
-        sys.path.insert(0, os.path.join(os.getcwd(), '../demos/'))
-        import guessing_game
-
+        from demos import guessing_game
         guessing_game.guessing_game()
     except ImportError:
         print("Could not find demo.")
