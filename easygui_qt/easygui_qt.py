@@ -335,9 +335,9 @@ get_integer = get_int
 
 @with_app
 def get_float(message="Choose a number", title="Title",
-                  default_value=0., min_=-10000, max_=10000, step=1):
+                  default_value=0., min_=-10000, max_=10000, decimals=3):
     """Simple dialog to ask a user to select a floating point number
-       within a certain range.
+       within a certain range and a maximum precision.
 
        :param message: Message displayed to the user, inviting a response
        :param title: Window title
@@ -346,8 +346,7 @@ def get_float(message="Choose a number", title="Title",
                              if outside of allowed range.
        :param min_: Minimum integer value allowed
        :param max_: Maximum integer value allowed
-       :param step: Indicate the change in integer value when clicking on
-                    arrows on the right hand side
+       :param decimals: Indicate the maximum decimal precision allowed
 
        :return: an integer, or ``None`` if "cancel" is clicked or window
                 is closed.
@@ -360,8 +359,8 @@ def get_float(message="Choose a number", title="Title",
     flags = QtCore.Qt.WindowSystemMenuHint | QtCore.Qt.WindowTitleHint
     number, ok = QtGui.QInputDialog.getDouble(None,
                                               title, message,
-                                              default_value, min_, max_, step,
-                                              flags)
+                                              default_value, min_, max_,
+                                              decimals, flags)
     if ok:
         return number
 
@@ -413,7 +412,7 @@ def get_choice(message="Select one item", title="Title", choices=None):
        .. image:: ../docs/images/get_choice.png
     """
     if choices is None:
-        choices = ["Item 1", "Item 2", "Item 3"]
+        choices = ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5"]
     flags = QtCore.Qt.WindowSystemMenuHint | QtCore.Qt.WindowTitleHint
     choice, ok = QtGui.QInputDialog.getItem(None, title,
             message, choices, 0, False, flags)
