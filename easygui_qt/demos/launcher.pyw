@@ -1,30 +1,32 @@
 """  Launcher
 
-Demonstrates each component at the click of a button
+Demonstrates EasyGUI_Qt components at the click of a button
 """
 
+import locale
 import subprocess
 import os
 import sys
 from PyQt4 import QtCore, QtGui
 
-if __name__ == '__main__':
-    sys.path.insert(0, os.path.join(os.getcwd(), "../"))
-    import easygui_qt as easy
-else:
-    import easygui_qt as easy
+def launch(name):
+    """Executes a script designed specifically for this launcher.
 
-
-def launch(function):
-    function = 'launch_' + function
-    if __name__ == "__main__":
-        arg = 'python {}.pyw'.format(function)
-    else:
-        pth = os.path.join(os.path.dirname(__file__), function)
-        arg = 'python {}.pyw'.format(pth)
-    kwd = {'universal_newlines': True}
-    return subprocess.check_output(arg, **kwd)
-
+       The parameter "name" is the name of the function to be tested
+       which is passed as an argument to the script.
+    """
+    filename = '_launch_widget.pyw'
+    if __name__ != "__main__":
+        filename = os.path.join(os.path.dirname(__file__), filename)
+    output = subprocess.check_output('python {} {}'.format(filename, name))
+    try:
+        output = output.decode(encoding='UTF-8')
+    except:
+        try:
+            output = output.decode(encoding=locale.getdefaultlocale()[1])
+        except:
+            print("could not decode")
+    return output
 
 
 class Dialog(QtGui.QDialog):
