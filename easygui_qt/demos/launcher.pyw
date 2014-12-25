@@ -5,7 +5,10 @@ Demonstrates EasyGUI_Qt components at the click of a button
 import locale
 import subprocess
 import os
+
 from PyQt4 import QtCore, QtGui
+
+LOCALE = None
 
 def launch(name):
     """Executes a script designed specifically for this launcher.
@@ -16,7 +19,12 @@ def launch(name):
     filename = '_launch_widget.pyw'
     if __name__ != "__main__":
         filename = os.path.join(os.path.dirname(__file__), filename)
-    output = subprocess.check_output('python {} {}'.format(filename, name))
+    if LOCALE is None:
+        output = subprocess.check_output('python {} {}'.format(filename, name))
+    else:
+        output = subprocess.check_output(
+                              'python {} {} {}'.format(filename, name, LOCALE))
+
     try:
         output = output.decode(encoding='UTF-8')
     except:
@@ -80,17 +88,41 @@ class Dialog(QtGui.QDialog):
         layout.addWidget(self.get_files_button, n, 0)
         layout.addWidget(self.get_files_label, n, 1)
         n += 1
-        self.set_save_file_button = QtGui.QPushButton("set_save_file_name()")
-        self.set_save_file_button.clicked.connect(self.set_save_file_name)
-        self.set_save_file_label = QtGui.QLabel()
-        self.set_save_file_label.setFrameStyle(frameStyle)
-        layout.addWidget(self.set_save_file_button, n, 0)
-        layout.addWidget(self.set_save_file_label, n, 1)
+        self.get_save_file_button = QtGui.QPushButton("get_save_file_name()")
+        self.get_save_file_button.clicked.connect(self.get_save_file_name)
+        self.get_save_file_label = QtGui.QLabel()
+        self.get_save_file_label.setFrameStyle(frameStyle)
+        layout.addWidget(self.get_save_file_button, n, 0)
+        layout.addWidget(self.get_save_file_label, n, 1)
+        n += 1
+        self.select_language_button = QtGui.QPushButton("select_language()")
+        self.select_language_button.clicked.connect(self.select_language)
+        self.select_language_label = QtGui.QLabel()
+        self.select_language_label.setFrameStyle(frameStyle)
+        layout.addWidget(self.select_language_button, n, 0)
+        layout.addWidget(self.select_language_label, n, 1)
+        n += 1
+        set_locale_label = QtGui.QLabel()
+        set_locale_label.setText("<b>set_locale()</b> does not have "+
+                                 "a corresponding widget")
+        layout.addWidget(set_locale_label, n, 0, 1, 2)
+        n += 1
+        self.set_default_font_button = QtGui.QPushButton("set_default_font()")
+        self.set_default_font_button.clicked.connect(self.set_default_font)
+        self.set_default_font_label = QtGui.QLabel()
+        self.set_default_font_label.setFrameStyle(frameStyle)
+        layout.addWidget(self.set_default_font_button, n, 0)
+        layout.addWidget(self.set_default_font_label, n, 1)
+        n += 1
+        set_font_size_label = QtGui.QLabel()
+        set_font_size_label.setText("<b>set_font_size()</b> does not have "+
+                                 "a corresponding widget")
+        layout.addWidget(set_font_size_label, n, 0, 1, 2)
 
 
         self._layout = layout
         self.setLayout(layout)
-        self.setWindowTitle("EasyGUI_Qt launcher")
+        self.setWindowTitle("EasyGUI_Qt Widget Launcher")
 
 
     def get_string(self):
@@ -119,9 +151,21 @@ class Dialog(QtGui.QDialog):
         self.get_files_label.setWordWrap(True)
         self.adjustSize()
 
-    def set_save_file_name(self):
-        output = launch('set_save_file_name')
-        self.set_save_file_label.setText("{}".format(output))
+    def get_save_file_name(self):
+        output = launch('get_save_file_name')
+        self.get_save_file_label.setText("{}".format(output))
+
+    def select_language(self):
+        global LOCALE
+        output = launch('select_language')
+        output = output.split()[0]
+        LOCALE = output
+        self.select_language_label.setText("{}".format(output))
+
+    def set_default_font(self):
+        launch('set_default_font')
+        self.set_default_font_label.setText(
+                                    "<b>Font cannot be set in this demo.</b>")
 
 
 def main():

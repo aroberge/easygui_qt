@@ -12,6 +12,7 @@ import inspect
 from PyQt4 import QtGui, QtCore
 
 __all__ = [
+    'CONFIG',
     'get_choice',
     'get_float',
     'get_int',
@@ -21,7 +22,7 @@ __all__ = [
     'get_string',
     'set_font_size',
     'set_default_font',
-    'set_save_file_name',
+    'get_save_file_name',
     'select_language',
     'set_locale',
     'show_message',
@@ -169,7 +170,9 @@ class _LanguageSelector(QtGui.QDialog):
         """Callback from confirm_button used to set the locale"""
         if self.locale != CONFIG['locale']:
             self.parent.set_locale(self.locale)
+            print(self.locale)
         self.close()
+
 
 
 @with_app
@@ -471,7 +474,7 @@ def get_file_names(title="Get existing file names"):
 
 
 @with_app
-def set_save_file_name(title="File name to save"):
+def get_save_file_name(title="File name to save"):
     '''Gets the name (full path) of of a file to be saved.
 
        :param title: Window title
@@ -482,9 +485,9 @@ def set_save_file_name(title="File name to save"):
        only return a string containing the full path of the chosen file.
 
        >>> import easygui_qt as easy
-       >>> easy.set_save_file_name()
+       >>> easy.get_save_file_name()
 
-       .. image:: ../docs/images/set_save_file_name.png
+       .. image:: ../docs/images/get_save_file_name.png
 
        By default, this dialog initially displays the content of the current
        working directory.
