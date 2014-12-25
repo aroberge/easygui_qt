@@ -242,8 +242,8 @@ def select_language(title="Select language", name="Language codes",
        as a locale (at least, not on the author's computer) but using "default"
        reverts the choice to the original (English here).
 
-       >> import easygui_qt as easy
-       >> easy.select_language()
+       >>> import easygui_qt as easy
+       >>> easy.select_language()
 
        .. image:: ../docs/images/select_language.png
     """
