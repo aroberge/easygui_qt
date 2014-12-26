@@ -1,3 +1,6 @@
+.. image:: https://badge.waffle.io/aroberge/easygui_qt.png?label=ready&title=Ready 
+ :target: https://waffle.io/aroberge/easygui_qt
+ :alt: 'Stories in Ready'
 ===============================
 EasyGUI_Qt
 ===============================
