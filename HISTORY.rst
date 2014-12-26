@@ -3,6 +3,10 @@
 History
 =======
 
+0.2.2a
+------
+
+- changing path on image in readme in attempt to help pypi display properly
 
 0.2.2
 -----
