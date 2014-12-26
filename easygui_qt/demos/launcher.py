@@ -16,7 +16,7 @@ def launch(name):
        The parameter "name" is the name of the function to be tested
        which is passed as an argument to the script.
     """
-    filename = '_launch_widget.pyw'
+    filename = '_launch_widget.py'
     if __name__ != "__main__":
         filename = os.path.join(os.path.dirname(__file__), filename)
     if LOCALE is None:

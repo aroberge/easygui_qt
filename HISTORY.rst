@@ -3,6 +3,11 @@
 History
 =======
 
+0.2.3a
+------
+
+- changed extension of some demos (from .pyw to .py) as they were not uploaded to pypi
+
 0.2.3
 -----
 
