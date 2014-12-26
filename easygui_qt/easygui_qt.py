@@ -510,6 +510,8 @@ def get_list_of_choices(title="Title", choices=None):
     """
     dialog = MultipleChoicesDialog(title=title, choices=choices)
     dialog.exec_()
+    if sys.version_info < (3,):
+        return [unicode(item) for item in dialog.selection]
     return dialog.selection
 
 

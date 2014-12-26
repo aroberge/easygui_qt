@@ -3,6 +3,8 @@
 History
 =======
 
+- made get_list_of_choices() work properly with Python 2.7.9
+
 0.2.3a
 ------
 
