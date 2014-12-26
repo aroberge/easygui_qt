@@ -42,7 +42,7 @@ def guessing_game():
         guess = eg.get_int(message=message, title=title,
                               default_value=guess, min_=min_ ,max_=max_)
         if guess is None:
-            quitting = eg.yes_no_question("Do you want to quit?")
+            quitting = eg.get_yes_or_no("Do you want to quit?")
             guess = prev_guess
             if quitting:
                 break

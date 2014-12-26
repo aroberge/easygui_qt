@@ -74,6 +74,13 @@ class Dialog(QtGui.QDialog):
         layout.addWidget(self.get_choice_button, n, 0)
         layout.addWidget(self.get_choice_label, n, 1)
         n += 1
+        self.get_yes_or_no_button = QtGui.QPushButton("get_yes_or_no()")
+        self.get_yes_or_no_button.clicked.connect(self.get_yes_or_no)
+        self.get_yes_or_no_label = QtGui.QLabel()
+        self.get_yes_or_no_label.setFrameStyle(frameStyle)
+        layout.addWidget(self.get_yes_or_no_button, n, 0)
+        layout.addWidget(self.get_yes_or_no_label, n, 1)
+        n += 1
         self.get_directory_button = QtGui.QPushButton("get_directory_name()")
         self.get_directory_button.clicked.connect(self.get_directory_name)
         self.get_directory_label = QtGui.QLabel()
@@ -140,6 +147,10 @@ class Dialog(QtGui.QDialog):
     def get_choice(self):
         output = launch('get_choice')
         self.get_choice_label.setText("{}".format(output))
+
+    def get_yes_or_no(self):
+        output = launch('get_yes_or_no')
+        self.get_yes_or_no_label.setText("{}".format(output))
 
     def get_directory_name(self):
         output = launch('get_directory_name')

@@ -13,20 +13,20 @@ from PyQt4 import QtGui, QtCore
 
 __all__ = [
     'CONFIG',
+    'show_message',
     'get_choice',
     'get_float',
     'get_int',
     'get_integer',
+    'get_string',
+    'get_yes_or_no',
     'get_directory_name',
     'get_file_names',
-    'get_string',
+    'get_save_file_name',
     'set_font_size',
     'set_default_font',
-    'get_save_file_name',
     'select_language',
     'set_locale',
-    'show_message',
-    'yes_no_question',
 ]
 
 CONFIG = {'font': QtGui.QFont(),
@@ -201,7 +201,7 @@ def set_default_font():
 
 
 @with_app
-def yes_no_question(question="Answer this question", title="Title"):
+def get_yes_or_no(question="Answer this question", title="Title"):
     """Simple yes or no question.
 
        :param question: Question (string) asked
@@ -211,7 +211,7 @@ def yes_no_question(question="Answer this question", title="Title"):
                and ``None`` for "Cancel".
 
        >>> import easygui_qt as easy
-       >>> easy.yes_no_question()
+       >>> easy.get_yes_or_no()
 
        .. image:: ../docs/images/yes_no_question.png
     """
@@ -265,7 +265,7 @@ def set_locale(locale, app=None):
        >>> easy.set_locale('es')
 
        >>> # after setting the locale
-       >>> easy.yes_no_question()
+       >>> easy.get_yes_or_no()
 
        .. image:: ../docs/images/after_set_locale.png
 
