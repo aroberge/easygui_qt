@@ -26,18 +26,54 @@ included in some other distributions like Continuum Analytics' Anaconda.
 * Free software: BSD license
 * Documentation: https://easygui_qt.readthedocs.org.
 
+Design philosophy
+-----------------
 
-Features
---------
+Like the original EasyGUI, EasyGUI_Qt seeks to provide simple GUI widgets
+that can be called in a procedural program. EasyGUI_Qt is NOT event-driven: all GUI interactions are invoked
+by simple function calls.
 
-* EasyGUI_Qt is NOT event-driven: all GUI interactions are invoked
-  by simple function calls.
+The archetype is ``get_string(message)``
+which pops a box whose purpose is exactly the same as Python's ``input(prompt)``,
+that is, present the user with a question/prompt, have the user enter an
+answer, and return the provided answer as a string.  Thus
+``easygui_qt.get_string()`` can be used as a drop-in replacement for
+``input()``.
+Similarly, instead of using a ``print()`` function to display a message,
+``show_message()`` is used which pops a message window.
 
-* EasyGui_Qt provides an easy-to-use interface for simple GUI interaction with a
-  user.  For example, instead of using a print() function to display a message,
-  show_message() is used which pops a message window; similarly, instead
-  of Python's input(), get_string() creates a window in which a user
-  can enter the required information.
+Unlike the original EasyGUI, which sometimes used cryptic names like
+``msgbox`` or ``ynbox``, EasyGUI_Qt attempts to use descriptive names
+which follow PEP8 convention.  Thus, instead of ``msgbox``, it uses
+``show_message``; instead of ``ynbox``, it has ``get_yes_or_no``.
+Most function names start with either ``get_`` or ``set_``.
 
+EasyGUI_QT is based on PyQt; it leverages the available dialogs that
+come with PyQt whenever possible.  This makes it possible to have
+automatic translation of some GUI elements (such as text on standard buttons)
+provided the locale is set correctly and that the local distribution of
+PyQt includes the appropriate translation: when EasyGUI_Qt runs, it scans
+the standard PyQt location for translation files and note which ones are
+present and can be used when the locale is set.
 
+An attempt is made at avoiding duplication of essentially
+identical functionality.  Thus, multiple selections from a list of choices
+is done only one way: by using a dialog where choices appear as labels
+in text and not labels on buttons.
 
+Similar projects
+----------------
+
+The following is an incomplete lists of a few cross-platform projects
+that share some similarity with EasyGUI_Qt, but use back-ends other than PyQt
+
+- `easygui <http://easygui.sourceforge.net/>`_: the original; tk back-end
+- `anygui <http://anygui.sourceforge.net/>`_: multiple back-ends; well known
+  but no longer supported
+- `psidialogs <https://github.com/ponty/psidialogs>`_: multiple back-ends supported -
+  possibly the most complete project from that point of view.
+- `python-dialog <http://pythondialog.sourceforge.net/>`_: dialog/Xdialog/gdialog back-end
+
+There are quite a few lesser known projects but none that seem to be
+actively supported.  If you are aware of other projects that should
+be mentioned, do not hesitate to contact me and let me know.
