@@ -1,6 +1,4 @@
-.. image:: https://badge.waffle.io/aroberge/easygui_qt.png?label=ready&title=Ready 
- :target: https://waffle.io/aroberge/easygui_qt
- :alt: 'Stories in Ready'
+
 ===============================
 EasyGUI_Qt
 ===============================
@@ -24,6 +22,9 @@ included in some other distributions like Continuum Analytics' Anaconda.
 .. image:: https://pypip.in/d/easygui_qt/badge.png
         :target: https://pypi.python.org/pypi/easygui_qt
 
+.. image:: https://badge.waffle.io/aroberge/easygui_qt.png?label=ready&title=Ready
+ :target: https://waffle.io/aroberge/easygui_qt
+ :alt: 'Stories in Ready'
 
 
 * Free software: BSD license
