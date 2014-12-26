@@ -74,6 +74,15 @@ class Dialog(QtGui.QDialog):
         layout.addWidget(self.get_choice_button, n, 0)
         layout.addWidget(self.get_choice_label, n, 1)
         n += 1
+        self.get_list_of_choices_button = QtGui.QPushButton(
+                                                       "get_list_of_choices()")
+        self.get_list_of_choices_button.clicked.connect(
+                                                      self.get_list_of_choices)
+        self.get_list_of_choices_label = QtGui.QLabel()
+        self.get_list_of_choices_label.setFrameStyle(frameStyle)
+        layout.addWidget(self.get_list_of_choices_button, n, 0)
+        layout.addWidget(self.get_list_of_choices_label, n, 1)
+        n += 1
         self.get_yes_or_no_button = QtGui.QPushButton("get_yes_or_no()")
         self.get_yes_or_no_button.clicked.connect(self.get_yes_or_no)
         self.get_yes_or_no_label = QtGui.QLabel()
@@ -147,6 +156,10 @@ class Dialog(QtGui.QDialog):
     def get_choice(self):
         output = launch('get_choice')
         self.get_choice_label.setText("{}".format(output))
+
+    def get_list_of_choices(self):
+        output = launch('get_list_of_choices')
+        self.get_list_of_choices_label.setText("{}".format(output))
 
     def get_yes_or_no(self):
         output = launch('get_yes_or_no')
