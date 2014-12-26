@@ -39,7 +39,7 @@ class Dialog(QtGui.QDialog):
 
     def __init__(self, parent=None):
         flags = QtCore.Qt.WindowSystemMenuHint | QtCore.Qt.WindowTitleHint
-        super().__init__(parent, flags=flags)
+        super(Dialog, self).__init__(parent, flags=flags)
 
         frameStyle = QtGui.QFrame.Sunken | QtGui.QFrame.Panel
         layout = QtGui.QGridLayout()

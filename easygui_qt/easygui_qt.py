@@ -86,7 +86,7 @@ class SimpleApp(QtGui.QApplication):
     """
 
     def __init__(self):
-        super().__init__([])
+        super(SimpleApp, self).__init__([])
         self.setFont(CONFIG['font'])
         self.set_locale(None)  # recover locale set by previous run, if any ...
 
@@ -124,7 +124,8 @@ class _LanguageSelector(QtGui.QDialog):
     def __init__(self, parent, title="Language selection",
                  name="Language codes",
                  instruction="Click button when you are done"):
-        super().__init__(None, QtCore.Qt.WindowSystemMenuHint |
+        super(_LanguageSelector, self).__init__(None,
+                         QtCore.Qt.WindowSystemMenuHint |
                          QtCore.Qt.WindowTitleHint)
 
         self.qm_files_choices = {}
@@ -179,7 +180,7 @@ class MultipleChoicesDialog(QtGui.QDialog):
     """Dialog with the possibility of selecting one or more
        items from a list"""
     def __init__(self, choices=None, title="Title"):
-        super().__init__(None, QtCore.Qt.WindowSystemMenuHint |
+        super(MultipleChoicesDialog, self).__init__(None, QtCore.Qt.WindowSystemMenuHint |
                          QtCore.Qt.WindowTitleHint)
         if choices is None:
             choices = ["Item %d"%i for i in range(10)]

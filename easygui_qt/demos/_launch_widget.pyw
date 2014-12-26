@@ -1,3 +1,4 @@
+from __future__ import print_function
 """This file is meant to be executed as a subprocess from launcher.pyw"""
 
 import os
@@ -20,7 +21,7 @@ except:
         func = getattr(easygui_qt, func_name)
         config = easygui_qt.CONFIG
     except:
-        print("could not find function", func_name)
+        print("could not find function {}".format(func_name))
         sys.exit()
 
 if locale is not None:

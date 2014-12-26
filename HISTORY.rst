@@ -1,10 +1,17 @@
 .. :changelog:
 
 History
--------
+=======
 
+
+0.2.2
+-----
+
+- changed the syntax for calls to super() to be compatible with Python 2.
+  Note that the intention is to be a Python 3 project, but if simple changes
+  can make it compatible with Python 2, they will be incorporated.
 - changed name of set_save_file_name to get_save_file_name
-- changed name of (previously not noted here) yes_no_question to get_yes_or_no
+- changed name of yes_no_question to get_yes_or_no
 - added get_list_of_choices
 - added demo launcher
 
@@ -16,7 +23,6 @@ History
 - added get_file_names
 - added set_save_file_name
 - attempt to fix bug for Python 3.2 where inspect.signature was not defined
-
 
 0.2.0
 ------
@@ -35,7 +41,7 @@ in the documentation.
 - select_language
 - set_locale
 - show_message
-
+- yes_no_question
 
 0.1.0
 ---------------------
