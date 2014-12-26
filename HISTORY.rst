@@ -3,7 +3,8 @@
 History
 =======
 
-- made get_list_of_choices() work properly with Python 2.7.9
+- made get_list_of_choices(), get_choice(), get_string(), and get_directory_name()
+  work properly with Python 2.7.9
 
 0.2.3a
 ------

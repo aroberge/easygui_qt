@@ -463,6 +463,8 @@ def get_string(message="Enter your response", title="Title",
                                           QtGui.QLineEdit.Normal,
                                           default_response, flags)
     if ok:
+        if sys.version_info < (3,):
+            return unicode(text)
         return text
 
 @with_app
@@ -490,6 +492,8 @@ def get_choice(message="Select one item", title="Title", choices=None):
     choice, ok = QtGui.QInputDialog.getItem(None, title,
             message, choices, 0, False, flags)
     if ok:
+        if sys.version_info < (3,):
+            return unicode(choice)
         return choice
 
 
@@ -538,6 +542,8 @@ def get_directory_name(title="Get directory"):
     options |= QtGui.QFileDialog.ShowDirsOnly
     directory = QtGui.QFileDialog.getExistingDirectory(None,
                                             title, os.getcwd(), options)
+    if sys.version_info < (3,):
+        return unicode(directory)
     return directory
 
 
