@@ -3,6 +3,11 @@
 History
 =======
 
+0.2.3
+-----
+
+- added demos dir to setup.py so that it can be included on pypi
+
 0.2.2a
 ------
 
