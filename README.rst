@@ -4,7 +4,7 @@ EasyGUI_Qt
 
 *Inspired by EasyGUI, designed for PyQt*
 
-.. image:: images/contribute.png
+.. image:: https://raw.githubusercontent.com/aroberge/easygui_qt/master/images/contribute.png
 
 
 EasyGUI_Qt is a module for simple and easy GUI programming in Python.
