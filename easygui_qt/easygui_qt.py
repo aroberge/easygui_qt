@@ -564,9 +564,14 @@ def get_file_names(title="Get existing file names"):
        working directory.
     '''
 
-    options = QtGui.QFileDialog.Options()
-    options |= QtGui.QFileDialog.DontUseNativeDialog  # see get_directory_name
-    files = QtGui.QFileDialog.getOpenFileNames(None, title, os.getcwd(),
+    if sys.version_info < (3,):
+        files = QtGui.QFileDialog.getOpenFileNames(None, title, os.getcwd(),
+                                               "All Files (*.*)")
+        files = [unicode(item) for item in files]
+    else:
+        options = QtGui.QFileDialog.Options()
+        options |= QtGui.QFileDialog.DontUseNativeDialog
+        files = QtGui.QFileDialog.getOpenFileNames(None, title, os.getcwd(),
                                                "All Files (*.*)", options)
     return files
 
@@ -590,6 +595,12 @@ def get_save_file_name(title="File name to save"):
        By default, this dialog initially displays the content of the current
        working directory.
     '''
+
+    if sys.version_info < (3,):
+        file_name = QtGui.QFileDialog.getSaveFileName(None, title, os.getcwd(),
+                                               "All Files (*.*)")
+        return unicode(file_name)
+
     options = QtGui.QFileDialog.Options()
     options |= QtGui.QFileDialog.DontUseNativeDialog  # see get_directory_name
     file_name = QtGui.QFileDialog.getSaveFileName(None, title, os.getcwd(),
