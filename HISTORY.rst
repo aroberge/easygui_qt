@@ -3,6 +3,12 @@
 History
 =======
 
+0.3.0
+-----
+
+- Decided to support (with lower priority) Python 2  (2.7.9 more specifically)
+- Should work reasonably well with Python 2.7.9 - other than potential
+  unicode related issues
 - made get_list_of_choices(), get_choice(), get_string(), and get_directory_name()
   work properly with Python 2.7.9
 
