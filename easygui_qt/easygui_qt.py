@@ -37,8 +37,7 @@ __all__ = [
 
 
 CONFIG = {'font': QtGui.QFont(),
-          'translator': QtCore.QTranslator(),
-          'locale': 'default'}
+          'translator': QtCore.QTranslator()}
 QM_FILES = None
 
 def with_app(func):
@@ -92,21 +91,22 @@ class SimpleApp(QtGui.QApplication):
 
     def __init__(self):
         super(SimpleApp, self).__init__([])
-        self.setFont(CONFIG['font'])
-        self.set_locale(None)  # recover locale set by previous run, if any ...
+
+        self.translator = QtCore.QTranslator()
         if sys.version_info < (3,) :
             settings_path = ".easygui-qt2"
         else:
             settings_path = ".easygui-qt3"
         self.config_path = os.path.join(os.path.expanduser("~"),
                                          settings_path)
-        # testing ...
-
         try:
             self.load_config()
+            self.setFont(CONFIG['font'])
         except:
             pass
+
         self.save_config()
+
 
     def save_config(self):
         config = configparser.RawConfigParser()
@@ -118,6 +118,7 @@ class SimpleApp(QtGui.QApplication):
 
 
     def load_config(self):
+        # Todo: make more robust
         config = configparser.RawConfigParser()
         self.config = {}
         try:
@@ -127,6 +128,7 @@ class SimpleApp(QtGui.QApplication):
             self.config['font-size'] = config.getint('Configuration', 'font-size')
             self.set_font_size(self.config['font-size'], save=False)
         except:
+            print("Proble encountered in load_config.")
             self.config = {'locale': 'default', 'font-size': 12}
             return
 
@@ -138,21 +140,22 @@ class SimpleApp(QtGui.QApplication):
         global QM_FILES
         if QM_FILES is None:
             QM_FILES = find_qm_files()
-
         if locale in QM_FILES:
-            if CONFIG['translator'].load("qt_" + locale, QM_FILES[locale]):
-                self.installTranslator(CONFIG['translator'])
-                CONFIG['locale'] = locale
+            if self.translator.load("qt_" + locale, QM_FILES[locale]):
+                self.installTranslator(self.translator)
+                self.config['locale'] = locale
             else:
                 print("language not available")
-        elif locale is "default" and CONFIG['locale'] != 'default':
-            self.removeTranslator(CONFIG['translator'])
-            CONFIG['translator'] = QtCore.QTranslator()
-            CONFIG['locale'] = 'default'
-        elif CONFIG['locale'] in QM_FILES:
-            if CONFIG['translator'].load("qt_" + CONFIG['locale'],
-                                         QM_FILES[CONFIG['locale']]):
-                self.installTranslator(CONFIG['translator'])
+        elif locale == "default" and self.config['locale'] != 'default':
+            self.removeTranslator(self.translator)
+            self.translator = QtCore.QTranslator()
+            self.config['locale'] = 'default'
+        elif self.config['locale'] in QM_FILES:
+            if self.translator.load("qt_" + self.config['locale'],
+                                         QM_FILES[self.config['locale']]):
+                self.installTranslator(self.translator)
+        if save:
+            self.save_config()
 
     def set_font_size(self, font_size, save=True):
         """Internal method to set font size.
@@ -225,7 +228,7 @@ class _LanguageSelector(QtGui.QDialog):
 
     def confirm(self):
         """Callback from confirm_button used to set the locale"""
-        if self.locale != CONFIG['locale']:
+        if self.locale != self.parent.config['locale']:
             self.parent.set_locale(self.locale)
             print(self.locale)
         self.close()
@@ -326,13 +329,14 @@ def get_yes_or_no(question="Answer this question", title="Title"):
 
 @with_app
 def select_language(title="Select language", name="Language codes",
-                    instruction="Click button when you are done", app=None):
+                    instruction=None, app=None):
     """Dialog to choose language based on some locale code for
        files found on default path.
 
        :param title: Window title
        :param name: Heading for valid values of locale appearing in checkboxes
-       :param instruction: Like the name says
+       :param instruction: Like the name says; when set to None, a default
+                        string is used which includes the current language used.
 
        The first time an EasyGUI_Qt widget is created in a program, the
        PyQt language files found in the standard location of the user's computer
@@ -346,6 +350,9 @@ def select_language(title="Select language", name="Language codes",
 
        .. image:: ../docs/images/select_language.png
     """
+    if instruction is None:
+        instruction = ('Current language code is "{}".'.format(
+                                                        app.config['locale']))
     selector = _LanguageSelector(app, title=title, name=name,
                                  instruction=instruction)
     selector.exec_()
