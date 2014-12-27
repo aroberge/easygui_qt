@@ -20,11 +20,11 @@ def launch(name):
     filename = '_launch_widget.py'
     if __name__ != "__main__":
         filename = os.path.join(os.path.dirname(__file__), filename)
-    if LOCALE is None:
-        output = subprocess.check_output('python {} {}'.format(filename, name))
-    else:
-        output = subprocess.check_output(
-                              'python {} {} {}'.format(filename, name, LOCALE))
+
+    command = ['python', filename, name]
+    if LOCALE:
+        command.append(LOCALE)
+    output = subprocess.check_output(command)
 
     try:
         output = output.decode(encoding='UTF-8')
