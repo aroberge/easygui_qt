@@ -1,15 +1,16 @@
 from __future__ import print_function
 """This file is meant to be executed as a subprocess from launcher.pyw"""
 
+import locale
 import os
 import sys
 
-sys.path.insert(0, os.path.join(os.getcwd(), "../"))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "../../"))
 func_name = sys.argv[1]
 if len(sys.argv)==3:
-    locale = sys.argv[2]
+    loc_ = sys.argv[2]
 else:
-    locale = None
+    loc_ = None
 
 try:
     import easygui_qt
@@ -24,9 +25,16 @@ except:
         print("could not find function {}".format(func_name))
         sys.exit()
 
-if locale is not None:
-    config['locale'] = locale
+if loc_ is not None:
+    config['locale'] = loc_
 result = func()
+
+if sys.version_info < (3,):
+    try:
+        res = bytearray(result, encoding=locale.getdefaultlocale()[1])
+        result = res
+    except:
+        pass
 
 print(result, end='')
 

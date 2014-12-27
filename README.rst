@@ -30,6 +30,13 @@ included in some other distributions like Continuum Analytics' Anaconda.
 * Free software: BSD license
 * Documentation: https://easygui_qt.readthedocs.org.
 
+Python version
+--------------
+
+Officially, this is a project that targets only Python 3.  However, I have
+now decided to attempt to provide some support for Python 2.  Other than
+some unicode issues, all widgets should work with Python 2.
+
 Design philosophy
 -----------------
 

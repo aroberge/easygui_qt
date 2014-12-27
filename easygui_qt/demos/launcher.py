@@ -151,6 +151,8 @@ class Dialog(QtGui.QDialog):
 
     def get_string(self):
         output = launch('get_string')
+        if sys.version_info < (3,):
+            output = output.encode(encoding=locale.getdefaultlocale()[1])
         self.get_string_label.setText("{}".format(output))
 
     def get_int(self):
@@ -201,7 +203,7 @@ class Dialog(QtGui.QDialog):
 
     def python_version(self):
         output = subprocess.check_output(
-                         'python -c "import sys;print(sys.version)"')
+                         ['python', '-c', "import sys;print(sys.version)"])
         self.python_version_label.setText("{}".format(output))
 
 

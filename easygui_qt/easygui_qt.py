@@ -4,6 +4,7 @@ EasyGUI_Qt is inspired by EasyGUI and contains a number
 of different basic graphical user interface components
 """
 
+import locale
 import os
 import sys
 import collections
