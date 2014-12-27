@@ -3,6 +3,10 @@
 History
 =======
 
+- remove set_default_font
+- rename set_locale to set_language
+- added configuration file to save locale and font size
+
 0.3.0
 -----
 

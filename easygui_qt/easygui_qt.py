@@ -4,12 +4,17 @@ EasyGUI_Qt is inspired by EasyGUI and contains a number
 of different basic graphical user interface components
 """
 
-import locale
 import os
 import sys
 import collections
 import functools
 import inspect
+if sys.version_info < (3,):
+    import ConfigParser as configparser
+else:
+    import configparser
+    unicode = str
+
 from PyQt4 import QtGui, QtCore
 
 __all__ = [
@@ -26,16 +31,15 @@ __all__ = [
     'get_file_names',
     'get_save_file_name',
     'set_font_size',
-    'set_default_font',
     'select_language',
-    'set_locale',
+    'set_language',
 ]
+
 
 CONFIG = {'font': QtGui.QFont(),
           'translator': QtCore.QTranslator(),
           'locale': 'default'}
 QM_FILES = None
-
 
 def with_app(func):
     """Intended to be used as a decorator to ensure that a single app
@@ -90,8 +94,43 @@ class SimpleApp(QtGui.QApplication):
         super(SimpleApp, self).__init__([])
         self.setFont(CONFIG['font'])
         self.set_locale(None)  # recover locale set by previous run, if any ...
+        if sys.version_info < (3,) :
+            settings_path = ".easygui-qt2"
+        else:
+            settings_path = ".easygui-qt3"
+        self.config_path = os.path.join(os.path.expanduser("~"),
+                                         settings_path)
+        # testing ...
 
-    def set_locale(self, locale):
+        try:
+            self.load_config()
+        except:
+            pass
+        self.save_config()
+
+    def save_config(self):
+        config = configparser.RawConfigParser()
+        config.add_section('Configuration')
+        config.set('Configuration', 'locale', self.config['locale'])
+        config.set('Configuration', 'font-size', self.config['font-size'])
+        with open(self.config_path, 'w') as configfile:
+            config.write(configfile)
+
+
+    def load_config(self):
+        config = configparser.RawConfigParser()
+        self.config = {}
+        try:
+            config.read(self.config_path)
+            self.config['locale'] = config.get('Configuration', 'locale')
+            self.set_locale(self.config['locale'], save=False)
+            self.config['font-size'] = config.getint('Configuration', 'font-size')
+            self.set_font_size(self.config['font-size'], save=False)
+        except:
+            self.config = {'locale': 'default', 'font-size': 12}
+            return
+
+    def set_locale(self, locale, save=True):
         """Sets the language of the basic controls for PyQt
            from a locale - provided that the corresponding qm files
            are present in the PyQt distribution.
@@ -114,6 +153,21 @@ class SimpleApp(QtGui.QApplication):
             if CONFIG['translator'].load("qt_" + CONFIG['locale'],
                                          QM_FILES[CONFIG['locale']]):
                 self.installTranslator(CONFIG['translator'])
+
+    def set_font_size(self, font_size, save=True):
+        """Internal method to set font size.
+        """
+        try:
+            font_size = int(font_size)
+        except:
+            print("font_size should be an integer")
+            return
+        CONFIG['font'] = QtGui.QFont()
+        CONFIG['font'].setPointSize(font_size)
+        self.config['font-size'] = font_size
+        self.setFont(CONFIG['font'])
+        if save:
+            self.save_config()
 
 
 class _LanguageSelector(QtGui.QDialog):
@@ -245,32 +299,6 @@ class MultipleChoicesDialog(QtGui.QDialog):
         self.close()
 
 
-
-@with_app
-def set_default_font():
-    """GUI component to set default font
-
-       Allows the user to choose a default font that will be used from
-       that point forward.  The change is recorded in a global configuration
-       dict.
-
-       >>> import easygui_qt as easy
-       >>> easy.set_default_font()
-
-       .. image:: ../docs/images/set_default_font.png
-
-       >>> # after changing font
-       >>> easy.show_message()
-
-       .. image:: ../docs/images/after_set_default_font.png
-
-    """
-    font, ok = QtGui.QFontDialog.getFont(CONFIG['font'], None)
-    if ok:
-        CONFIG['font'] = font
-
-
-
 @with_app
 def get_yes_or_no(question="Answer this question", title="Title"):
     """Simple yes or no question.
@@ -324,7 +352,7 @@ def select_language(title="Select language", name="Language codes",
 
 
 @with_app
-def set_locale(locale, app=None):
+def set_language(locale, app=None):
     """Sets the locale, if available
 
        :param locale: standard code for locale (e.g. 'fr', 'en_CA')
@@ -608,8 +636,8 @@ def get_save_file_name(title="File name to save"):
                                                "All Files (*.*)", options)
     return file_name
 
-
-def set_font_size(font_size):
+@with_app
+def set_font_size(font_size, app=None):
     """Simple method to set font size.
 
     :param font_size: integer value
@@ -623,10 +651,7 @@ def set_font_size(font_size):
 
     .. image:: ../docs/images/set_font_size.png
     """
-    try:
-        CONFIG['font'].setPointSize(font_size)
-    except TypeError:
-        print("font_size must be an integer")
+    app.set_font_size(font_size)
 
 if __name__ == '__main__':
     try:

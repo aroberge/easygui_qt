@@ -28,7 +28,6 @@ def guessing_game():
     eg.show_message(message="If the text is too small or too large," +
                       " you can fix that",
                       title="For information")
-    eg.set_default_font()
     eg.show_message(message="Hello {}. Let's play a game".format(name),
                       title="Guessing game!")
 
@@ -59,6 +58,6 @@ def guessing_game():
 
 if __name__ == '__main__':
     eg.show_message("Temporarily setting the locale to Spanish")
-    eg.set_locale('es')
+    eg.set_language('es')
     guessing_game()
 
