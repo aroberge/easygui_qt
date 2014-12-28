@@ -3,6 +3,7 @@
 History
 =======
 
+- added get_password
 - added get_date
 - added get_color_hex
 - added get_color_rgb

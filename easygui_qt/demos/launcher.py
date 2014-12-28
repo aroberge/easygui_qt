@@ -53,6 +53,13 @@ class Dialog(QtGui.QDialog):
         layout.addWidget(self.get_string_button, n, 0)
         layout.addWidget(self.get_string_label, n, 1)
         n += 1
+        self.get_password_button = QtGui.QPushButton("get_password()")
+        self.get_password_button.clicked.connect(self.get_password)
+        self.get_password_label = QtGui.QLabel()
+        self.get_password_label.setFrameStyle(frameStyle)
+        layout.addWidget(self.get_password_button, n, 0)
+        layout.addWidget(self.get_password_label, n, 1)
+        n += 1
         self.get_int_button = QtGui.QPushButton("get_int() / get_integer()")
         self.get_int_button.clicked.connect(self.get_int)
         self.get_int_label = QtGui.QLabel()
@@ -179,6 +186,12 @@ class Dialog(QtGui.QDialog):
         if sys.version_info < (3,):
             output = output.encode(encoding=locale.getdefaultlocale()[1])
         self.get_string_label.setText("{}".format(output))
+
+    def get_password(self):
+        output = launch('get_password')
+        if sys.version_info < (3,):
+            output = output.encode(encoding=locale.getdefaultlocale()[1])
+        self.get_password_label.setText("{}".format(output))
 
     def get_int(self):
         output = launch('get_int')

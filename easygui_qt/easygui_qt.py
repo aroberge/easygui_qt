@@ -24,6 +24,7 @@ __all__ = [
     'get_int',
     'get_integer',
     'get_string',
+    'get_password',
     'get_yes_or_no',
     'get_continue_or_cancel',
     'get_color_hex',
@@ -600,6 +601,30 @@ def get_string(message="Enter your response", title="Title",
     text, ok = QtGui.QInputDialog.getText(None, title, message,
                                           QtGui.QLineEdit.Normal,
                                           default_response, flags)
+    if ok:
+        if sys.version_info < (3,):
+            return unicode(text)
+        return text
+
+@with_app
+def get_password(message="Enter your password", title="Title", app=None):
+    """Simple password input box.  Used to query the user and get a string back.
+
+       :param message: Message displayed to the user, inviting a response
+       :param title: Window title
+
+
+       :return: a string, or ``None`` if "cancel" is clicked or window
+                is closed.
+
+       >>> import easygui_qt as easy
+       >>> password = easy.get_password()
+
+       .. image:: ../docs/images/get_password.png
+    """
+    flags = QtCore.Qt.WindowSystemMenuHint | QtCore.Qt.WindowTitleHint
+    text, ok = QtGui.QInputDialog.getText(None, title, message,
+                                          QtGui.QLineEdit.Password,'', flags)
     if ok:
         if sys.version_info < (3,):
             return unicode(text)
