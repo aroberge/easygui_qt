@@ -28,6 +28,7 @@ __all__ = [
     'get_continue_or_cancel',
     'get_color_hex',
     'get_color_rgb',
+    'get_date',
     'get_directory_name',
     'get_file_names',
     'get_save_file_name',
@@ -289,6 +290,40 @@ class MultipleChoicesDialog(QtGui.QDialog):
         self.close()
 
 
+class CalendarWidget(QtGui.QWidget):
+    """Creates a calendar widget allowing the user to select a date."""
+    def __init__(self, title="Calendar"):
+        super(CalendarWidget, self).__init__()
+
+        self.setWindowTitle(title)
+        layout = QtGui.QGridLayout()
+        layout.setColumnStretch(1, 1)
+
+        cal = QtGui.QCalendarWidget(self)
+        cal.setGridVisible(True)
+        cal.clicked[QtCore.QDate].connect(self.show_date)
+        layout.addWidget(cal, 0, 0, 1, 2)
+
+        self.date_label = QtGui.QLabel()
+        self.date = cal.selectedDate()
+        self.date_label.setText(self.date.toString())
+        layout.addWidget(self.date_label, 1, 0)
+
+        button_box = QtGui.QDialogButtonBox()
+        confirm_button = button_box.addButton(QtGui.QDialogButtonBox.Ok)
+        confirm_button.clicked.connect(self.confirm)
+        layout.addWidget(button_box, 1, 1)
+
+        self.setLayout(layout)
+        self.show()
+
+    def show_date(self, date):
+        self.date_label.setText(self.date.toString())
+
+    def confirm(self):
+        self.close()
+
+
 @with_app
 def get_yes_or_no(question="Answer this question", title="Title", app=None):
     """Simple yes or no question.
@@ -300,7 +335,7 @@ def get_yes_or_no(question="Answer this question", title="Title", app=None):
                and ``None`` for "Cancel".
 
        >>> import easygui_qt as easy
-       >>> easy.get_yes_or_no()
+       >>> choice = easy.get_yes_or_no()
 
        .. image:: ../docs/images/yes_no_question.png
     """
@@ -326,7 +361,7 @@ def get_continue_or_cancel(question="Processed will be cancelled!", title="Title
                 "cancel" for "Cancel" (or dismissing the dialog)
 
        >>> import easygui_qt as easy
-       >>> easy.get_continue_or_cancel()
+       >>> choice = easy.get_continue_or_cancel()
 
        .. image:: ../docs/images/get_continue_or_cancel.png
     """
@@ -344,10 +379,10 @@ def get_continue_or_cancel(question="Processed will be cancelled!", title="Title
 @with_app
 def get_color_hex(app=None):
     """Using a color dialog, returns a color in hexadecimal notation
-       i.e. '#RRGGBB' or "None" if color dialog is dismissed.
+       i.e. a string '#RRGGBB' or "None" if color dialog is dismissed.
 
        >>> import easygui_qt as easy
-       >>> easy.get_color_hex()
+       >>> color = easy.get_color_hex()
 
        .. image:: ../docs/images/select_color.png
        """
@@ -358,17 +393,35 @@ def get_color_hex(app=None):
 @with_app
 def get_color_rgb(app=None):
     """Using a color dialog, returns a color in rgb notation
-       i.e. (r, g, b)  or "None" if color dialog is dismissed.
+       i.e. a tuple (r, g, b)  or "None" if color dialog is dismissed.
 
        >>> import easygui_qt as easy
        >>> easy.set_language('fr')
-       >>> easy.get_color_rgb()
+       >>> color = easy.get_color_rgb()
 
        .. image:: ../docs/images/select_color_fr.png
        """
     color = QtGui.QColorDialog.getColor(QtCore.Qt.white, None)
     if color.isValid():
         return (color.red(), color.green(), color.blue())
+
+
+@with_app
+def get_date(title="Select Date", app=None):
+    """Calendar widget
+
+       :param title: window title
+       :return: the selected date as a string
+
+       >>> import easygui_qt as easy
+       >>> date = easy.get_date()
+
+       .. image:: ../docs/images/get_date.png
+    """
+
+    calendar = CalendarWidget(title=title)
+    app.exec_()
+    return calendar.date.toString()
 
 
 @with_app
