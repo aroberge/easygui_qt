@@ -9,7 +9,7 @@ import sys
 
 from PyQt4 import QtCore, QtGui
 
-def launch(name, arg=None):
+def launch(name, *args):
     """Executes a script designed specifically for this launcher.
 
        The parameter "name" is the name of the function to be tested
@@ -19,10 +19,10 @@ def launch(name, arg=None):
     if __name__ != "__main__":
         filename = os.path.join(os.path.dirname(__file__), filename)
 
-    if arg is not None:
-        command = ['python', filename, name, arg]
-    else:
-        command = ['python', filename, name]
+
+    command = ['python', filename, name]
+    if args:
+        command.extend(args)
     output = subprocess.check_output(command)
 
     try:
@@ -125,17 +125,12 @@ class Dialog(QtGui.QDialog):
         layout.addWidget(self.set_language_button, n, 0)
         layout.addWidget(self.set_language_label, n, 1)
         n += 1
-        self.set_default_font_button = QtGui.QPushButton("set_default_font()")
-        self.set_default_font_button.clicked.connect(self.set_default_font)
-        self.set_default_font_label = QtGui.QLabel()
-        self.set_default_font_label.setFrameStyle(frameStyle)
-        layout.addWidget(self.set_default_font_button, n, 0)
-        layout.addWidget(self.set_default_font_label, n, 1)
-        n += 1
-        set_font_size_label = QtGui.QLabel()
-        set_font_size_label.setText("<b>set_font_size()</b> does not have "+
-                                 "a corresponding widget")
-        layout.addWidget(set_font_size_label, n, 0, 1, 2)
+        self.set_font_size_button = QtGui.QPushButton("set_font_size()")
+        self.set_font_size_button.clicked.connect(self.set_font_size)
+        self.set_font_size_label = QtGui.QLabel()
+        self.set_font_size_label.setFrameStyle(frameStyle)
+        layout.addWidget(self.set_font_size_button, n, 0)
+        layout.addWidget(self.set_font_size_label, n, 1)
         n += 1
         self.python_version_button = QtGui.QPushButton(
                                "Python version of programs launched")
@@ -200,10 +195,12 @@ class Dialog(QtGui.QDialog):
         output = launch('set_language', _loc)
         self.set_language_label.setText("{}".format(output))
 
-    def set_default_font(self):
-        launch('set_default_font')
-        self.set_default_font_label.setText(
-                                    "<b>Font cannot be set in this demo.</b>")
+    def set_font_size(self):
+        font_size = launch('get_int', "Enter desired font-size.", "title",
+                           "12", "10", "20")
+        output = launch('set_font_size', font_size)
+        output = output.split()[0]
+        self.set_font_size_label.setText("{}".format(output))
 
     def python_version(self):
         output = subprocess.check_output(

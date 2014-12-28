@@ -19,8 +19,9 @@ except:
         print("could not find function {}".format(func_name))
         sys.exit()
 
-if len(sys.argv) == 3:
-    result = func(sys.argv[2])
+if len(sys.argv) > 2:
+    args = tuple([sys.argv[i] for i in range(2,len(sys.argv))])
+    result = func(*args)
 else:
     result = func()
 

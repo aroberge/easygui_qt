@@ -417,6 +417,10 @@ def get_int(message="Choose a number", title="Title",
        .. image:: ../docs/images/get_int2.png
 
     """
+    # converting values to int for launcher demo which uses strings
+    default_value = int(default_value)
+    min_ = int(min_)
+    max_ = int(max_)
     flags = QtCore.Qt.WindowSystemMenuHint | QtCore.Qt.WindowTitleHint
     number, ok = QtGui.QInputDialog.getInteger(None,
                                                title, message,
@@ -645,6 +649,7 @@ def set_font_size(font_size, app=None):
     .. image:: ../docs/images/set_font_size.png
     """
     app.set_font_size(font_size)
+    print(font_size)  # info for launcher
 
 if __name__ == '__main__':
     try:
