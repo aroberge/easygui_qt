@@ -422,7 +422,10 @@ def get_date(title="Select Date", app=None):
 
     calendar = CalendarWidget(title=title)
     app.exec_()
-    return calendar.date.toString()
+    date = calendar.date.toString()
+    if sys.version_info < (3,):
+        return unicode(date)
+    return date
 
 
 @with_app

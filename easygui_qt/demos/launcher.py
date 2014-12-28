@@ -227,6 +227,8 @@ class Dialog(QtGui.QDialog):
 
     def get_date(self):
         output = launch('get_date')
+        if sys.version_info < (3,):
+            output = output.encode(encoding=locale.getdefaultlocale()[1])
         self.get_date_label.setText("{}".format(output))
 
     def get_directory_name(self):
