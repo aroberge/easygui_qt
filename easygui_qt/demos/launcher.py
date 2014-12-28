@@ -9,9 +9,7 @@ import sys
 
 from PyQt4 import QtCore, QtGui
 
-LOCALE = None
-
-def launch(name):
+def launch(name, arg=None):
     """Executes a script designed specifically for this launcher.
 
        The parameter "name" is the name of the function to be tested
@@ -21,9 +19,10 @@ def launch(name):
     if __name__ != "__main__":
         filename = os.path.join(os.path.dirname(__file__), filename)
 
-    command = ['python', filename, name]
-    if LOCALE:
-        command.append(LOCALE)
+    if arg is not None:
+        command = ['python', filename, name, arg]
+    else:
+        command = ['python', filename, name]
     output = subprocess.check_output(command)
 
     try:
@@ -119,10 +118,12 @@ class Dialog(QtGui.QDialog):
         layout.addWidget(self.select_language_button, n, 0)
         layout.addWidget(self.select_language_label, n, 1)
         n += 1
-        set_locale_label = QtGui.QLabel()
-        set_locale_label.setText("<b>set_locale()</b> does not have "+
-                                 "a corresponding widget")
-        layout.addWidget(set_locale_label, n, 0, 1, 2)
+        self.set_language_button = QtGui.QPushButton("set_language()")
+        self.set_language_button.clicked.connect(self.set_language)
+        self.set_language_label = QtGui.QLabel()
+        self.set_language_label.setFrameStyle(frameStyle)
+        layout.addWidget(self.set_language_button, n, 0)
+        layout.addWidget(self.set_language_label, n, 1)
         n += 1
         self.set_default_font_button = QtGui.QPushButton("set_default_font()")
         self.set_default_font_button.clicked.connect(self.set_default_font)
@@ -190,11 +191,14 @@ class Dialog(QtGui.QDialog):
         self.get_save_file_label.setText("{}".format(output))
 
     def select_language(self):
-        global LOCALE
         output = launch('select_language')
         output = output.split()[0]
-        LOCALE = output
         self.select_language_label.setText("{}".format(output))
+
+    def set_language(self):
+        _loc = launch('get_string', "Enter desired language code: 'fr', 'es', etc.")
+        output = launch('set_language', _loc)
+        self.set_language_label.setText("{}".format(output))
 
     def set_default_font(self):
         launch('set_default_font')

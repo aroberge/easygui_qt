@@ -8,7 +8,6 @@ import os
 import sys
 import collections
 import functools
-import inspect
 if sys.version_info < (3,):
     import ConfigParser as configparser
 else:
@@ -215,7 +214,7 @@ class _LanguageSelector(QtGui.QDialog):
         """Callback from confirm_button used to set the locale"""
         if self.locale != self.parent.config['locale']:
             self.parent.set_locale(self.locale)
-            print(self.locale)
+        print(self.locale)
         self.close()
 
 
@@ -362,6 +361,7 @@ def set_language(locale, app=None):
 
     """
     app.set_locale(locale)
+    return locale
 
 
 @with_app
