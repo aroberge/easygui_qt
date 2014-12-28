@@ -26,6 +26,8 @@ __all__ = [
     'get_string',
     'get_yes_or_no',
     'get_continue_or_cancel',
+    'get_color_hex',
+    'get_color_rgb',
     'get_directory_name',
     'get_file_names',
     'get_save_file_name',
@@ -338,6 +340,35 @@ def get_continue_or_cancel(question="Processed will be cancelled!", title="Title
         return "continue"
     else:
         return "cancel"
+
+@with_app
+def get_color_hex(app=None):
+    """Using a color dialog, returns a color in hexadecimal notation
+       i.e. '#RRGGBB' or "None" if color dialog is dismissed.
+
+       >>> import easygui_qt as easy
+       >>> easy.get_color_hex()
+
+       .. image:: ../docs/images/select_color.png
+       """
+    color = QtGui.QColorDialog.getColor(QtCore.Qt.white, None)
+    if color.isValid():
+        return color.name()
+
+@with_app
+def get_color_rgb(app=None):
+    """Using a color dialog, returns a color in rgb notation
+       i.e. (r, g, b)  or "None" if color dialog is dismissed.
+
+       >>> import easygui_qt as easy
+       >>> easy.set_language('fr')
+       >>> easy.get_color_rgb()
+
+       .. image:: ../docs/images/select_color_fr.png
+       """
+    color = QtGui.QColorDialog.getColor(QtCore.Qt.white, None)
+    if color.isValid():
+        return (color.red(), color.green(), color.blue())
 
 
 @with_app

@@ -99,6 +99,20 @@ class Dialog(QtGui.QDialog):
         layout.addWidget(self.get_continue_or_cancel_button, n, 0)
         layout.addWidget(self.get_continue_or_cancel_label, n, 1)
         n += 1
+        self.get_color_hex_button = QtGui.QPushButton("get_color_hex()")
+        self.get_color_hex_button.clicked.connect(self.get_color_hex)
+        self.get_color_hex_label = QtGui.QLabel()
+        self.get_color_hex_label.setFrameStyle(frameStyle)
+        layout.addWidget(self.get_color_hex_button, n, 0)
+        layout.addWidget(self.get_color_hex_label, n, 1)
+        n += 1
+        self.get_color_rgb_button = QtGui.QPushButton("get_color_rgb()")
+        self.get_color_rgb_button.clicked.connect(self.get_color_rgb)
+        self.get_color_rgb_label = QtGui.QLabel()
+        self.get_color_rgb_label.setFrameStyle(frameStyle)
+        layout.addWidget(self.get_color_rgb_button, n, 0)
+        layout.addWidget(self.get_color_rgb_label, n, 1)
+        n += 1
         self.get_directory_button = QtGui.QPushButton("get_directory_name()")
         self.get_directory_button.clicked.connect(self.get_directory_name)
         self.get_directory_label = QtGui.QLabel()
@@ -183,6 +197,14 @@ class Dialog(QtGui.QDialog):
     def get_continue_or_cancel(self):
         output = launch('get_continue_or_cancel')
         self.get_continue_or_cancel_label.setText("{}".format(output))
+
+    def get_color_hex(self):
+        color = launch('get_color_hex')
+        self.get_color_hex_label.setText(color)
+
+    def get_color_rgb(self):
+        color = launch('get_color_rgb')
+        self.get_color_rgb_label.setText(color)
 
     def get_directory_name(self):
         output = launch('get_directory_name')
