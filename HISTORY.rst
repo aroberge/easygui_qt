@@ -3,6 +3,9 @@
 History
 =======
 
+- added get_color_hex
+- added get_color_rgb
+- added get_continue_or_cancel
 - added roadmap as a github issue https://github.com/aroberge/easygui_qt/issues/13
 - removed CONFIG as a global dict; using the configuration file instead.
 - remove set_default_font
