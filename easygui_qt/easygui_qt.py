@@ -320,8 +320,8 @@ def get_continue_or_cancel(question="Processed will be cancelled!", title="Title
        :param question: Question (string) asked
        :param title: Window title (string)
 
-       :return: ``True`` for "No, please continue",
-                ``False`` for "Cancel" (or dismissing the dialog)
+       :return: "continue" for "No, please continue",
+                "cancel" for "Cancel" (or dismissing the dialog)
 
        >>> import easygui_qt as easy
        >>> easy.get_continue_or_cancel()
@@ -334,9 +334,10 @@ def get_continue_or_cancel(question="Processed will be cancelled!", title="Title
     message_box.addButton("No, please continue", QtGui.QMessageBox.AcceptRole)
     message_box.addButton("Cancel", QtGui.QMessageBox.RejectRole)
 
-    return message_box.exec_() == QtGui.QMessageBox.AcceptRole
-
-
+    if message_box.exec_() == QtGui.QMessageBox.AcceptRole:
+        return "continue"
+    else:
+        return "cancel"
 
 
 @with_app
