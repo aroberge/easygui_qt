@@ -72,6 +72,12 @@ identical functionality.  Thus, multiple selections from a list of choices
 is done only one way: by using a dialog where choices appear as labels
 in text and not labels on buttons.
 
+Roadmap
+-------
+
+See https://github.com/aroberge/easygui_qt/issues/13 and feel free
+to add comments.
+
 Similar projects
 ----------------
 

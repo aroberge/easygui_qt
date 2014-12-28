@@ -3,6 +3,7 @@
 History
 =======
 
+- added roadmap as a github issue https://github.com/aroberge/easygui_qt/issues/13
 - removed CONFIG as a global dict; using the configuration file instead.
 - remove set_default_font
 - rename set_locale to set_language
