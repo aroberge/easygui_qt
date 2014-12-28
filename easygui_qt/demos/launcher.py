@@ -132,13 +132,13 @@ class Dialog(QtGui.QDialog):
         layout.addWidget(self.set_font_size_button, n, 0)
         layout.addWidget(self.set_font_size_label, n, 1)
         n += 1
-        self.python_version_button = QtGui.QPushButton(
-                               "Python version of programs launched")
-        self.python_version_button.clicked.connect(self.python_version)
         self.python_version_label = QtGui.QLabel()
-        self.python_version_label.setFrameStyle(frameStyle)
-        layout.addWidget(self.python_version_button, n, 0)
-        layout.addWidget(self.python_version_label, n, 1)
+        #self.python_version_label.setFrameStyle(frameStyle)
+        layout.addWidget(self.python_version_label, n, 0, 2, 2)
+        output = subprocess.check_output(
+                         ['python', '-c', "import sys;print(sys.version)"])
+        self.python_version_label.setText(
+                                  "Python version: {}".format(output.decode()))
 
         self._layout = layout
         self.setLayout(layout)
@@ -202,10 +202,6 @@ class Dialog(QtGui.QDialog):
         output = output.split()[0]
         self.set_font_size_label.setText("{}".format(output))
 
-    def python_version(self):
-        output = subprocess.check_output(
-                         ['python', '-c', "import sys;print(sys.version)"])
-        self.python_version_label.setText("{}".format(output))
 
 
 
