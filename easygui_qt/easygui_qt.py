@@ -25,6 +25,7 @@ __all__ = [
     'get_integer',
     'get_string',
     'get_yes_or_no',
+    'get_continue_or_cancel',
     'get_directory_name',
     'get_file_names',
     'get_save_file_name',
@@ -309,6 +310,33 @@ def get_yes_or_no(question="Answer this question", title="Title", app=None):
         return True
     elif reply == QtGui.QMessageBox.No:
         return False
+
+@with_app
+def get_continue_or_cancel(question="Processed will be cancelled!", title="Title",
+                           app=None):
+    """Continue or cancel question, shown as a warning (i.e. more urgent than
+       simple message)
+
+       :param question: Question (string) asked
+       :param title: Window title (string)
+
+       :return: ``True`` for "No, please continue",
+                ``False`` for "Cancel" (or dismissing the dialog)
+
+       >>> import easygui_qt as easy
+       >>> easy.get_continue_or_cancel()
+
+       .. image:: ../docs/images/get_continue_or_cancel.png
+    """
+
+    message_box = QtGui.QMessageBox(QtGui.QMessageBox.Warning, title, question,
+                                    QtGui.QMessageBox.NoButton)
+    message_box.addButton("No, please continue", QtGui.QMessageBox.AcceptRole)
+    message_box.addButton("Cancel", QtGui.QMessageBox.RejectRole)
+
+    return message_box.exec_() == QtGui.QMessageBox.AcceptRole
+
+
 
 
 @with_app
