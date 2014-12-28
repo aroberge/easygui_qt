@@ -3,6 +3,7 @@
 History
 =======
 
+- removed CONFIG as a global dict; using the configuration file instead.
 - remove set_default_font
 - rename set_locale to set_language
 - added configuration file to save locale and font size

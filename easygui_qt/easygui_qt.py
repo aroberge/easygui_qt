@@ -18,7 +18,6 @@ else:
 from PyQt4 import QtGui, QtCore
 
 __all__ = [
-    'CONFIG',
     'show_message',
     'get_choice',
     'get_list_of_choices',
@@ -35,9 +34,6 @@ __all__ = [
     'set_language',
 ]
 
-
-CONFIG = {'font': QtGui.QFont(),
-          'translator': QtCore.QTranslator()}
 QM_FILES = None
 
 def with_app(func):
@@ -93,6 +89,8 @@ class SimpleApp(QtGui.QApplication):
         super(SimpleApp, self).__init__([])
 
         self.translator = QtCore.QTranslator()
+        self.default_font = QtGui.QFont()
+
         if sys.version_info < (3,) :
             settings_path = ".easygui-qt2"
         else:
@@ -101,7 +99,7 @@ class SimpleApp(QtGui.QApplication):
                                          settings_path)
         try:
             self.load_config()
-            self.setFont(CONFIG['font'])
+            self.setFont(self.default_font)
         except:
             pass
 
@@ -165,10 +163,9 @@ class SimpleApp(QtGui.QApplication):
         except:
             print("font_size should be an integer")
             return
-        CONFIG['font'] = QtGui.QFont()
-        CONFIG['font'].setPointSize(font_size)
+        self.default_font.setPointSize(font_size)
         self.config['font-size'] = font_size
-        self.setFont(CONFIG['font'])
+        self.setFont(self.default_font)
         if save:
             self.save_config()
 

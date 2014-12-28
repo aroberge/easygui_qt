@@ -15,18 +15,18 @@ else:
 try:
     import easygui_qt
     func = getattr(easygui_qt, func_name)
-    config = easygui_qt.CONFIG
+    #config = easygui_qt.CONFIG
 except:
     try:
         from easygui_qt import easygui_qt
         func = getattr(easygui_qt, func_name)
-        config = easygui_qt.CONFIG
+        #config = easygui_qt.CONFIG
     except:
         print("could not find function {}".format(func_name))
         sys.exit()
 
-if loc_ is not None:
-    config['locale'] = loc_
+#if loc_ is not None:
+#    config['locale'] = loc_
 result = func()
 
 if sys.version_info < (3,):
