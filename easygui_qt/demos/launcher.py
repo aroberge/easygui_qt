@@ -19,7 +19,6 @@ def launch(name, *args):
     if __name__ != "__main__":
         filename = os.path.join(os.path.dirname(__file__), filename)
 
-
     command = ['python', filename, name]
     if args:
         command.extend(args)
