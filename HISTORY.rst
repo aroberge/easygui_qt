@@ -3,6 +3,9 @@
 History
 =======
 
+0.4.0
+-----
+
 - added get_password
 - added get_date
 - added get_color_hex
