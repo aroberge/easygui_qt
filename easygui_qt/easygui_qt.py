@@ -48,19 +48,7 @@ def with_app(func):
         """
         app = SimpleApp()
         kwargs['app'] = app
-        try:
-            response = func(*args, **kwargs)
-        except TypeError:  # perhaps 'app' was not a keyword argument for func
-            if sys.version_info < (3, 3):  # assume it was the problem
-                del kwargs['app']
-                response = func(*args, **kwargs)
-            else:
-                sig = inspect.signature(func)  # sig did not exist before 3.3
-                if 'app' in sig.parameters.values():
-                    raise
-                else:
-                    del kwargs['app']
-                    response = func(*args, **kwargs)
+        response = func(*args, **kwargs)
         app.quit()
         return response
 
@@ -300,7 +288,7 @@ class MultipleChoicesDialog(QtGui.QDialog):
 
 
 @with_app
-def get_yes_or_no(question="Answer this question", title="Title"):
+def get_yes_or_no(question="Answer this question", title="Title", app=None):
     """Simple yes or no question.
 
        :param question: Question (string) asked
@@ -377,7 +365,7 @@ def set_language(locale, app=None):
 
 
 @with_app
-def show_message(message="Message", title="Title"):
+def show_message(message="Message", title="Title", app=None):
     """Simple message box.
 
        :param message: message string
@@ -397,7 +385,7 @@ def show_message(message="Message", title="Title"):
 
 @with_app
 def get_int(message="Choose a number", title="Title",
-                  default_value=1, min_=0, max_=100, step=1):
+                  default_value=1, min_=0, max_=100, step=1, app=None):
     """Simple dialog to ask a user to select an integer within a certain range.
 
        **Note**: **get_int()** and **get_integer()** are identical.
@@ -440,8 +428,8 @@ get_integer = get_int
 
 
 @with_app
-def get_float(message="Choose a number", title="Title",
-                  default_value=0., min_=-10000, max_=10000, decimals=3):
+def get_float(message="Choose a number", title="Title", default_value=0.0,
+                                min_=-10000, max_=10000, decimals=3, app=None):
     """Simple dialog to ask a user to select a floating point number
        within a certain range and a maximum precision.
 
@@ -472,7 +460,7 @@ def get_float(message="Choose a number", title="Title",
 
 @with_app
 def get_string(message="Enter your response", title="Title",
-               default_response=""):
+               default_response="", app=None):
     """Simple text input box.  Used to query the user and get a string back.
 
        :param message: Message displayed to the user, inviting a response
@@ -501,7 +489,8 @@ def get_string(message="Enter your response", title="Title",
         return text
 
 @with_app
-def get_choice(message="Select one item", title="Title", choices=None):
+def get_choice(message="Select one item", title="Title", choices=None,
+               app=None):
     """Simple dialog to ask a user to select an item within a drop-down list
 
        :param message: Message displayed to the user, inviting a response
@@ -531,7 +520,7 @@ def get_choice(message="Select one item", title="Title", choices=None):
 
 
 @with_app
-def get_list_of_choices(title="Title", choices=None):
+def get_list_of_choices(title="Title", choices=None, app=None):
     """Show a list of possible choices to be selected.
 
        :param title: Window title
@@ -553,7 +542,7 @@ def get_list_of_choices(title="Title", choices=None):
 
 
 @with_app
-def get_directory_name(title="Get directory"):
+def get_directory_name(title="Get directory", app=None):
     '''Gets the name (full path) of an existing directory
 
        :param title: Window title
@@ -581,7 +570,7 @@ def get_directory_name(title="Get directory"):
 
 
 @with_app
-def get_file_names(title="Get existing file names"):
+def get_file_names(title="Get existing file names", app=None):
     '''Gets the names (full path) of existing files
 
        :param title: Window title
@@ -610,7 +599,7 @@ def get_file_names(title="Get existing file names"):
 
 
 @with_app
-def get_save_file_name(title="File name to save"):
+def get_save_file_name(title="File name to save", app=None):
     '''Gets the name (full path) of of a file to be saved.
 
        :param title: Window title
