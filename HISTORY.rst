@@ -3,6 +3,7 @@
 History
 =======
 
+- added get_date
 - added get_color_hex
 - added get_color_rgb
 - added get_continue_or_cancel
