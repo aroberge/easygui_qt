@@ -6,7 +6,6 @@ of different basic graphical user interface components
 
 import os
 import sys
-import collections
 import functools
 if sys.version_info < (3,):
     import ConfigParser as configparser
@@ -16,7 +15,14 @@ else:
 
 from PyQt4 import QtGui, QtCore
 
-from . import language_selector
+try:
+    import utils
+except:
+    from . import utils
+try:
+    import language_selector
+except:
+    from . import language_selector
 
 __all__ = [
     'show_message',
@@ -59,19 +65,6 @@ def with_app(func):
         return response
 
     return functools.wraps(func)(_decorator)
-
-
-def find_qm_files():
-    """looking for files with names == qt_locale.qm"""
-    all_files = collections.OrderedDict()
-    for root, _, files in os.walk(os.path.join(QtGui.__file__, "..")):
-        for fname in files:
-            if (fname.endswith('.qm') and fname.startswith("qt_")
-                    and not fname.startswith("qt_help")):
-                locale = fname[3:-3]
-                all_files[locale] = root
-    return all_files
-
 
 class SimpleApp(QtGui.QApplication):
     """A simple extention of the basic QApplication
@@ -131,7 +124,7 @@ class SimpleApp(QtGui.QApplication):
         """
         global QM_FILES
         if QM_FILES is None:
-            QM_FILES = find_qm_files()
+            QM_FILES = utils.find_qm_files()
         if locale in QM_FILES:
             if self.translator.load("qt_" + locale, QM_FILES[locale]):
                 self.installTranslator(self.translator)
@@ -397,7 +390,7 @@ def select_language(title="Select language", name="Language codes",
         instruction = ('Current language code is "{}".'.format(
                                                         app.config['locale']))
     selector = language_selector.LanguageSelector(app, title=title, name=name,
-                                 instruction=instruction, QM_FILES=QM_FILES)
+                                 instruction=instruction)
     selector.exec_()
 
 

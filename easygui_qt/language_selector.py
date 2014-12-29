@@ -1,4 +1,9 @@
 
+try:
+    import utils
+except:
+    from . import utils
+
 from PyQt4 import QtGui, QtCore
 
 class LanguageSelector(QtGui.QDialog):
@@ -9,18 +14,18 @@ class LanguageSelector(QtGui.QDialog):
 
     def __init__(self, parent, title="Language selection",
                  name="Language codes",
-                 instruction="Click button when you are done",
-                 QM_FILES=None):
+                 instruction="Click button when you are done"):
         super(LanguageSelector, self).__init__(None,
                          QtCore.Qt.WindowSystemMenuHint |
                          QtCore.Qt.WindowTitleHint)
         self.qm_files_choices = {}
         self.parent = parent
+        qm_files = utils.find_qm_files()
 
         # ========= check boxes ==============
         group_box = QtGui.QGroupBox(name)
         group_box_layout = QtGui.QGridLayout()
-        for i, locale in enumerate(QM_FILES):
+        for i, locale in enumerate(qm_files):
             check_box = QtGui.QCheckBox(locale)
             check_box.setAutoExclusive(True)
             self.qm_files_choices[check_box] = locale
@@ -33,7 +38,7 @@ class LanguageSelector(QtGui.QDialog):
         check_box.setAutoExclusive(True)
         self.qm_files_choices[check_box] = "default"
         check_box.toggled.connect(self.check_box_toggled)
-        i = len(QM_FILES)
+        i = len(qm_files)
         group_box_layout.addWidget(check_box, i / 4, i % 4)
         group_box.setLayout(group_box_layout)
 
@@ -60,3 +65,13 @@ class LanguageSelector(QtGui.QDialog):
             self.parent.set_locale(self.locale)
         print(self.locale)
         self.close()
+
+if __name__ == '__main__':
+    app = QtGui.QApplication([])
+    # mocks
+    app.config = {'locale': None}
+    app.set_locale = lambda x: x
+    #
+    selector = LanguageSelector(app, title="title")
+    selector.exec_()
+    app.quit()
