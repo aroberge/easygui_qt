@@ -1,8 +1,8 @@
 
 try:
-    import utils
-except:
     from . import utils
+except:
+    import utils
 
 from PyQt4 import QtGui, QtCore
 

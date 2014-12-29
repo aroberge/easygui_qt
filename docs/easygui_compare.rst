@@ -4,27 +4,26 @@ Comparison with easygui
 
 EasyGUI_Qt was inspired by EasyGUI.
 
-Here is a brief summary table of the corresponding function names
+Here is a **brief** summary table of the corresponding function names
 for widgets with similar purpose being used in each project.
-This table is not complete, and is only provided as a guide.
+This table is **not** complete, and is mainly provided to illustrate
+the different convention used when naming widgets.
 
 +-----------------------+-----------------------------+----------------------------------------------------------------------------------------------+
 |  EasyGUI              |  EasyGUI_Qt                 | Description                                                                                  |
 +=======================+=============================+==============================================================================================+
 |  enterbox             |  get_string                 | Gets a string from the user                                                                  |
 +-----------------------+-----------------------------+----------------------------------------------------------------------------------------------+
-|  integerbox           || get_int                    | Gets an integer from the user                                                                |
-|                       || get_integer                |                                                                                              |
+|  integerbox           |  get_int  *or*              | Gets an integer from the user                                                                |
+|                       |  get_integer                |                                                                                              |
 +-----------------------+-----------------------------+----------------------------------------------------------------------------------------------+
 |                       |  get_float                  | Gets a float from the user                                                                   |
 +-----------------------+-----------------------------+----------------------------------------------------------------------------------------------+
 |  msgbox               |  show_message               | Displays a messages with an "ok" button                                                      |
 +-----------------------+-----------------------------+----------------------------------------------------------------------------------------------+
-|  ccbox                |                             | Choice: continue or cancel box                                                               |
+|  ccbox                |  get_continue_or_cancel     | Choice: continue or cancel box                                                               |
 +-----------------------+-----------------------------+----------------------------------------------------------------------------------------------+
 |  ynbox                |  get_yes_or_no              | Answer a question with "yes" or "no" answer as choices                                       |
-+-----------------------+-----------------------------+----------------------------------------------------------------------------------------------+
-|  buttonbox            |                             | Gets choices from user, each choice represented by a button; returns string on button        |
 +-----------------------+-----------------------------+----------------------------------------------------------------------------------------------+
 |  choicebox            |  get_choice                 | User selects a single choice from a list                                                     |
 +-----------------------+-----------------------------+----------------------------------------------------------------------------------------------+
@@ -32,9 +31,7 @@ This table is not complete, and is only provided as a guide.
 +-----------------------+-----------------------------+----------------------------------------------------------------------------------------------+
 |  multenterbox         |                             | User enters multiple values                                                                  |
 +-----------------------+-----------------------------+----------------------------------------------------------------------------------------------+
-|  passwordbox          |                             | Gets string from user, the text is masked as it is typed in                                  |
-+-----------------------+-----------------------------+----------------------------------------------------------------------------------------------+
-|  multpasswordbox      |                             | Multiple passwords fields on a given box                                                     |
+|  passwordbox          |  get_password               | Gets string from user, the text is masked as it is typed in                                  |
 +-----------------------+-----------------------------+----------------------------------------------------------------------------------------------+
 |  textbox              |                             | Displays text in proportional font, with word wrapping                                       |
 +-----------------------+-----------------------------+----------------------------------------------------------------------------------------------+

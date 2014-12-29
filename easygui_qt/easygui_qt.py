@@ -16,18 +16,13 @@ else:
 from PyQt4 import QtGui, QtCore
 
 try:
-    import utils
-except:
     from . import utils
-try:
-    import language_selector
-except:
     from . import language_selector
-
-try:
-    import calendar_widget
-except:
     from . import calendar_widget
+except:
+    import utils
+    import language_selector
+    import calendar_widget
 
 __all__ = [
     'show_message',
