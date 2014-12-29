@@ -4,6 +4,7 @@ EasyGUI_Qt is inspired by EasyGUI and contains a number
 of different basic graphical user interface components
 """
 
+import collections
 import os
 import sys
 import functools
@@ -20,11 +21,13 @@ try:
     from . import language_selector
     from . import calendar_widget
     from . import multichoice
+    from . import username_password
 except:
     import utils
     import language_selector
     import calendar_widget
     import multichoice
+    import username_password
 
 __all__ = [
     'show_message',
@@ -465,6 +468,23 @@ def get_password(message="Enter your password", title="Title", app=None):
         if sys.version_info < (3,):
             return unicode(text)
         return text
+
+
+@with_app
+def get_username_password(title="title", fields=None, app=None):
+    class Info:
+        o_dict = collections.OrderedDict()
+    info = Info()
+    if fields is None:
+        info.o_dict["User name"] = ''
+        info.o_dict["Password"] = ''
+    else:
+        for item in fields:
+            info.o_dict[item] = ''
+    unp = username_password.UserNamePassword(info)
+    unp.exec_()
+    return info.o_dict
+
 
 @with_app
 def get_choice(message="Select one item", title="Title", choices=None,
