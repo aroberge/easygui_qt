@@ -38,6 +38,7 @@ __all__ = [
     'get_integer',
     'get_string',
     'get_password',
+    'get_username_password',
     'get_yes_or_no',
     'get_continue_or_cancel',
     'get_color_hex',
@@ -472,6 +473,23 @@ def get_password(message="Enter your password", title="Title", app=None):
 
 @with_app
 def get_username_password(title="title", fields=None, app=None):
+    """User name and password input box.
+
+       :param title: Window title
+       :param fields: an iterable containing the labels for "user name"
+                      and "password" - useful for languages other than English
+
+
+       :return: An ordered dict containing the fields item as keys, and
+                the input from the user (empty string by default) as value
+
+       >>> import easygui_qt as easy
+       >>> reply = easy.get_username_password()
+       >>> reply
+       OrderedDict([('User name', 'aroberge'), ('Password', 'not a good password')])
+
+       .. image:: ../docs/images/get_username_password.png
+    """
     class Info:
         o_dict = collections.OrderedDict()
     info = Info()

@@ -3,6 +3,8 @@
 History
 =======
 
+- added get_username_password
+
 0.4.0
 -----
 

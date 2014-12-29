@@ -1,5 +1,10 @@
+import sys
 from collections import OrderedDict
 from PyQt4 import QtGui, QtCore
+
+if sys.version_info >= (3,):
+    unicode = str
+
 
 class UserNamePassword(QtGui.QDialog):
     """A specially constructed two-field dialog to get a user's name (shown)
@@ -39,17 +44,16 @@ class UserNamePassword(QtGui.QDialog):
 
     def confirm(self):
         """Callback from confirm_button"""
-        self.parent.o_dict[self.keys[0]] = self.user_name_field.text()
-        self.parent.o_dict[self.keys[1]] = self.password_field.text()
+        self.parent.o_dict[self.keys[0]] = unicode(self.user_name_field.text())
+        self.parent.o_dict[self.keys[1]] = unicode(self.password_field.text())
         self.close()
 
 if __name__ == '__main__':
     app = QtGui.QApplication([])
     # mocks
     class Parent:
-        pass
+        o_dict = OrderedDict()
     parent = Parent()
-    parent.o_dict = OrderedDict()
     parent.o_dict["User name:"] = ''
     parent.o_dict["Password:"] = ''
 
