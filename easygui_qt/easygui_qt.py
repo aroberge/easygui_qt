@@ -24,6 +24,11 @@ try:
 except:
     from . import language_selector
 
+try:
+    import calendar_widget
+except:
+    from . import calendar_widget
+
 __all__ = [
     'show_message',
     'get_choice',
@@ -157,7 +162,6 @@ class SimpleApp(QtGui.QApplication):
             self.save_config()
 
 
-
 class MultipleChoicesDialog(QtGui.QDialog):
     """Dialog with the possibility of selecting one or more
        items from a list"""
@@ -223,40 +227,6 @@ class MultipleChoicesDialog(QtGui.QDialog):
     def cancel(self):
         """cancel and set the selection to an empty list"""
         self.selection = []
-        self.close()
-
-
-class CalendarWidget(QtGui.QWidget):
-    """Creates a calendar widget allowing the user to select a date."""
-    def __init__(self, title="Calendar"):
-        super(CalendarWidget, self).__init__()
-
-        self.setWindowTitle(title)
-        layout = QtGui.QGridLayout()
-        layout.setColumnStretch(1, 1)
-
-        cal = QtGui.QCalendarWidget(self)
-        cal.setGridVisible(True)
-        cal.clicked[QtCore.QDate].connect(self.show_date)
-        layout.addWidget(cal, 0, 0, 1, 2)
-
-        self.date_label = QtGui.QLabel()
-        self.date = cal.selectedDate()
-        self.date_label.setText(self.date.toString())
-        layout.addWidget(self.date_label, 1, 0)
-
-        button_box = QtGui.QDialogButtonBox()
-        confirm_button = button_box.addButton(QtGui.QDialogButtonBox.Ok)
-        confirm_button.clicked.connect(self.confirm)
-        layout.addWidget(button_box, 1, 1)
-
-        self.setLayout(layout)
-        self.show()
-
-    def show_date(self, date):
-        self.date_label.setText(self.date.toString())
-
-    def confirm(self):
         self.close()
 
 
@@ -355,9 +325,9 @@ def get_date(title="Select Date", app=None):
        .. image:: ../docs/images/get_date.png
     """
 
-    calendar = CalendarWidget(title=title)
+    cal = calendar_widget.CalendarWidget(title=title)
     app.exec_()
-    date = calendar.date.toString()
+    date = cal.date.toString()
     if sys.version_info < (3,):
         return unicode(date)
     return date
