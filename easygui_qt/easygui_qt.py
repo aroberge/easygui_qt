@@ -161,6 +161,7 @@ def show_message(message="Message", title="Title"):
     box.setWindowTitle(title)
     box.setText(message)
     box.show()
+    box.raise_()
     box.exec_()
     app.quit()
 
@@ -184,6 +185,8 @@ def get_yes_or_no(question="Answer this question", title="Title"):
     flags |= QtGui.QMessageBox.Cancel
 
     box = QtGui.QMessageBox()
+    box.show()
+    box.raise_()
 
     reply = box.question(None, title, question, flags)
     app.quit()
@@ -214,6 +217,8 @@ def get_continue_or_cancel(question="Processed will be cancelled!",
                                     QtGui.QMessageBox.NoButton)
     message_box.addButton("No, please continue", QtGui.QMessageBox.AcceptRole)
     message_box.addButton("Cancel", QtGui.QMessageBox.RejectRole)
+    message_box.show()
+    message_box.raise_()
 
     if message_box.exec_() == QtGui.QMessageBox.AcceptRole:
         app.quit()
@@ -568,7 +573,6 @@ def get_username_password(title="title", fields=None):
     unp.exec_()
     app.quit()
     return info.o_dict
-
 
 
 def get_list_of_choices(title="Title", choices=None):
