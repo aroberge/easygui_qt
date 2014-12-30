@@ -7,6 +7,9 @@ import subprocess
 import os
 import sys
 
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "../"))
+import easygui_qt
+
 from PyQt4 import QtCore, QtGui
 
 def launch(name, *args):
@@ -59,10 +62,11 @@ class Dialog(QtGui.QDialog):
         for n, fxn in enumerate(fxns):
             self.button[fxn] = QtGui.QPushButton(fxn + "()")
             self.button[fxn].clicked.connect(eval('self.' + fxn))
-            if fxn == 'get_int':
-                self.button[fxn].setToolTip(fxn + '  OR  get_integer')
-            else:
-                self.button[fxn].setToolTip(fxn)
+            self.button[fxn].setToolTip(getattr(easygui_qt, fxn).__doc__)
+#            if fxn == 'get_int':
+#                self.button[fxn].setToolTip(fxn + '  OR  get_integer')
+#            else:
+#                self.button[fxn].setToolTip(fxn)
             self.label[fxn] = QtGui.QLabel()
             self.label[fxn].setFrameStyle(frameStyle)
             layout.addWidget(self.button[fxn], n, 0)
