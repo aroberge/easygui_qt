@@ -3,6 +3,15 @@
 History
 =======
 
+- adressed an issue where some dialogs would appear below some windows
+  (e.g. terminal) when launched from some platforms (e.g. Mac OSX):
+  the goal should be that the dialogs always appear on top of other windows.
+- removed with_app decorator; this decorator had been introduced to reduce
+  the amount of repetitive code appearing in each function (and initially
+  inspected the function signature to add automatically some additional
+  keyword args) but it likely made it impossible to do unit testing with
+  QTest (still not done) and prevented ReadTheDocs from reading the correct
+  signatures for the decorated functions.
 - tooltips added to demos launcher
 - added get_username_password
 
