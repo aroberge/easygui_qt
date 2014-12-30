@@ -7,7 +7,7 @@ of different basic graphical user interface components
 import collections
 import os
 import sys
-import functools
+
 if sys.version_info < (3,):
     import ConfigParser as configparser
 else:
@@ -145,7 +145,7 @@ class SimpleApp(QtGui.QApplication):
 
 #========== Message Boxes ====================#
 
-def show_message(message="Message", title="Title", app=None):
+def show_message(message="Message", title="Title"):
     """Simple message box.
 
        :param message: message string
@@ -165,7 +165,7 @@ def show_message(message="Message", title="Title", app=None):
     app.quit()
 
 
-def get_yes_or_no(question="Answer this question", title="Title", app=None):
+def get_yes_or_no(question="Answer this question", title="Title"):
     """Simple yes or no question.
 
        :param question: Question (string) asked
@@ -193,8 +193,8 @@ def get_yes_or_no(question="Answer this question", title="Title", app=None):
         return False
 
 
-def get_continue_or_cancel(question="Processed will be cancelled!", title="Title",
-                           app=None):
+def get_continue_or_cancel(question="Processed will be cancelled!",
+                           title="Title"):
     """Continue or cancel question, shown as a warning (i.e. more urgent than
        simple message)
 
@@ -224,7 +224,7 @@ def get_continue_or_cancel(question="Processed will be cancelled!", title="Title
 
 #============= Color dialogs =================
 
-def get_color_hex(app=None):
+def get_color_hex():
     """Using a color dialog, returns a color in hexadecimal notation
        i.e. a string '#RRGGBB' or "None" if color dialog is dismissed.
 
@@ -257,7 +257,7 @@ def get_color_rgb(app=None):
 
 #================ Date ===================
 
-def get_date(title="Select Date", app=None):
+def get_date(title="Select Date"):
     """Calendar widget
 
        :param title: window title
@@ -279,7 +279,7 @@ def get_date(title="Select Date", app=None):
 #================ language/locale related
 
 def select_language(title="Select language", name="Language codes",
-                    instruction=None, app=None):
+                    instruction=None):
     """Dialog to choose language based on some locale code for
        files found on default path.
 
@@ -310,7 +310,7 @@ def select_language(title="Select language", name="Language codes",
     app.quit()
 
 
-def set_language(locale, app=None):
+def set_language(locale):
     """Sets the locale, if available
 
        :param locale: standard code for locale (e.g. 'fr', 'en_CA')
@@ -352,7 +352,7 @@ class VisibleInputDialog(QtGui.QInputDialog):
 
 
 def get_int(message="Choose a number", title="Title",
-                  default_value=1, min_=0, max_=100, step=1, app=None):
+                  default_value=1, min_=0, max_=100, step=1):
     """Simple dialog to ask a user to select an integer within a certain range.
 
        **Note**: **get_int()** and **get_integer()** are identical.
@@ -405,7 +405,7 @@ get_integer = get_int
 
 
 def get_float(message="Choose a number", title="Title", default_value=0.0,
-                                min_=-10000, max_=10000, decimals=3, app=None):
+                                min_=-10000, max_=10000, decimals=3):
     """Simple dialog to ask a user to select a floating point number
        within a certain range and a maximum precision.
 
@@ -447,7 +447,7 @@ def get_float(message="Choose a number", title="Title", default_value=0.0,
 
 
 def get_string(message="Enter your response", title="Title",
-               default_response="", app=None):
+               default_response=""):
     """Simple text input box.  Used to query the user and get a string back.
 
        :param message: Message displayed to the user, inviting a response
@@ -478,7 +478,7 @@ def get_string(message="Enter your response", title="Title",
         return text
 
 
-def get_password(message="Enter your password", title="Title", app=None):
+def get_password(message="Enter your password", title="Title"):
     """Simple password input box.  Used to query the user and get a string back.
 
        :param message: Message displayed to the user, inviting a response
@@ -505,8 +505,7 @@ def get_password(message="Enter your password", title="Title", app=None):
         return text
 
 
-def get_choice(message="Select one item", title="Title", choices=None,
-               app=None):
+def get_choice(message="Select one item", title="Title", choices=None):
     """Simple dialog to ask a user to select an item within a drop-down list
 
        :param message: Message displayed to the user, inviting a response
@@ -537,7 +536,7 @@ def get_choice(message="Select one item", title="Title", choices=None,
         return choice
 
 
-def get_username_password(title="title", fields=None, app=None):
+def get_username_password(title="title", fields=None):
     """User name and password input box.
 
        :param title: Window title
@@ -572,7 +571,7 @@ def get_username_password(title="title", fields=None, app=None):
 
 
 
-def get_list_of_choices(title="Title", choices=None, app=None):
+def get_list_of_choices(title="Title", choices=None):
     """Show a list of possible choices to be selected.
 
        :param title: Window title
@@ -597,7 +596,7 @@ def get_list_of_choices(title="Title", choices=None, app=None):
 #========== Files & directory dialogs
 
 
-def get_directory_name(title="Get directory", app=None):
+def get_directory_name(title="Get directory"):
     '''Gets the name (full path) of an existing directory
 
        :param title: Window title
@@ -626,7 +625,7 @@ def get_directory_name(title="Get directory", app=None):
     return directory
 
 
-def get_file_names(title="Get existing file names", app=None):
+def get_file_names(title="Get existing file names"):
     '''Gets the names (full path) of existing files
 
        :param title: Window title
@@ -655,7 +654,7 @@ def get_file_names(title="Get existing file names", app=None):
     return files
 
 
-def get_save_file_name(title="File name to save", app=None):
+def get_save_file_name(title="File name to save"):
     '''Gets the name (full path) of of a file to be saved.
 
        :param title: Window title
@@ -689,7 +688,7 @@ def get_save_file_name(title="File name to save", app=None):
 
 #========= Font related
 
-def set_font_size(font_size, app=None):
+def set_font_size(font_size):
     """Simple method to set font size.
 
     :param font_size: integer value
