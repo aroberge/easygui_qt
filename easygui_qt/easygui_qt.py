@@ -162,6 +162,26 @@ class SimpleApp(QtGui.QApplication):
         if save:
             self.save_config()
 
+#========== Message Boxes ====================#
+
+@with_app
+def show_message(message="Message", title="Title", app=None):
+    """Simple message box.
+
+       :param message: message string
+       :param title: window title
+
+       >>> import easygui_qt as easy
+       >>> easy.show_message()
+
+       .. image:: ../docs/images/show_message.png
+    """
+    box = QtGui.QMessageBox(None)
+    box.setWindowTitle(title)
+    box.setText(message)
+    box.show()
+    box.exec_()
+
 @with_app
 def get_yes_or_no(question="Answer this question", title="Title", app=None):
     """Simple yes or no question.
@@ -180,7 +200,9 @@ def get_yes_or_no(question="Answer this question", title="Title", app=None):
     flags = QtGui.QMessageBox.Yes | QtGui.QMessageBox.No
     flags |= QtGui.QMessageBox.Cancel
 
-    reply = QtGui.QMessageBox.question(None, title, question, flags)
+    box = QtGui.QMessageBox()
+
+    reply = box.question(None, title, question, flags)
     if reply == QtGui.QMessageBox.Yes:
         return True
     elif reply == QtGui.QMessageBox.No:
@@ -214,6 +236,8 @@ def get_continue_or_cancel(question="Processed will be cancelled!", title="Title
     else:
         return "cancel"
 
+#============= Color dialogs =================
+
 @with_app
 def get_color_hex(app=None):
     """Using a color dialog, returns a color in hexadecimal notation
@@ -243,6 +267,7 @@ def get_color_rgb(app=None):
     if color.isValid():
         return (color.red(), color.green(), color.blue())
 
+#================ Date ===================
 
 @with_app
 def get_date(title="Select Date", app=None):
@@ -264,6 +289,7 @@ def get_date(title="Select Date", app=None):
         return unicode(date)
     return date
 
+#================ language/locale related
 
 @with_app
 def select_language(title="Select language", name="Language codes",
@@ -318,23 +344,22 @@ def set_language(locale, app=None):
     return locale
 
 
-@with_app
-def show_message(message="Message", title="Title", app=None):
-    """Simple message box.
+#=========== InputDialogs ========================
 
-       :param message: message string
-       :param title: window title
+def get_common_input_flags():
+    '''avoiding copying same flags in all functions'''
+    flags = QtCore.Qt.WindowSystemMenuHint | QtCore.Qt.WindowTitleHint
+    flags |= QtCore.Qt.WindowStaysOnTopHint
+    return flags
 
-       >>> import easygui_qt as easy
-       >>> easy.show_message()
-
-       .. image:: ../docs/images/show_message.png
-    """
-    box = QtGui.QMessageBox(None)
-    box.setWindowTitle(title)
-    box.setText(message)
-    box.show()
-    box.exec_()
+class VisibleInputDialog(QtGui.QInputDialog):
+    '''A simple InputDialog class that attempts to make itself automatically
+       on all platforms
+    '''
+    def __init__(self):
+        super(VisibleInputDialog, self).__init__()
+        self.show()
+        self.raise_()
 
 
 @with_app
@@ -371,15 +396,19 @@ def get_int(message="Choose a number", title="Title",
        .. image:: ../docs/images/get_int2.png
 
     """
-    # converting values to int for launcher demo which uses strings
+    # converting values to int for launcher demo set_font_size which
+    # first queries the user for a value; the initial values are passed
+    # as strings by the subprocess module and need to be converted here
+
     default_value = int(default_value)
     min_ = int(min_)
     max_ = int(max_)
-    flags = QtCore.Qt.WindowSystemMenuHint | QtCore.Qt.WindowTitleHint
-    number, ok = QtGui.QInputDialog.getInteger(None,
-                                               title, message,
-                                               default_value, min_, max_, step,
-                                               flags)
+
+    dialog = VisibleInputDialog()
+    flags = get_common_input_flags()
+    number, ok = dialog.getInteger(None, title, message,
+                                   default_value, min_, max_, step,
+                                   flags)
     if ok:
         return number
 get_integer = get_int
@@ -407,12 +436,21 @@ def get_float(message="Choose a number", title="Title", default_value=0.0,
        >>> number = easy.get_float()
 
        .. image:: ../docs/images/get_float.png
+
+       **Note:** depending on the locale of the operating system where
+       this is used, instead of a period being used for indicating the
+       decimals, a comma may appear instead; this is the case for
+       the French version of Windows for example.  Therefore, entry of
+       floating point values in this situation will require the use
+       of a comma instead of a period.  However, the internal representation
+       will still be the same, and the number passed to Python will be
+       using the familar notation.
     """
-    flags = QtCore.Qt.WindowSystemMenuHint | QtCore.Qt.WindowTitleHint
-    number, ok = QtGui.QInputDialog.getDouble(None,
-                                              title, message,
-                                              default_value, min_, max_,
-                                              decimals, flags)
+    dialog = VisibleInputDialog()
+    flags = get_common_input_flags()
+    number, ok = dialog.getDouble(None, title, message,
+                                  default_value, min_, max_, decimals,
+                                  flags)
     if ok:
         return number
 
@@ -437,10 +475,10 @@ def get_string(message="Enter your response", title="Title",
 
        .. image:: ../docs/images/get_string2.png
     """
-    flags = QtCore.Qt.WindowSystemMenuHint | QtCore.Qt.WindowTitleHint
-    text, ok = QtGui.QInputDialog.getText(None, title, message,
-                                          QtGui.QLineEdit.Normal,
-                                          default_response, flags)
+    dialog = VisibleInputDialog()
+    flags = get_common_input_flags()
+    text, ok = dialog.getText(None, title, message, QtGui.QLineEdit.Normal,
+                              default_response, flags)
     if ok:
         if sys.version_info < (3,):
             return unicode(text)
@@ -462,14 +500,44 @@ def get_password(message="Enter your password", title="Title", app=None):
 
        .. image:: ../docs/images/get_password.png
     """
-    flags = QtCore.Qt.WindowSystemMenuHint | QtCore.Qt.WindowTitleHint
-    text, ok = QtGui.QInputDialog.getText(None, title, message,
-                                          QtGui.QLineEdit.Password,'', flags)
+    dialog = VisibleInputDialog()
+    flags = get_common_input_flags()
+    text, ok = dialog.getText(None, title, message, QtGui.QLineEdit.Password,
+                              '', flags)
     if ok:
         if sys.version_info < (3,):
             return unicode(text)
         return text
 
+@with_app
+def get_choice(message="Select one item", title="Title", choices=None,
+               app=None):
+    """Simple dialog to ask a user to select an item within a drop-down list
+
+       :param message: Message displayed to the user, inviting a response
+       :param title: Window title
+       :param choices: iterable (list or tuple) containing the names of
+                       the items that can be selected.
+
+       :returns: a string, or ``None`` if "cancel" is clicked or window
+                is closed.
+
+       >>> import easygui_qt as easy
+       >>> choices = ["CPython", "Pypy", "Jython", "IronPython"]
+       >>> reply = easy.get_choice("What is the best Python implementation",
+       ...                         choices=choices)
+
+       .. image:: ../docs/images/get_choice.png
+    """
+    if choices is None:
+        choices = ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5"]
+    dialog = VisibleInputDialog()
+    flags = get_common_input_flags()
+    choice, ok = dialog.getItem(None, title, message, choices, 0, False, flags)
+    if ok:
+        if sys.version_info < (3,):
+            return unicode(choice)
+        return choice
 
 @with_app
 def get_username_password(title="title", fields=None, app=None):
@@ -505,37 +573,6 @@ def get_username_password(title="title", fields=None, app=None):
 
 
 @with_app
-def get_choice(message="Select one item", title="Title", choices=None,
-               app=None):
-    """Simple dialog to ask a user to select an item within a drop-down list
-
-       :param message: Message displayed to the user, inviting a response
-       :param title: Window title
-       :param choices: iterable (list or tuple) containing the names of
-                       the items that can be selected.
-
-       :returns: a string, or ``None`` if "cancel" is clicked or window
-                is closed.
-
-       >>> import easygui_qt as easy
-       >>> choices = ["CPython", "Pypy", "Jython", "IronPython"]
-       >>> reply = easy.get_choice("What is the best Python implementation",
-       ...                         choices=choices)
-
-       .. image:: ../docs/images/get_choice.png
-    """
-    if choices is None:
-        choices = ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5"]
-    flags = QtCore.Qt.WindowSystemMenuHint | QtCore.Qt.WindowTitleHint
-    choice, ok = QtGui.QInputDialog.getItem(None, title,
-            message, choices, 0, False, flags)
-    if ok:
-        if sys.version_info < (3,):
-            return unicode(choice)
-        return choice
-
-
-@with_app
 def get_list_of_choices(title="Title", choices=None, app=None):
     """Show a list of possible choices to be selected.
 
@@ -556,6 +593,7 @@ def get_list_of_choices(title="Title", choices=None, app=None):
         return [unicode(item) for item in dialog.selection]
     return dialog.selection
 
+#========== Files & directory dialogs
 
 @with_app
 def get_directory_name(title="Get directory", app=None):
@@ -644,6 +682,8 @@ def get_save_file_name(title="File name to save", app=None):
     file_name = QtGui.QFileDialog.getSaveFileName(None, title, os.getcwd(),
                                                "All Files (*.*)", options)
     return file_name
+
+#========= Font related
 
 @with_app
 def set_font_size(font_size, app=None):

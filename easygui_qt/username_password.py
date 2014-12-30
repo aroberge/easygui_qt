@@ -41,6 +41,8 @@ class UserNamePassword(QtGui.QDialog):
         confirm_button.clicked.connect(self.confirm)
         self.setLayout(layout)
         self.setWindowTitle(title)
+        self.show()
+        self.raise_()
 
     def confirm(self):
         """Callback from confirm_button"""

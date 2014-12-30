@@ -92,6 +92,9 @@ class Dialog(QtGui.QDialog):
         self._layout = layout
         self.setLayout(layout)
         self.setWindowTitle("EasyGUI_Qt Widget Launcher")
+        self.show()
+        self.raise_()
+        self.activateWindow()
 
     def get_string(self):
         output = launch('get_string')

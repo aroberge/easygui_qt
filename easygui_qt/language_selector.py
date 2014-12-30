@@ -54,6 +54,8 @@ class LanguageSelector(QtGui.QDialog):
         main_layout.addWidget(button_box)
         self.setLayout(main_layout)
         self.setWindowTitle(title)
+        self.show()
+        self.raise_()
 
     def check_box_toggled(self):
         """Callback when a checkbox is toggled"""
@@ -63,7 +65,7 @@ class LanguageSelector(QtGui.QDialog):
         """Callback from confirm_button used to set the locale"""
         if self.locale != self.parent.config['locale']:
             self.parent.set_locale(self.locale)
-        print(self.locale)
+        print(self.locale)  # feedback to launcher
         self.close()
 
 if __name__ == '__main__':

@@ -47,6 +47,7 @@ class MultipleChoicesDialog(QtGui.QDialog):
         main_layout.addWidget(button_box)
         self.setLayout(main_layout)
         self.show()
+        self.raise_()
 
     def selection_completed(self):
         """Selection completed, set the value and close"""

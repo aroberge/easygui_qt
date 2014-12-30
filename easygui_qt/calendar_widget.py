@@ -27,6 +27,7 @@ class CalendarWidget(QtGui.QWidget):
 
         self.setLayout(layout)
         self.show()
+        self.raise_()
 
     def show_date(self, date):
         self.date = self.cal.selectedDate()
