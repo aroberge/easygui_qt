@@ -22,12 +22,14 @@ try:
     from . import calendar_widget
     from . import multichoice
     from . import username_password
+    from . import change_password
 except:
     import utils
     import language_selector
     import calendar_widget
     import multichoice
     import username_password
+    import change_password
 
 __all__ = [
     'show_message',
@@ -39,6 +41,7 @@ __all__ = [
     'get_string',
     'get_password',
     'get_username_password',
+    'get_new_password',
     'get_yes_or_no',
     'get_continue_or_cancel',
     'get_color_hex',
@@ -573,6 +576,67 @@ def get_username_password(title="title", fields=None):
     unp.exec_()
     app.quit()
     return info.o_dict
+
+def get_new_password(title="title", fields=None, verification=None):
+    """Change password input box.
+
+       :param title: Window title
+       :param fields: an iterable containing the labels for "Old password"
+                      and "New password" and "Confirm new password". All
+                      three labels must be different strings as they are used
+                      as keys in a dict - however, they could differ only by
+                      a space.
+       :param verification: a custom method used to verify if the new password
+                            is acceptable. **This method must return ``None``**
+                            if the new password are to be accepted.
+                            An example of such a method is given below.
+
+
+       :return: An ordered dict containing the fields item as keys, and
+                the input from the user as values. If the verification is
+                not satisfied, then the values are set to blank strings.
+                Note that the verification method could, if desired,
+                alter the values that are sent back - they could be hashed
+                for instance.
+
+       >>> import easygui_qt as easy
+       >>> reply = easy.get_new_password()
+
+       .. image:: ../docs/images/get_new_password.png
+
+       Example of a verification function::
+
+        def verification(self):
+            '''Silly demo of a verification function.  It requires that the
+               original password be "password" and that the two new passwords
+               be identical.
+            '''
+            message = None
+            o_dict = self.parent.o_dict
+            if o_dict[self.keys[0]] != "password":
+                message = ("Original password does not match expected value "+
+                           "[Hint: it's 'password']")
+                self.show_message(message)
+            elif o_dict[self.keys[1]] != o_dict[self.keys[2]]:
+                message = "New password values must be identical."
+                self.show_message(message)
+            return message
+    """
+    class Parent:
+        o_dict = collections.OrderedDict()
+    parent = Parent()
+    if fields is None:
+        parent.o_dict["Old password:"] = ''
+        parent.o_dict["New password:"] = ''
+        parent.o_dict["Confirm new password:"] = ''
+    else:
+        for item in fields:
+            parent.o_dict[item] = ''
+    app = SimpleApp()
+    ch_pwd = change_password.ChangePassword(parent)
+    ch_pwd.exec_()
+    app.quit()
+    return parent.o_dict
 
 
 def get_list_of_choices(title="Title", choices=None):

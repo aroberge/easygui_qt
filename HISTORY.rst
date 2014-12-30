@@ -3,6 +3,7 @@
 History
 =======
 
+- added get_new_password
 - adressed an issue where some dialogs would appear below some windows
   (e.g. terminal) when launched from some platforms (e.g. Mac OSX):
   the goal should be that the dialogs always appear on top of other windows.
