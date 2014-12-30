@@ -43,7 +43,7 @@ class ChangePassword(QtGui.QDialog):
         layout.addWidget(self.new_password_field, 1, 1)
 
         self.new_password2_label = QtGui.QLabel()
-        self.new_password2_label.setText(self.keys[1])
+        self.new_password2_label.setText(self.keys[2])
         self.new_password2_field = QtGui.QLineEdit()
         self.new_password2_field.setEchoMode(QtGui.QLineEdit.Password)
         layout.addWidget(self.new_password2_label, 2, 0)
