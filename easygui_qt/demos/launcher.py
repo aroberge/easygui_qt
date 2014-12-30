@@ -61,7 +61,7 @@ class Dialog(QtGui.QDialog):
                 'select_language', 'set_font_size']
         for n, fxn in enumerate(fxns):
             self.button[fxn] = QtGui.QPushButton(fxn + "()")
-            self.button[fxn].clicked.connect(eval('self.' + fxn))
+            self.button[fxn].clicked.connect(getattr(self, fxn))
             self.button[fxn].setToolTip(getattr(easygui_qt, fxn).__doc__)
 #            if fxn == 'get_int':
 #                self.button[fxn].setToolTip(fxn + '  OR  get_integer')
