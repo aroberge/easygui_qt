@@ -54,23 +54,6 @@ __all__ = [
 
 QM_FILES = None
 
-def with_app(func):
-    """Intended to be used as a decorator to ensure that a single app
-       is running before the function is called, and stopped afterwords
-    """
-
-    def _decorator(*args, **kwargs):
-        """A single decorator would be enough to start an app before the
-           function is called. By using an inner decorator, we can quit
-           the app after the function is done.
-        """
-        app = SimpleApp()
-        kwargs['app'] = app
-        response = func(*args, **kwargs)
-        app.quit()
-        return response
-
-    return functools.wraps(func)(_decorator)
 
 class SimpleApp(QtGui.QApplication):
     """A simple extention of the basic QApplication
@@ -98,7 +81,6 @@ class SimpleApp(QtGui.QApplication):
 
         self.save_config()
 
-
     def save_config(self):
         config = configparser.RawConfigParser()
         config.add_section('Configuration')
@@ -106,7 +88,6 @@ class SimpleApp(QtGui.QApplication):
         config.set('Configuration', 'font-size', self.config['font-size'])
         with open(self.config_path, 'w') as configfile:
             config.write(configfile)
-
 
     def load_config(self):
         # Todo: make more robust
@@ -164,7 +145,6 @@ class SimpleApp(QtGui.QApplication):
 
 #========== Message Boxes ====================#
 
-@with_app
 def show_message(message="Message", title="Title", app=None):
     """Simple message box.
 
@@ -176,13 +156,15 @@ def show_message(message="Message", title="Title", app=None):
 
        .. image:: ../docs/images/show_message.png
     """
+    app = SimpleApp()
     box = QtGui.QMessageBox(None)
     box.setWindowTitle(title)
     box.setText(message)
     box.show()
     box.exec_()
+    app.quit()
 
-@with_app
+
 def get_yes_or_no(question="Answer this question", title="Title", app=None):
     """Simple yes or no question.
 
@@ -197,18 +179,20 @@ def get_yes_or_no(question="Answer this question", title="Title", app=None):
 
        .. image:: ../docs/images/yes_no_question.png
     """
+    app = SimpleApp()
     flags = QtGui.QMessageBox.Yes | QtGui.QMessageBox.No
     flags |= QtGui.QMessageBox.Cancel
 
     box = QtGui.QMessageBox()
 
     reply = box.question(None, title, question, flags)
+    app.quit()
     if reply == QtGui.QMessageBox.Yes:
         return True
     elif reply == QtGui.QMessageBox.No:
         return False
 
-@with_app
+
 def get_continue_or_cancel(question="Processed will be cancelled!", title="Title",
                            app=None):
     """Continue or cancel question, shown as a warning (i.e. more urgent than
@@ -225,20 +209,21 @@ def get_continue_or_cancel(question="Processed will be cancelled!", title="Title
 
        .. image:: ../docs/images/get_continue_or_cancel.png
     """
-
+    app = SimpleApp()
     message_box = QtGui.QMessageBox(QtGui.QMessageBox.Warning, title, question,
                                     QtGui.QMessageBox.NoButton)
     message_box.addButton("No, please continue", QtGui.QMessageBox.AcceptRole)
     message_box.addButton("Cancel", QtGui.QMessageBox.RejectRole)
 
     if message_box.exec_() == QtGui.QMessageBox.AcceptRole:
+        app.quit()
         return "continue"
     else:
+        app.quit()
         return "cancel"
 
 #============= Color dialogs =================
 
-@with_app
 def get_color_hex(app=None):
     """Using a color dialog, returns a color in hexadecimal notation
        i.e. a string '#RRGGBB' or "None" if color dialog is dismissed.
@@ -248,11 +233,12 @@ def get_color_hex(app=None):
 
        .. image:: ../docs/images/select_color.png
        """
+    app = SimpleApp()
     color = QtGui.QColorDialog.getColor(QtCore.Qt.white, None)
+    app.quit()
     if color.isValid():
         return color.name()
 
-@with_app
 def get_color_rgb(app=None):
     """Using a color dialog, returns a color in rgb notation
        i.e. a tuple (r, g, b)  or "None" if color dialog is dismissed.
@@ -263,13 +249,14 @@ def get_color_rgb(app=None):
 
        .. image:: ../docs/images/select_color_fr.png
        """
+    app = SimpleApp()
     color = QtGui.QColorDialog.getColor(QtCore.Qt.white, None)
+    app.quit()
     if color.isValid():
         return (color.red(), color.green(), color.blue())
 
 #================ Date ===================
 
-@with_app
 def get_date(title="Select Date", app=None):
     """Calendar widget
 
@@ -281,7 +268,7 @@ def get_date(title="Select Date", app=None):
 
        .. image:: ../docs/images/get_date.png
     """
-
+    app = SimpleApp()
     cal = calendar_widget.CalendarWidget(title=title)
     app.exec_()
     date = cal.date.toString()
@@ -291,7 +278,6 @@ def get_date(title="Select Date", app=None):
 
 #================ language/locale related
 
-@with_app
 def select_language(title="Select language", name="Language codes",
                     instruction=None, app=None):
     """Dialog to choose language based on some locale code for
@@ -314,15 +300,16 @@ def select_language(title="Select language", name="Language codes",
 
        .. image:: ../docs/images/select_language.png
     """
+    app = SimpleApp()
     if instruction is None:
         instruction = ('Current language code is "{}".'.format(
                                                         app.config['locale']))
     selector = language_selector.LanguageSelector(app, title=title, name=name,
                                  instruction=instruction)
     selector.exec_()
+    app.quit()
 
 
-@with_app
 def set_language(locale, app=None):
     """Sets the locale, if available
 
@@ -340,7 +327,9 @@ def set_language(locale, app=None):
        .. image:: ../docs/images/after_set_locale.png
 
     """
+    app = SimpleApp()
     app.set_locale(locale)
+    app.quit()
     return locale
 
 
@@ -362,7 +351,6 @@ class VisibleInputDialog(QtGui.QInputDialog):
         self.raise_()
 
 
-@with_app
 def get_int(message="Choose a number", title="Title",
                   default_value=1, min_=0, max_=100, step=1, app=None):
     """Simple dialog to ask a user to select an integer within a certain range.
@@ -404,17 +392,18 @@ def get_int(message="Choose a number", title="Title",
     min_ = int(min_)
     max_ = int(max_)
 
+    app = SimpleApp()
     dialog = VisibleInputDialog()
     flags = get_common_input_flags()
     number, ok = dialog.getInteger(None, title, message,
                                    default_value, min_, max_, step,
                                    flags)
+    app.quit()
     if ok:
         return number
 get_integer = get_int
 
 
-@with_app
 def get_float(message="Choose a number", title="Title", default_value=0.0,
                                 min_=-10000, max_=10000, decimals=3, app=None):
     """Simple dialog to ask a user to select a floating point number
@@ -446,15 +435,17 @@ def get_float(message="Choose a number", title="Title", default_value=0.0,
        will still be the same, and the number passed to Python will be
        using the familar notation.
     """
+    app = SimpleApp()
     dialog = VisibleInputDialog()
     flags = get_common_input_flags()
     number, ok = dialog.getDouble(None, title, message,
                                   default_value, min_, max_, decimals,
                                   flags)
+    app.quit()
     if ok:
         return number
 
-@with_app
+
 def get_string(message="Enter your response", title="Title",
                default_response="", app=None):
     """Simple text input box.  Used to query the user and get a string back.
@@ -475,16 +466,18 @@ def get_string(message="Enter your response", title="Title",
 
        .. image:: ../docs/images/get_string2.png
     """
+    app = SimpleApp()
     dialog = VisibleInputDialog()
     flags = get_common_input_flags()
     text, ok = dialog.getText(None, title, message, QtGui.QLineEdit.Normal,
                               default_response, flags)
+    app.quit()
     if ok:
         if sys.version_info < (3,):
             return unicode(text)
         return text
 
-@with_app
+
 def get_password(message="Enter your password", title="Title", app=None):
     """Simple password input box.  Used to query the user and get a string back.
 
@@ -500,16 +493,18 @@ def get_password(message="Enter your password", title="Title", app=None):
 
        .. image:: ../docs/images/get_password.png
     """
+    app = SimpleApp()
     dialog = VisibleInputDialog()
     flags = get_common_input_flags()
     text, ok = dialog.getText(None, title, message, QtGui.QLineEdit.Password,
                               '', flags)
+    app.quit()
     if ok:
         if sys.version_info < (3,):
             return unicode(text)
         return text
 
-@with_app
+
 def get_choice(message="Select one item", title="Title", choices=None,
                app=None):
     """Simple dialog to ask a user to select an item within a drop-down list
@@ -531,15 +526,17 @@ def get_choice(message="Select one item", title="Title", choices=None,
     """
     if choices is None:
         choices = ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5"]
+    app = SimpleApp()
     dialog = VisibleInputDialog()
     flags = get_common_input_flags()
     choice, ok = dialog.getItem(None, title, message, choices, 0, False, flags)
+    app.quit()
     if ok:
         if sys.version_info < (3,):
             return unicode(choice)
         return choice
 
-@with_app
+
 def get_username_password(title="title", fields=None, app=None):
     """User name and password input box.
 
@@ -567,12 +564,14 @@ def get_username_password(title="title", fields=None, app=None):
     else:
         for item in fields:
             info.o_dict[item] = ''
+    app = SimpleApp()
     unp = username_password.UserNamePassword(info)
     unp.exec_()
+    app.quit()
     return info.o_dict
 
 
-@with_app
+
 def get_list_of_choices(title="Title", choices=None, app=None):
     """Show a list of possible choices to be selected.
 
@@ -587,15 +586,17 @@ def get_list_of_choices(title="Title", choices=None, app=None):
 
        .. image:: ../docs/images/get_list_of_choices.png
     """
+    app = SimpleApp()
     dialog = multichoice.MultipleChoicesDialog(title=title, choices=choices)
     dialog.exec_()
+    app.quit()
     if sys.version_info < (3,):
         return [unicode(item) for item in dialog.selection]
     return dialog.selection
 
 #========== Files & directory dialogs
 
-@with_app
+
 def get_directory_name(title="Get directory", app=None):
     '''Gets the name (full path) of an existing directory
 
@@ -610,6 +611,7 @@ def get_directory_name(title="Get directory", app=None):
        By default, this dialog initially displays the content of the current
        working directory.
     '''
+    app = SimpleApp()
     options = QtGui.QFileDialog.Options()
     # Without the following option (i.e. using native dialogs),
     # calling this function twice in a row made Python crash.
@@ -618,12 +620,12 @@ def get_directory_name(title="Get directory", app=None):
     options |= QtGui.QFileDialog.ShowDirsOnly
     directory = QtGui.QFileDialog.getExistingDirectory(None,
                                             title, os.getcwd(), options)
+    app.quit()
     if sys.version_info < (3,):
         return unicode(directory)
     return directory
 
 
-@with_app
 def get_file_names(title="Get existing file names", app=None):
     '''Gets the names (full path) of existing files
 
@@ -639,7 +641,7 @@ def get_file_names(title="Get existing file names", app=None):
        By default, this dialog initially displays the content of the current
        working directory.
     '''
-
+    app = SimpleApp()
     if sys.version_info < (3,):
         files = QtGui.QFileDialog.getOpenFileNames(None, title, os.getcwd(),
                                                "All Files (*.*)")
@@ -649,10 +651,10 @@ def get_file_names(title="Get existing file names", app=None):
         options |= QtGui.QFileDialog.DontUseNativeDialog
         files = QtGui.QFileDialog.getOpenFileNames(None, title, os.getcwd(),
                                                "All Files (*.*)", options)
+    app.quit()
     return files
 
 
-@with_app
 def get_save_file_name(title="File name to save", app=None):
     '''Gets the name (full path) of of a file to be saved.
 
@@ -671,21 +673,22 @@ def get_save_file_name(title="File name to save", app=None):
        By default, this dialog initially displays the content of the current
        working directory.
     '''
-
+    app = SimpleApp()
     if sys.version_info < (3,):
         file_name = QtGui.QFileDialog.getSaveFileName(None, title, os.getcwd(),
                                                "All Files (*.*)")
+        app.quit()
         return unicode(file_name)
 
     options = QtGui.QFileDialog.Options()
     options |= QtGui.QFileDialog.DontUseNativeDialog  # see get_directory_name
     file_name = QtGui.QFileDialog.getSaveFileName(None, title, os.getcwd(),
                                                "All Files (*.*)", options)
+    app.quit()
     return file_name
 
 #========= Font related
 
-@with_app
 def set_font_size(font_size, app=None):
     """Simple method to set font size.
 
@@ -700,7 +703,9 @@ def set_font_size(font_size, app=None):
 
     .. image:: ../docs/images/set_font_size.png
     """
+    app = SimpleApp()
     app.set_font_size(font_size)
+    app.quit()
     print(font_size)  # info for launcher
 
 if __name__ == '__main__':
