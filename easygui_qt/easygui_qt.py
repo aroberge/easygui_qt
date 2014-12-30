@@ -406,6 +406,7 @@ def get_int(message="Choose a number", title="Title",
     number, ok = dialog.getInteger(None, title, message,
                                    default_value, min_, max_, step,
                                    flags)
+    dialog.destroy()
     app.quit()
     if ok:
         return number
