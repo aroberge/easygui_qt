@@ -393,15 +393,15 @@ def get_float(message="Choose a number", title="Title", default_value=0.0,
 
        :param message: Message displayed to the user, inviting a response
        :param title: Window title
-       :param default_value: Default value for integer appearing in the text
+       :param default_value: Default value for value appearing in the text
                              box; set to the closest of ``min_`` or ``max_``
                              if outside of allowed range.
-       :param min_: Minimum integer value allowed
-       :param max_: Maximum integer value allowed
+       :param min_: Minimum value allowed
+       :param max_: Maximum value allowed
        :param decimals: Indicate the maximum decimal precision allowed
 
-       :return: an integer, or ``None`` if "cancel" is clicked or window
-                is closed.
+       :return: a floating-point number, or ``None`` if "cancel" is clicked
+                or window is closed.
 
        >>> import easygui_qt as easy
        >>> number = easy.get_float()
