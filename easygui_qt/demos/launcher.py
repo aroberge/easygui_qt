@@ -65,7 +65,8 @@ class Dialog(QtGui.QDialog):
                 'get_color_hex', 'get_color_rgb',
                 'get_date', 'get_directory_name',
                 'get_file_names', 'get_save_file_name',
-                'select_language', 'set_font_size']
+                'select_language', 'set_font_size',
+                'show_file']
         for n, fxn in enumerate(fxns):
             self.button[fxn] = QtGui.QPushButton(fxn + "()")
             self.button[fxn].clicked.connect(getattr(self, fxn))
@@ -188,6 +189,9 @@ class Dialog(QtGui.QDialog):
         output = launch('set_font_size', font_size)
         output = output.split()[0]
         self.label['set_font_size'].setText("{}".format(output))
+
+    def show_file(self):
+        launch('show_file')
 
 
 def main():

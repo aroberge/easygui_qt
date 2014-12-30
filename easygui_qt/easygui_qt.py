@@ -23,6 +23,7 @@ try:
     from . import multichoice
     from . import username_password
     from . import change_password
+    from . import show_text_window
 except:
     import utils
     import language_selector
@@ -30,9 +31,9 @@ except:
     import multichoice
     import username_password
     import change_password
+    import show_text_window
 
 __all__ = [
-    'show_message',
     'get_choice',
     'get_list_of_choices',
     'get_float',
@@ -53,6 +54,8 @@ __all__ = [
     'set_font_size',
     'select_language',
     'set_language',
+    'show_message',
+    'show_file',
 ]
 
 QM_FILES = None
@@ -775,6 +778,14 @@ def set_font_size(font_size):
     app.set_font_size(font_size)
     app.quit()
     print(font_size)  # info for launcher
+
+def show_file(title="title", file_name=None, html=False):
+    '''documentation to come'''
+    app = SimpleApp()
+    editor = show_text_window.TextWindow(title=title, file_name=file_name,
+                                         html=html)
+    editor.show()
+    app.exec_()
 
 if __name__ == '__main__':
     try:

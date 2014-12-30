@@ -10,7 +10,7 @@ from PyQt4 import QtCore, QtGui
 import keyword
 
 class TextWindow(QtGui.QMainWindow):
-    def __init__(self, file_name=None, title="Title", code=False):
+    def __init__(self, file_name=None, title="Title", html=False):
         super(TextWindow, self).__init__(None)
 
         self.setWindowTitle(title)
@@ -24,15 +24,15 @@ class TextWindow(QtGui.QMainWindow):
             file_name = __file__
         self.load(file_name)
 
-        if file_name.endswith('py') or file_name.endswith('pyw') or code=="py":
+        if file_name.endswith('py') or file_name.endswith('pyw'):
             self.set_editor_default()
             self.highlighter = Highlighter(self.editor.document())
             self.editor.setPlainText(self.text)
-        elif code:
+        elif html:
+            self.editor.setHtml(self.text)
+        else:
             self.set_editor_default()
             self.editor.setPlainText(self.text)
-        else:
-            self.editor.setHtml(self.text)
 
     def set_editor_default(self):
         font = QtGui.QFont()
@@ -100,12 +100,12 @@ if __name__ == '__main__':
     import sys
     app = QtGui.QApplication([])
 
-    editor1 = TextWindow("../README.rst", title="README.rst (current version)",
-                         code=True)
+    editor1 = TextWindow("../README.rst", title="README.rst (current version)")
     editor1.move(10, 10)
     editor1.show()
 
-    editor2 = TextWindow("readme.html", title="readme.html (old version)")
+    editor2 = TextWindow("readme.html", title="readme.html (old version)",
+                         html=True)
     editor2.move(840, 10)
     editor2.show()
 
