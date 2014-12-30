@@ -44,138 +44,31 @@ class Dialog(QtGui.QDialog):
         layout = QtGui.QGridLayout()
         layout.setColumnStretch(1, 1)
         layout.setColumnMinimumWidth(1, 250)
-        n = 0
-        self.get_string_button = QtGui.QPushButton("get_string()")
-        self.get_string_button.clicked.connect(self.get_string)
-        self.get_string_label = QtGui.QLabel()
-        self.get_string_label.setFrameStyle(frameStyle)
-        layout.addWidget(self.get_string_button, n, 0)
-        layout.addWidget(self.get_string_label, n, 1)
-        n += 1
-        self.get_password_button = QtGui.QPushButton("get_password()")
-        self.get_password_button.clicked.connect(self.get_password)
-        self.get_password_label = QtGui.QLabel()
-        self.get_password_label.setFrameStyle(frameStyle)
-        layout.addWidget(self.get_password_button, n, 0)
-        layout.addWidget(self.get_password_label, n, 1)
-        n += 1
-        self.get_username_password_button = QtGui.QPushButton(
-                                                     "get_username_password()")
-        self.get_username_password_button.clicked.connect(
-                                                    self.get_username_password)
-        self.get_username_password_label = QtGui.QLabel()
-        self.get_username_password_label.setFrameStyle(frameStyle)
-        layout.addWidget(self.get_username_password_button, n, 0)
-        layout.addWidget(self.get_username_password_label, n, 1)
-        n += 1
-        self.get_int_button = QtGui.QPushButton("get_int() / get_integer()")
-        self.get_int_button.clicked.connect(self.get_int)
-        self.get_int_label = QtGui.QLabel()
-        self.get_int_label.setFrameStyle(frameStyle)
-        layout.addWidget(self.get_int_button, n, 0)
-        layout.addWidget(self.get_int_label, n, 1)
-        n += 1
-        self.get_float_button = QtGui.QPushButton("get_float()")
-        self.get_float_button.clicked.connect(self.get_float)
-        self.get_float_label = QtGui.QLabel()
-        self.get_float_label.setFrameStyle(frameStyle)
-        layout.addWidget(self.get_float_button, n, 0)
-        layout.addWidget(self.get_float_label, n, 1)
-        n += 1
-        self.get_choice_button = QtGui.QPushButton("get_choice()")
-        self.get_choice_button.clicked.connect(self.get_choice)
-        self.get_choice_label = QtGui.QLabel()
-        self.get_choice_label.setFrameStyle(frameStyle)
-        layout.addWidget(self.get_choice_button, n, 0)
-        layout.addWidget(self.get_choice_label, n, 1)
-        n += 1
-        self.get_list_of_choices_button = QtGui.QPushButton(
-                                                       "get_list_of_choices()")
-        self.get_list_of_choices_button.clicked.connect(
-                                                      self.get_list_of_choices)
-        self.get_list_of_choices_label = QtGui.QLabel()
-        self.get_list_of_choices_label.setFrameStyle(frameStyle)
-        layout.addWidget(self.get_list_of_choices_button, n, 0)
-        layout.addWidget(self.get_list_of_choices_label, n, 1)
-        n += 1
-        self.get_yes_or_no_button = QtGui.QPushButton("get_yes_or_no()")
-        self.get_yes_or_no_button.clicked.connect(self.get_yes_or_no)
-        self.get_yes_or_no_label = QtGui.QLabel()
-        self.get_yes_or_no_label.setFrameStyle(frameStyle)
-        layout.addWidget(self.get_yes_or_no_button, n, 0)
-        layout.addWidget(self.get_yes_or_no_label, n, 1)
-        n += 1
-        self.get_continue_or_cancel_button = QtGui.QPushButton(
-                                                    "get_continue_or_cancel()")
-        self.get_continue_or_cancel_button.clicked.connect(
-                                                   self.get_continue_or_cancel)
-        self.get_continue_or_cancel_label = QtGui.QLabel()
-        self.get_continue_or_cancel_label.setFrameStyle(frameStyle)
-        layout.addWidget(self.get_continue_or_cancel_button, n, 0)
-        layout.addWidget(self.get_continue_or_cancel_label, n, 1)
-        n += 1
-        self.get_color_hex_button = QtGui.QPushButton("get_color_hex()")
-        self.get_color_hex_button.clicked.connect(self.get_color_hex)
-        self.get_color_hex_label = QtGui.QLabel()
-        self.get_color_hex_label.setFrameStyle(frameStyle)
-        layout.addWidget(self.get_color_hex_button, n, 0)
-        layout.addWidget(self.get_color_hex_label, n, 1)
-        n += 1
-        self.get_color_rgb_button = QtGui.QPushButton("get_color_rgb()")
-        self.get_color_rgb_button.clicked.connect(self.get_color_rgb)
-        self.get_color_rgb_label = QtGui.QLabel()
-        self.get_color_rgb_label.setFrameStyle(frameStyle)
-        layout.addWidget(self.get_color_rgb_button, n, 0)
-        layout.addWidget(self.get_color_rgb_label, n, 1)
-        n += 1
-        self.get_date_button = QtGui.QPushButton("get_date()")
-        self.get_date_button.clicked.connect(self.get_date)
-        self.get_date_label = QtGui.QLabel()
-        self.get_date_label.setFrameStyle(frameStyle)
-        layout.addWidget(self.get_date_button, n, 0)
-        layout.addWidget(self.get_date_label, n, 1)
-        n += 1
-        self.get_directory_button = QtGui.QPushButton("get_directory_name()")
-        self.get_directory_button.clicked.connect(self.get_directory_name)
-        self.get_directory_label = QtGui.QLabel()
-        self.get_directory_label.setFrameStyle(frameStyle)
-        layout.addWidget(self.get_directory_button, n, 0)
-        layout.addWidget(self.get_directory_label, n, 1)
-        n += 1
-        self.get_files_button = QtGui.QPushButton("get_file_names()")
-        self.get_files_button.clicked.connect(self.get_file_names)
-        self.get_files_label = QtGui.QLabel()
-        self.get_files_label.setFrameStyle(frameStyle)
-        layout.addWidget(self.get_files_button, n, 0)
-        layout.addWidget(self.get_files_label, n, 1)
-        n += 1
-        self.get_save_file_button = QtGui.QPushButton("get_save_file_name()")
-        self.get_save_file_button.clicked.connect(self.get_save_file_name)
-        self.get_save_file_label = QtGui.QLabel()
-        self.get_save_file_label.setFrameStyle(frameStyle)
-        layout.addWidget(self.get_save_file_button, n, 0)
-        layout.addWidget(self.get_save_file_label, n, 1)
-        n += 1
-        self.select_language_button = QtGui.QPushButton("select_language()")
-        self.select_language_button.clicked.connect(self.select_language)
-        self.select_language_label = QtGui.QLabel()
-        self.select_language_label.setFrameStyle(frameStyle)
-        layout.addWidget(self.select_language_button, n, 0)
-        layout.addWidget(self.select_language_label, n, 1)
-        n += 1
-        self.set_language_button = QtGui.QPushButton("set_language()")
-        self.set_language_button.clicked.connect(self.set_language)
-        self.set_language_label = QtGui.QLabel()
-        self.set_language_label.setFrameStyle(frameStyle)
-        layout.addWidget(self.set_language_button, n, 0)
-        layout.addWidget(self.set_language_label, n, 1)
-        n += 1
-        self.set_font_size_button = QtGui.QPushButton("set_font_size()")
-        self.set_font_size_button.clicked.connect(self.set_font_size)
-        self.set_font_size_label = QtGui.QLabel()
-        self.set_font_size_label.setFrameStyle(frameStyle)
-        layout.addWidget(self.set_font_size_button, n, 0)
-        layout.addWidget(self.set_font_size_label, n, 1)
+
+        # generate a bunch of function-demo buttons and output labels:
+        self.button = {}
+        self.label = {}
+        fxns = ['get_string', 'get_password', 'get_username_password',
+                'get_int', 'get_float',
+                'get_choice', 'get_list_of_choices',
+                'get_yes_or_no', 'get_continue_or_cancel',
+                'get_color_hex', 'get_color_rgb',
+                'get_date', 'get_directory_name',
+                'get_file_names', 'get_save_file_name',
+                'select_language', 'set_font_size']
+        for n, fxn in enumerate(fxns):
+            self.button[fxn] = QtGui.QPushButton(fxn + "()")
+            self.button[fxn].clicked.connect(eval('self.' + fxn))
+            if fxn == 'get_int':
+                self.button[fxn].setToolTip(fxn + '  OR  get_integer')
+            else:
+                self.button[fxn].setToolTip(fxn)
+            self.label[fxn] = QtGui.QLabel()
+            self.label[fxn].setFrameStyle(frameStyle)
+            layout.addWidget(self.button[fxn], n, 0)
+            layout.addWidget(self.label[fxn], n, 1)
+
+        # handle special-case display items separately:
         n += 1
         self.python_version_label = QtGui.QLabel()
         layout.addWidget(self.python_version_label, n, 0, 2, 2)
@@ -184,85 +77,93 @@ class Dialog(QtGui.QDialog):
         self.python_version_label.setText(
                                   "Python version: {}".format(output.decode()))
 
+        n += 2
+        self.cancel_btn = QtGui.QPushButton("Quit")
+        self.cancel_btn.clicked.connect(self.quit)
+        layout.addWidget(self.cancel_btn, n, 0)
+
         self._layout = layout
         self.setLayout(layout)
         self.setWindowTitle("EasyGUI_Qt Widget Launcher")
 
+    def quit(self):
+        # any clean-up to do first?
+        self.close()
 
     def get_string(self):
         output = launch('get_string')
         if sys.version_info < (3,):
             output = output.encode(encoding=locale.getdefaultlocale()[1])
-        self.get_string_label.setText("{}".format(output))
+        self.label['get_string'].setText("{}".format(output))
 
     def get_password(self):
         output = launch('get_password')
         if sys.version_info < (3,):
             output = output.encode(encoding=locale.getdefaultlocale()[1])
-        self.get_password_label.setText("{}".format(output))
+        self.label['get_password'].setText("{}".format(output))
 
     def get_username_password(self):
         output = launch('get_username_password')
         if sys.version_info < (3,):
             output = output.encode(encoding=locale.getdefaultlocale()[1])
-        self.get_password_label.setText("{}".format(output))
+        self.label['get_username_password'].setText("{}".format(output))
 
     def get_int(self):
         output = launch('get_int')
-        self.get_int_label.setText("{}".format(output))
+        self.label['get_int'].setText("{}".format(output))
 
     def get_float(self):
         output = launch('get_float')
-        self.get_float_label.setText("{}".format(output))
+        self.label['get_float'].setText("{}".format(output))
 
     def get_choice(self):
         output = launch('get_choice')
-        self.get_choice_label.setText("{}".format(output))
+        self.label['get_choice'].setText("{}".format(output))
 
     def get_list_of_choices(self):
         output = launch('get_list_of_choices')
-        self.get_list_of_choices_label.setText("{}".format(output))
+        self.label['get_list_of_choices'].setText("{}".format(output))
 
     def get_yes_or_no(self):
         output = launch('get_yes_or_no')
-        self.get_yes_or_no_label.setText("{}".format(output))
+        self.label['get_yes_or_no'].setText("{}".format(output))
 
     def get_continue_or_cancel(self):
         output = launch('get_continue_or_cancel')
-        self.get_continue_or_cancel_label.setText("{}".format(output))
+        self.label['get_continue_or_cancel'].setText("{}".format(output))
 
     def get_color_hex(self):
         color = launch('get_color_hex')
-        self.get_color_hex_label.setText(color)
+        self.label['get_color_hex'].setText(color)
 
     def get_color_rgb(self):
         color = launch('get_color_rgb')
-        self.get_color_rgb_label.setText(color)
+        self.label['get_color_rgb'].setText(color)
 
     def get_date(self):
         output = launch('get_date')
         if sys.version_info < (3,):
             output = output.encode(encoding=locale.getdefaultlocale()[1])
-        self.get_date_label.setText("{}".format(output))
+        self.label['get_date'].setText("{}".format(output))
 
     def get_directory_name(self):
         output = launch('get_directory_name')
-        self.get_directory_label.setText("{}".format(output))
+        self.label['get_directory_name'].setText("{}".format(output))
 
     def get_file_names(self):
         output = launch('get_file_names')
-        self.get_files_label.setText("{}".format(output))
-        self.get_files_label.setWordWrap(True)
+        self.label['get_file_names'].setText("{}".format(output))
+        self.label['get_file_names'].setWordWrap(True)
         self.adjustSize()
 
     def get_save_file_name(self):
         output = launch('get_save_file_name')
-        self.get_save_file_label.setText("{}".format(output))
+        self.label['get_save_file_name'].setText("{}".format(output))
 
     def select_language(self):
         output = launch('select_language')
         output = output.split()[0]
-        self.select_language_label.setText("{}".format(output))
+        self.label['select_language'].setText("{}".format(output))
 
     def set_language(self):
         _loc = launch('get_string', "Enter desired language code: 'fr', 'es', etc.")
@@ -274,7 +175,8 @@ class Dialog(QtGui.QDialog):
                            "12", "10", "20")
         output = launch('set_font_size', font_size)
         output = output.split()[0]
-        self.set_font_size_label.setText("{}".format(output))
+        self.label['set_font_size'].setText("{}".format(output))
+
 
 def main():
     _ = QtGui.QApplication([])
