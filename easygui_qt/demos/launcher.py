@@ -18,10 +18,8 @@ def launch(name, *args):
        The parameter "name" is the name of the function to be tested
        which is passed as an argument to the script.
     """
-    filename = '_launch_widget.py'
-    if __name__ != "__main__":
-        filename = os.path.join(os.path.dirname(__file__), filename)
 
+    filename = os.path.join(os.path.dirname(__file__), '_launch_widget.py')
     command = ['python', filename, name]
     if args:
         command.extend(args)
@@ -50,6 +48,15 @@ class Dialog(QtGui.QDialog):
 
         # generate a bunch of function-demo buttons and output labels:
         self.button = {}
+        self.setStyleSheet("""QToolTip {
+                           color: black;
+                           }
+                           QLabel{
+                           background-color: white;
+                           }
+                           QPushButton {
+                           font-weight: bold;
+                           }""")
         self.label = {}
         fxns = ['get_string', 'get_password', 'get_username_password',
                 'get_int', 'get_float',
@@ -63,10 +70,6 @@ class Dialog(QtGui.QDialog):
             self.button[fxn] = QtGui.QPushButton(fxn + "()")
             self.button[fxn].clicked.connect(getattr(self, fxn))
             self.button[fxn].setToolTip(getattr(easygui_qt, fxn).__doc__)
-#            if fxn == 'get_int':
-#                self.button[fxn].setToolTip(fxn + '  OR  get_integer')
-#            else:
-#                self.button[fxn].setToolTip(fxn)
             self.label[fxn] = QtGui.QLabel()
             self.label[fxn].setFrameStyle(frameStyle)
             layout.addWidget(self.button[fxn], n, 0)
@@ -83,16 +86,12 @@ class Dialog(QtGui.QDialog):
 
         n += 2
         self.cancel_btn = QtGui.QPushButton("Quit")
-        self.cancel_btn.clicked.connect(self.quit)
+        self.cancel_btn.clicked.connect(self.close)
         layout.addWidget(self.cancel_btn, n, 0)
 
         self._layout = layout
         self.setLayout(layout)
         self.setWindowTitle("EasyGUI_Qt Widget Launcher")
-
-    def quit(self):
-        # any clean-up to do first?
-        self.close()
 
     def get_string(self):
         output = launch('get_string')
