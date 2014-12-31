@@ -572,20 +572,13 @@ def get_username_password(title="title", fields=None):
 
        .. image:: ../docs/images/get_username_password.png
     """
-    class Info:
-        o_dict = collections.OrderedDict()
-    info = Info()
+
+
     if fields is None:
-        info.o_dict["User name"] = ''
-        info.o_dict["Password"] = ''
-    else:
-        for item in fields:
-            info.o_dict[item] = ''
-    app = SimpleApp()
-    unp = username_password.UserNamePassword(info)
-    unp.exec_()
-    app.quit()
-    return info.o_dict
+        fields = ["User name", "Password"]
+    masks = [False, True]
+    return get_many_strings(title=title, labels=fields, masks=masks)
+
 
 def get_new_password(title="title", fields=None, verification=None):
     """Change password input box.
