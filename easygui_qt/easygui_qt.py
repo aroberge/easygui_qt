@@ -780,7 +780,21 @@ def set_font_size(font_size):
     print(font_size)  # info for launcher
 
 def show_file(title="title", file_name=None, html=False):
-    '''documentation to come'''
+    '''Displays a file in a window.  While it looks as though the file
+       can be edited, the only changes that happened are in the window
+       and nothing can be saved.
+
+       :param title: the window title
+       :param file_name: the file name, relative to the calling program
+       :param html: if True, the file is formatted assuming it uses html
+                    syntax.  Otherwise, it formats it in a monospace font and,
+                    if the file name ends with "py" or "pyw", some code
+                    highlighting is done.
+
+        **Note**: a better hightlighter would be most welcome!
+
+        ..image:: ../docs/images/show_file.png
+    '''
     app = SimpleApp()
     editor = show_text_window.TextWindow(title=title, file_name=file_name,
                                          html=html)
