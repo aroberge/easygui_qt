@@ -22,7 +22,6 @@ try:
     from . import language_selector
     from . import calendar_widget
     from . import multichoice
-    from . import username_password
     from . import change_password
     from . import show_text_window
     from . import multifields
@@ -31,7 +30,6 @@ except:
     import language_selector
     import calendar_widget
     import multichoice
-    import username_password
     import change_password
     import show_text_window
     import multifields
@@ -572,8 +570,6 @@ def get_username_password(title="title", fields=None):
 
        .. image:: ../docs/images/get_username_password.png
     """
-
-
     if fields is None:
         fields = ["User name", "Password"]
     masks = [False, True]

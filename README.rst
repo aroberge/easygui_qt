@@ -84,7 +84,7 @@ Similar projects
 The following is an incomplete lists of a few cross-platform projects
 that share some similarity with EasyGUI_Qt, but use back-ends other than PyQt
 
-- `easygui <http://easygui.sourceforge.net/>`_: the original; tk back-end
+- `easygui <http://easygui.sourceforge.net/>`_: the original; tkinter back-end
 - `anygui <http://anygui.sourceforge.net/>`_: multiple back-ends; well known
   but no longer supported
 - `psidialogs <https://github.com/ponty/psidialogs>`_: multiple back-ends supported -

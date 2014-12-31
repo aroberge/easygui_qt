@@ -59,7 +59,7 @@ class Dialog(QtGui.QDialog):
                            }""")
         self.label = {}
         fxns = ['get_string', 'get_password', 'get_username_password',
-                'get_new_password', 'get_int', 'get_float',
+                'get_many_strings', 'get_new_password', 'get_int', 'get_float',
                 'get_choice', 'get_list_of_choices',
                 'get_yes_or_no', 'get_continue_or_cancel',
                 'get_color_hex', 'get_color_rgb',
@@ -122,6 +122,12 @@ class Dialog(QtGui.QDialog):
         if sys.version_info < (3,):
             output = output.encode(encoding=locale.getdefaultlocale()[1])
         self.label['get_username_password'].setText("{}".format(output))
+
+    def get_many_strings(self):
+        output = launch('get_many_strings')
+        if sys.version_info < (3,):
+            output = output.encode(encoding=locale.getdefaultlocale()[1])
+        self.label['get_many_strings'].setText("{}".format(output))
 
     def get_new_password(self):
         output = launch('get_new_password')
