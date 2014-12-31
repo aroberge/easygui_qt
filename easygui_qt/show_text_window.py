@@ -65,7 +65,7 @@ class TextWindow(QtGui.QMainWindow):
         self.text = codec.toUnicode(data)
 
     def handle_code(self, text):
-        '''handling of code passed as a string'''
+        '''Handling of code passed as a string'''
         self.set_editor_default()
         if text == "import this":  # surprise :-)
             zen = StringIO()

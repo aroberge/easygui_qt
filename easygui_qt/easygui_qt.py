@@ -794,7 +794,7 @@ def show_file(title="title", file_name=None, html=False):
 
         **Note**: a better hightlighter would be most welcome!
 
-        ..image:: ../docs/images/show_file.png
+       .. image:: ../docs/images/show_file.png
     '''
     app = SimpleApp()
     editor = show_text_window.TextWindow(title=title, file_name=file_name,
@@ -806,9 +806,9 @@ def show_code(title="title", code=None):
     '''Displays some text in a window, in a monospace file.
 
        :param title: the window title
-       :param code: the file name, relative to the calling program
+       :param code: a string to display in the window.
 
-        ..image:: ../docs/images/show_code.png
+       .. image:: ../docs/images/show_code.png
     '''
     app = SimpleApp()
     editor = show_text_window.TextWindow(title=title, code=code)
