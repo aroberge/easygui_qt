@@ -7,6 +7,7 @@ of different basic graphical user interface components
 import collections
 import os
 import sys
+import traceback
 
 if sys.version_info < (3,):
     import ConfigParser as configparser
@@ -51,6 +52,7 @@ __all__ = [
     'get_directory_name',
     'get_file_names',
     'get_save_file_name',
+    'handle_exception',
     'set_font_size',
     'select_language',
     'set_language',
@@ -815,6 +817,28 @@ def show_code(title="title", code=None):
     editor.resize(720, 450)
     editor.show()
     app.exec_()
+
+def handle_exception(title="Exception raised!"):
+    '''Displays a traceback in a window if an exception is raised.
+       If the user clicks on "abort", sys.exit() is called and the
+       program ends.  If the user clicks on "ignore", the program
+       resumes its execution.
+
+       :param title: the window title
+
+       .. image:: ../docs/images/handle_exception.png
+    '''
+    message = "\n".join(traceback.format_exception(sys.exc_info()[0],
+                        sys.exc_info()[1] , sys.exc_info()[2]))
+
+    app = SimpleApp()
+    reply = QtGui.QMessageBox.critical(None, title, message,
+            QtGui.QMessageBox.Abort | QtGui.QMessageBox.Ignore)
+    if reply == QtGui.QMessageBox.Abort:
+        sys.exit()
+    else:
+        pass
+    app.quit()
 
 if __name__ == '__main__':
     try:

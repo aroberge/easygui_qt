@@ -86,9 +86,17 @@ class Dialog(QtGui.QDialog):
                                   "Python version: {}".format(output.decode()))
 
         n += 2
+
         self.cancel_btn = QtGui.QPushButton("Quit")
         self.cancel_btn.clicked.connect(self.close)
         layout.addWidget(self.cancel_btn, n, 0)
+
+        self.handle_exception_label = QtGui.QLabel()
+        self.handle_exception_label.setToolTip(
+                                  easygui_qt.handle_exception.__doc__)
+        self.handle_exception_label.setText(" handle_exception() not shown" +
+                           "   [hover mouse for more info]")
+        layout.addWidget(self.handle_exception_label, n, 1)
 
         self._layout = layout
         self.setLayout(layout)

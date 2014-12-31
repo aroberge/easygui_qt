@@ -3,6 +3,7 @@
 History
 =======
 
+- added handle_exception
 - added show_code
 - added show_file
 - added get_new_password
