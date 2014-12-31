@@ -58,6 +58,7 @@ __all__ = [
     'select_language',
     'set_language',
     'show_message',
+    'show_abort',
     'show_file',
     'show_code'
 ]
@@ -552,11 +553,11 @@ def get_choice(message="Select one item", title="Title", choices=None):
         return choice
 
 
-def get_username_password(title="title", fields=None):
+def get_username_password(title="title", labels=None):
     """User name and password input box.
 
        :param title: Window title
-       :param fields: an iterable containing the labels for "user name"
+       :param labels: an iterable containing the labels for "user name"
                       and "password" - useful for languages other than English
 
 
@@ -570,17 +571,17 @@ def get_username_password(title="title", fields=None):
 
        .. image:: ../docs/images/get_username_password.png
     """
-    if fields is None:
-        fields = ["User name", "Password"]
+    if labels is None:
+        labels = ["User name", "Password"]
     masks = [False, True]
-    return get_many_strings(title=title, labels=fields, masks=masks)
+    return get_many_strings(title=title, labels=labels, masks=masks)
 
 
-def get_new_password(title="title", fields=None, verification=None):
+def get_new_password(title="title", labels=None, verification=None):
     """Change password input box.
 
        :param title: Window title
-       :param fields: an iterable containing the labels for "Old password"
+       :param labels: an iterable containing the labels for "Old password"
                       and "New password" and "Confirm new password". All
                       three labels must be different strings as they are used
                       as keys in a dict - however, they could differ only by
@@ -624,12 +625,12 @@ def get_new_password(title="title", fields=None, verification=None):
     class Parent:
         o_dict = collections.OrderedDict()
     parent = Parent()
-    if fields is None:
+    if labels is None:
         parent.o_dict["Old password:"] = ''
         parent.o_dict["New password:"] = ''
         parent.o_dict["Confirm new password:"] = ''
     else:
-        for item in fields:
+        for item in labels:
             parent.o_dict[item] = ''
     app = SimpleApp()
     ch_pwd = change_password.ChangePassword(parent)
@@ -856,6 +857,31 @@ def show_code(title="title", code=None):
     editor.show()
     app.exec_()
 
+def show_abort(title="Major problem encountered!",
+               message="Major problem - or at least we think there is one..."):
+    '''Displays a message about a problem.
+       If the user clicks on "abort", sys.exit() is called and the
+       program ends.  If the user clicks on "ignore", the program
+       resumes its execution.
+
+       :param title: the window title
+       :param message: the message to display
+
+       >>> import easygui_qt as easy
+       >>> easy.show_abort()
+
+       .. image:: ../docs/images/show_abort.png
+    '''
+
+    app = SimpleApp()
+    reply = QtGui.QMessageBox.critical(None, title, message,
+            QtGui.QMessageBox.Abort | QtGui.QMessageBox.Ignore)
+    if reply == QtGui.QMessageBox.Abort:
+        sys.exit()
+    else:
+        pass
+    app.quit()
+
 def handle_exception(title="Exception raised!"):
     '''Displays a traceback in a window if an exception is raised.
        If the user clicks on "abort", sys.exit() is called and the
@@ -872,14 +898,7 @@ def handle_exception(title="Exception raised!"):
     except AttributeError:
         return "No exception was raised"
 
-    app = SimpleApp()
-    reply = QtGui.QMessageBox.critical(None, title, message,
-            QtGui.QMessageBox.Abort | QtGui.QMessageBox.Ignore)
-    if reply == QtGui.QMessageBox.Abort:
-        sys.exit()
-    else:
-        pass
-    app.quit()
+    show_abort(title=title, message=message)
 
 if __name__ == '__main__':
     try:
