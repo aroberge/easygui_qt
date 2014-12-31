@@ -21,7 +21,7 @@ test_requirements = [
 
 setup(
     name='easygui_qt',
-    version='0.4.0',
+    version='0.9.0',
     description='"Inspired by EasyGUI, designed for PyQt"',
     long_description=readme + '\n\n' + history,
     author='André Roberge',
@@ -33,7 +33,7 @@ setup(
     package_dir={'easygui_qt':
                  'easygui_qt'},
     include_package_data=True,
-    install_requires=requirements,
+    install_requires='PyQt4',
     license="BSD",
     zip_safe=False,
     keywords='easygui_qt',

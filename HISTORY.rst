@@ -3,6 +3,21 @@
 History
 =======
 
+0.9.0
+-----
+
+Major change in version number as almost all the desired widgets for
+version 1.0 have been implemented.
+
+Release notes:
+~~~~~~~~~~~~~~
+
+Some unicode problems are likely present when using Python 2.7; the primary
+target is Python 3.3+ ... but we try to support earlier version as well.
+
+Some problems are present with Mac OSX and Python 2.7 (only?)
+
+
 - added show_abort
 - added get_many_strings
 - added handle_exception
