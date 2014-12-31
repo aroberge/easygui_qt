@@ -789,12 +789,17 @@ def show_file(title="title", file_name=None, html=False):
 
        :param title: the window title
        :param file_name: the file name, relative to the calling program
-       :param html: if True, the file is formatted assuming it uses html
-                    syntax.  Otherwise, it formats it in a monospace font and,
-                    if the file name ends with "py" or "pyw", some code
-                    highlighting is done.
+       :param html: indicates if the file is an html document.
 
-        **Note**: a better hightlighter would be most welcome!
+       When html is set to True, the file is formatted assuming
+       it uses html syntax.  Otherwise, it formats it in a
+       monospace font and, if the file name ends with
+       "py" or "pyw", some code highlighting is done.
+
+       **Note**: a better hightlighter would be most welcome!
+
+       >>> import easygui_qt as easy
+       >>> easy.show_file()
 
        .. image:: ../docs/images/show_file.png
     '''
@@ -809,6 +814,9 @@ def show_code(title="title", code=None):
 
        :param title: the window title
        :param code: a string to display in the window.
+
+       >>> import easygui_qt as easy
+       >>> easy.show_code()
 
        .. image:: ../docs/images/show_code.png
     '''
@@ -828,8 +836,11 @@ def handle_exception(title="Exception raised!"):
 
        .. image:: ../docs/images/handle_exception.png
     '''
-    message = "\n".join(traceback.format_exception(sys.exc_info()[0],
+    try:
+        message = "\n".join(traceback.format_exception(sys.exc_info()[0],
                         sys.exc_info()[1] , sys.exc_info()[2]))
+    except AttributeError:
+        return "No exception was raised"
 
     app = SimpleApp()
     reply = QtGui.QMessageBox.critical(None, title, message,
