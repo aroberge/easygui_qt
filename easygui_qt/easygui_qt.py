@@ -663,14 +663,15 @@ def get_many_strings(title="Title", labels=None, masks=None):
        The parameter ``masks`` if set must be an iterable of the same
        length as ``choices`` and contain either True or False as entries
        indicating if the entry of the text is masked or not.  For example,
-       one could ask for a username and password using get_multiple fields
+       one could ask for a username and password using get_many_strings
        as follows [note that get_username_password exists and automatically
-       takes care of specifying the masks]
+       takes care of specifying the masks and is a better choice for this
+       use case.]
 
        >>> import easygui_qt as easy
        >>> labels = ["User name", 'Password']
        >>> masks = [False, True]
-       >>> reply = easy.get_multiple_fields(labels=labels, masks=masks)
+       >>> reply = easy.get_many_strings(labels=labels, masks=masks)
        >>> reply
        OrderedDict([('User name', 'aroberge'), ('Password', 'not a good password')])
 
