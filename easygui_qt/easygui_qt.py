@@ -25,6 +25,7 @@ try:
     from . import username_password
     from . import change_password
     from . import show_text_window
+    from . import multifields
 except:
     import utils
     import language_selector
@@ -33,6 +34,7 @@ except:
     import username_password
     import change_password
     import show_text_window
+    import multifields
 
 __all__ = [
     'get_choice',
@@ -41,6 +43,7 @@ __all__ = [
     'get_int',
     'get_integer',
     'get_string',
+    'get_many_strings',
     'get_password',
     'get_username_password',
     'get_new_password',
@@ -645,6 +648,43 @@ def get_new_password(title="title", fields=None, verification=None):
     app.quit()
     return parent.o_dict
 
+
+def get_many_strings(title="Title", labels=None, masks=None):
+    """Multiple strings input
+
+       :param title: Window title
+       :param labels: an iterable containing the labels for to use for the entries
+       :param masks: optional parameter.
+
+
+       :return: An ordered dict containing the labels as keys, and
+                the input from the user (empty string by default) as value
+
+       The parameter ``masks`` if set must be an iterable of the same
+       length as ``choices`` and contain either True or False as entries
+       indicating if the entry of the text is masked or not.  For example,
+       one could ask for a username and password using get_multiple fields
+       as follows [note that get_username_password exists and automatically
+       takes care of specifying the masks]
+
+       >>> import easygui_qt as easy
+       >>> labels = ["User name", 'Password']
+       >>> masks = [False, True]
+       >>> reply = easy.get_multiple_fields(labels=labels, masks=masks)
+       >>> reply
+       OrderedDict([('User name', 'aroberge'), ('Password', 'not a good password')])
+
+       .. image:: ../docs/images/get_many_strings.png
+    """
+    class Parent:
+        pass
+    parent = Parent()
+    app = SimpleApp()
+    dialog = multifields.MultipleFieldsDialog(labels=labels, masks=masks,
+                                              parent=parent, title=title)
+    dialog.exec_()
+    app.quit()
+    return parent.o_dict
 
 def get_list_of_choices(title="Title", choices=None):
     """Show a list of possible choices to be selected.

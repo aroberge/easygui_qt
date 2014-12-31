@@ -3,6 +3,7 @@
 History
 =======
 
+- added get_many_strings
 - added handle_exception
 - added show_code
 - added show_file
