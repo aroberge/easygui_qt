@@ -573,6 +573,10 @@ def get_username_password(title="title", labels=None):
     """
     if labels is None:
         labels = ["User name", "Password"]
+    if len(labels) != 2:
+        _title = "Error found"
+        message = "labels should have 2 elements; {} were found".format(len(labels))
+        show_abort(title=_title, message=message)
     masks = [False, True]
     return get_many_strings(title=title, labels=labels, masks=masks)
 
