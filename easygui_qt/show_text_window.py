@@ -8,18 +8,30 @@ The syntax highlighter for Python code is really inadequate;  HELP!! :-)
 
 from PyQt4 import QtCore, QtGui
 import keyword
+import sys
+if sys.version_info < (3,):
+    from cStringIO import StringIO
+else:
+    from io import StringIO
 
 class TextWindow(QtGui.QMainWindow):
-    def __init__(self, file_name=None, title="Title", html=False):
+    def __init__(self, title="Title", file_name=None, html=False, code=None):
         super(TextWindow, self).__init__(None)
 
         self.setWindowTitle(title)
         self.resize(900, 600)
         self.editor = QtGui.QTextEdit(self)
-
-
         self.setCentralWidget(self.editor)
         self.editor.setFocus()
+
+        if file_name is None and code:
+            self.handle_code(code)
+        else:
+            self.handle_file(file_name, html)
+
+
+    def handle_file(self, file_name, html):
+        '''handling of file'''
         if file_name is None:
             file_name = __file__
         self.load(file_name)
@@ -51,6 +63,18 @@ class TextWindow(QtGui.QMainWindow):
         data = file_handle.readAll()
         codec = QtCore.QTextCodec.codecForHtml(data)
         self.text = codec.toUnicode(data)
+
+    def handle_code(self, text):
+        '''handling of code passed as a string'''
+        self.set_editor_default()
+        if text == "import this":  # surprise :-)
+            zen = StringIO()
+            old_stdout = sys.stdout
+            sys.stdout = zen
+            import this
+            sys.stdout = old_stdout
+            text = zen.getvalue()
+        self.editor.setPlainText(text)
 
 
 class Highlighter(QtGui.QSyntaxHighlighter):
@@ -97,7 +121,6 @@ class Highlighter(QtGui.QSyntaxHighlighter):
 
 
 if __name__ == '__main__':
-    import sys
     app = QtGui.QApplication([])
 
     editor1 = TextWindow("../README.rst", title="README.rst (current version)")

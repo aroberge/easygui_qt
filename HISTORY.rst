@@ -3,6 +3,8 @@
 History
 =======
 
+- added show_code
+- added show_file
 - added get_new_password
 - adressed an issue where some dialogs would appear below some windows
   (e.g. terminal) when launched from some platforms (e.g. Mac OSX):

@@ -66,7 +66,7 @@ class Dialog(QtGui.QDialog):
                 'get_date', 'get_directory_name',
                 'get_file_names', 'get_save_file_name',
                 'select_language', 'set_font_size',
-                'show_file']
+                'show_file', 'show_code']
         for n, fxn in enumerate(fxns):
             self.button[fxn] = QtGui.QPushButton(fxn + "()")
             self.button[fxn].clicked.connect(getattr(self, fxn))
@@ -193,6 +193,8 @@ class Dialog(QtGui.QDialog):
     def show_file(self):
         launch('show_file')
 
+    def show_code(self):
+        launch('show_code', 'Zen of Python', 'import this')
 
 def main():
     _ = QtGui.QApplication([])
