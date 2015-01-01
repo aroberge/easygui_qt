@@ -8,11 +8,14 @@ Here is a **brief** summary table of the corresponding function names
 for widgets with similar purpose being used in each project.
 This table is **not** complete, and is mainly provided to illustrate
 the different convention used when naming widgets.
+Please see the api for more details
 
 +-----------------------+-----------------------------+----------------------------------------------------------------------------------------------+
 |  EasyGUI              |  EasyGUI_Qt                 | Description                                                                                  |
 +=======================+=============================+==============================================================================================+
 |  enterbox             |  get_string                 | Gets a string from the user                                                                  |
++-----------------------+-----------------------------+----------------------------------------------------------------------------------------------+
+|  multenterbox         |  get_many_strings           | User enters multiple values                                                                  |
 +-----------------------+-----------------------------+----------------------------------------------------------------------------------------------+
 |  integerbox           |  get_int  *or*              | Gets an integer from the user                                                                |
 |                       |  get_integer                |                                                                                              |
@@ -29,13 +32,12 @@ the different convention used when naming widgets.
 +-----------------------+-----------------------------+----------------------------------------------------------------------------------------------+
 |  multichoicebox       |  get_list_of_choices        | User can select multiple choices from a list                                                 |
 +-----------------------+-----------------------------+----------------------------------------------------------------------------------------------+
-|  multenterbox         |                             | User enters multiple values                                                                  |
-+-----------------------+-----------------------------+----------------------------------------------------------------------------------------------+
 |  passwordbox          |  get_password               | Gets string from user, the text is masked as it is typed in                                  |
 +-----------------------+-----------------------------+----------------------------------------------------------------------------------------------+
-|  textbox              |                             | Displays text in proportional font, with word wrapping                                       |
+|  textbox              |                             | Displays text in proportional font, with word wrapping for EasyGUI /                         |
+|                       | show_file(fname [html=True])| Displays text from a file, either in monospace font *or* formatted if html document          |
 +-----------------------+-----------------------------+----------------------------------------------------------------------------------------------+
-|  codebox              |                             | Displays text in monospace font, with no word wrapping                                       |
+|  codebox              |  show_code                  | Displays text in monospace font, with no word wrapping                                       |
 +-----------------------+-----------------------------+----------------------------------------------------------------------------------------------+
 |  diropenbox           |  get_directory_name         | Returns the name of a directory                                                              |
 +-----------------------+-----------------------------+----------------------------------------------------------------------------------------------+
@@ -43,5 +45,5 @@ the different convention used when naming widgets.
 +-----------------------+-----------------------------+----------------------------------------------------------------------------------------------+
 |  filesavebox          |  get_save_file_name         | Returns the name of a file                                                                   |
 +-----------------------+-----------------------------+----------------------------------------------------------------------------------------------+
-|  exceptionbox         |                             | Displays a traceback                                                                         |
+|  exceptionbox         |  handle_exception           | Displays a traceback                                                                         |
 +-----------------------+-----------------------------+----------------------------------------------------------------------------------------------+
