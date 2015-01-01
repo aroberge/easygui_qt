@@ -108,7 +108,7 @@ class SimpleApp(QtGui.QApplication):
             self.config['font-size'] = config.getint('Configuration', 'font-size')
             self.set_font_size(self.config['font-size'], save=False)
         except:
-            print("Proble encountered in load_config.")
+            print("Problem encountered in load_config.")
             self.config = {'locale': 'default', 'font-size': 12}
             return
 

@@ -3,6 +3,15 @@
 History
 =======
 
+0.9.0a
+------
+
+- Simplified the way change_password was implemented by reusing one of
+  the new modules and fixed an unreported bug in the process
+- changed the formatting of this file so that it should not cause problems
+  with PyPI anymore.
+
+
 0.9.0
 -----
 
@@ -10,7 +19,7 @@ Major change in version number as almost all the desired widgets for
 version 1.0 have been implemented.
 
 Release notes:
-~~~~~~~~~~~~~~
+--------------
 
 Some unicode problems are likely present when using Python 2.7; the primary
 target is Python 3.3+ ... but we try to support earlier version as well.
