@@ -130,7 +130,7 @@ class Dialog(QtGui.QDialog):
         self.label['get_many_strings'].setText("{}".format(output))
 
     def get_new_password(self):
-        output = launch('get_new_password')
+        output = launch('get_new_password', '', '', 'demo')
         if sys.version_info < (3,):
             output = output.encode(encoding=locale.getdefaultlocale()[1])
         self.label['get_new_password'].setText("{}".format(output))

@@ -102,7 +102,8 @@ def custom_verification(self):
     o_dict = self.parent.o_dict
     for key in self.keys:
         if o_dict[key] != "Python":
-            message = "All three fields must be set to 'Python' in this demo"
+            message = "Sorry, all fields had to be set to 'Python'"
+            self.show_message(message)
             break
     return message
 

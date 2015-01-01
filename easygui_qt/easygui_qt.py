@@ -4,7 +4,6 @@ EasyGUI_Qt is inspired by EasyGUI and contains a number
 of different basic graphical user interface components
 """
 
-import collections
 import os
 import sys
 import traceback
@@ -22,7 +21,6 @@ try:
     from . import language_selector
     from . import calendar_widget
     from . import multichoice
-    from . import change_password
     from . import show_text_window
     from . import multifields
 except:
@@ -30,7 +28,6 @@ except:
     import language_selector
     import calendar_widget
     import multichoice
-    import change_password
     import show_text_window
     import multifields
 
@@ -594,6 +591,8 @@ def get_new_password(title="title", labels=None, verification=None):
                             is acceptable. **This method must return ``None``**
                             if the new password are to be accepted.
                             An example of such a method is given below.
+                            **This is a very complex function to use
+                            provided for advanced users.**
 
 
        :return: An ordered dict containing the fields item as keys, and
@@ -610,38 +609,44 @@ def get_new_password(title="title", labels=None, verification=None):
 
        Example of a verification function::
 
-        def verification(self):
+        def demo_verification(self, dummy=None):
             '''Silly demo of a verification function.  It requires that the
                original password be "password" and that the two new passwords
                be identical.
             '''
             message = None
+
             o_dict = self.parent.o_dict
-            if o_dict[self.keys[0]] != "password":
-                message = ("Original password does not match expected value "+
+            labels = self._labels_    # keys for the odict - must be first
+                                      # converted to strings using .text()
+
+            if o_dict[labels[0].text()] != "password":
+                message = ("Original password does not match expected value " +
                            "[Hint: it's 'password']")
-                self.show_message(message)
-            elif o_dict[self.keys[1]] != o_dict[self.keys[2]]:
+                self.show_warning(message)
+            elif o_dict[labels[1].text()] != o_dict[labels[2].text()]:
                 message = "New password values must be identical."
-                self.show_message(message)
+                self.show_warning(message)
             return message
     """
+
+    if not labels:  # empty list acceptable for test
+        labels = ["Old password:", "New password:", "Confirm new password:"]
+    if len(labels) != 3:
+        _title = "Error found"
+        message = "labels should have 3 elements; {} were found".format(len(labels))
+        show_abort(title=_title, message=message)
+    masks = [True, True, True]
     class Parent:
-        o_dict = collections.OrderedDict()
+        pass
     parent = Parent()
-    if labels is None:
-        parent.o_dict["Old password:"] = ''
-        parent.o_dict["New password:"] = ''
-        parent.o_dict["Confirm new password:"] = ''
-    else:
-        for item in labels:
-            parent.o_dict[item] = ''
     app = SimpleApp()
-    ch_pwd = change_password.ChangePassword(parent)
-    ch_pwd.exec_()
+    dialog = multifields.MultipleFieldsDialog(labels=labels, masks=masks,
+                                              parent=parent, title=title,
+                                              verification=verification)
+    dialog.exec_()
     app.quit()
     return parent.o_dict
-
 
 def get_many_strings(title="Title", labels=None, masks=None):
     """Multiple strings input
