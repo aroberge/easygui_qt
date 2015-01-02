@@ -20,15 +20,27 @@ class WizardCreator(QtGui.QWizard):
                 label = QtGui.QLabel(value)
                 label.setWordWrap(True)
                 layout.addWidget(label)
+            elif kind.lower() == "image":
+                label =  QtGui.QLabel()
+                pixmap =  QtGui.QPixmap(value)
+                label.setPixmap(pixmap)
+                layout.addWidget(label)
         new_page.setLayout(layout)
         self.addPage(new_page)
 
 if __name__ == '__main__':
     app = QtGui.QApplication([])
-    page1 = [("text", "This is a sample text"), ("text", "More text")]
-    page2 = [("text", "This is another sample text"),
+    page1 = [("text", "This is a sample text"),
+             ("image", "../ignore/images/python.jpg"),
+             ("text", "More text")]
+    page2 = [("text", "This is a sample text"),
+             ("image", "../images/contribute.png"),
+             ("text", "More text")]
+    page3 = [("text", "This is another sample text"),
              ("title", "This page has its own (sub) title")]
-    pages = [page1, page2]
+
+    pages = [page1, page2, page3]
     wizard = WizardCreator(title="Hello World", pages=pages)
     wizard.exec_()
     app.quit()
+
