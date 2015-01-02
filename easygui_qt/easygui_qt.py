@@ -7,6 +7,7 @@ of different basic graphical user interface components
 import os
 import sys
 import traceback
+import webbrowser
 
 if sys.version_info < (3,):
     import ConfigParser as configparser
@@ -30,6 +31,7 @@ except:
     import multichoice
     import show_text_window
     import multifields
+
 
 __all__ = [
     'get_choice',
@@ -57,7 +59,8 @@ __all__ = [
     'show_message',
     'show_abort',
     'show_file',
-    'show_code'
+    'show_code',
+    'find_help'
 ]
 
 QM_FILES = None
@@ -879,6 +882,13 @@ def handle_exception(title="Exception raised!"):
         return "No exception was raised"
 
     show_abort(title=title, message=message)
+
+def find_help():
+    '''Opens a web browser, pointing at the documention about EasyGUI_Qt
+       available on the web.
+    '''
+    webbrowser.open('http://easygui-qt.readthedocs.org/en/latest/api.html')
+
 
 if __name__ == '__main__':
     try:
