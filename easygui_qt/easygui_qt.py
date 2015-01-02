@@ -557,9 +557,11 @@ def get_username_password(title="title", labels=None):
        :param labels: an iterable containing the labels for "user name"
                       and "password" - useful for languages other than English
 
-
        :return: An ordered dict containing the fields item as keys, and
                 the input from the user (empty string by default) as value
+
+       Note: this function is a special case of ``get_many_strings`` where
+       the required masks are provided automatically..
 
        >>> import easygui_qt as easy
        >>> reply = easy.get_username_password()
@@ -578,7 +580,7 @@ def get_username_password(title="title", labels=None):
     return get_many_strings(title=title, labels=labels, masks=masks)
 
 
-def get_new_password(title="title", labels=None, verification=None):
+def get_new_password(title="title", labels=None):
     """Change password input box.
 
        :param title: Window title
@@ -587,47 +589,17 @@ def get_new_password(title="title", labels=None, verification=None):
                       three labels must be different strings as they are used
                       as keys in a dict - however, they could differ only by
                       a space.
-       :param verification: a custom method used to verify if the new password
-                            is acceptable. **This method must return ``None``**
-                            if the new password are to be accepted.
-                            An example of such a method is given below.
-                            **This is a very complex function to use
-                            provided for advanced users.**
-
 
        :return: An ordered dict containing the fields item as keys, and
-                the input from the user as values. If the verification is
-                not satisfied, then the values are set to blank strings.
-                Note that the verification method could, if desired,
-                alter the values that are sent back - they could be hashed
-                for instance.
+                the input from the user as values.
+
+       Note: this function is a special case of ``get_many_strings`` where
+       the required masks are provided automatically..
 
        >>> import easygui_qt as easy
        >>> reply = easy.get_new_password()
 
        .. image:: ../docs/images/get_new_password.png
-
-       Example of a verification function::
-
-        def demo_verification(self, dummy=None):
-            '''Silly demo of a verification function.  It requires that the
-               original password be "password" and that the two new passwords
-               be identical.
-            '''
-            message = None
-
-            o_dict = self.parent.o_dict
-            labels = self._labels_    # keys for the odict - must be first
-                                      # converted to strings using .text()
-
-            if o_dict[labels[0].text()] != "password":
-                message = ("Original password does not match expected value " +
-                           "[Hint: it's 'password']")
-                self.show_warning(message)
-            elif o_dict[labels[1].text()] != o_dict[labels[2].text()]:
-                message = "New password values must be identical."
-                self.show_warning(message)
-            return message
     """
 
     if not labels:  # empty list acceptable for test
@@ -642,8 +614,7 @@ def get_new_password(title="title", labels=None, verification=None):
     parent = Parent()
     app = SimpleApp()
     dialog = multifields.MultipleFieldsDialog(labels=labels, masks=masks,
-                                              parent=parent, title=title,
-                                              verification=verification)
+                                              parent=parent, title=title)
     dialog.exec_()
     app.quit()
     return parent.o_dict

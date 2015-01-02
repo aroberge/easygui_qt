@@ -21,10 +21,11 @@ Report bugs at https://github.com/aroberge/easygui_qt/issues.
 
 If you are reporting a bug, please include:
 
+* Have a look first at the existing issues (even the closed ones) - to avoid duplication.
 * Your operating system name and version.
 * Any details about your local setup that might be helpful in troubleshooting.
 * Detailed steps to reproduce the bug.
-* Have a look at the existing issues - to avoid duplication.
+* Screen captures can be useful.
 
 Fix Bugs
 ~~~~~~~~
@@ -41,10 +42,12 @@ You might want to have a look at
 https://github.com/aroberge/easygui_qt/issues/13
 
 Something that would be **really nice** is to have unittest working that
-make use of QTest.  I suspect that this may require rewriting of the way
-widgets are created, and very likely dropping the use of the ``with_app``
-decorator.  Have a look at the ``test_app.py`` to see an alternative
-sample implementation that does not use the decorator.
+make use of QTest.  I just have not been able to do this.  I started
+implementing unittests using pyautogui but it (like Sikuli which could
+be another alternative) requires the windows to be left on their own while
+the tests are "slowly" executed; furthermore, it had been found to be
+unreliable on OSX with Python 2.7 (no report about OSX + Python 3+) as
+the windows appear "under" other already present.
 
 Write Documentation
 ~~~~~~~~~~~~~~~~~~~
@@ -111,7 +114,7 @@ Pull Request Guidelines
 
 Before you submit a pull request, check that it meets these guidelines:
 
-1. The pull request should include tests ... well, when I get tests working
+1. The pull request should include tests ... well, if I get tests working
    properly.  If it is a new widget, you should add it to the launcher
    and possibly creating a specific demo.
 2. If the pull request adds functionality, the docs should be updated. Put
@@ -120,11 +123,4 @@ Before you submit a pull request, check that it meets these guidelines:
    Ideally, it should also be tested with Python 3.2 and Python 2.7 as it
    would be nice to support these older version.
 
-Tips
-----
 
-(Not true yet...  but that's the goal!)
-
-To run a subset of tests::
-
-    $ python -m unittest tests.test_easygui_qt
