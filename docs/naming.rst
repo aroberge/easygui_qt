@@ -11,7 +11,7 @@ In order to make its use more intuitive, EasyGUI_Qt uses a
 consistent naming convention.
 
 All instructions meant to display information to a user
-without getting a response back start with ``show()``.
+without getting a response back start with ``show``.
 The functions available are:
 
 * ``show()``
@@ -23,7 +23,7 @@ Note that a detailed description of all of these is given
 on the next page.
 
 When a response is expected from the user, the prefixed
-used is ``get_()``.  Thus we have, in alphabetical order:
+used is ``get_``.  Thus we have, in alphabetical order:
 
 * ``get_abort()``
 * ``get_button()``
@@ -55,7 +55,7 @@ to handle exceptions, appropriately called:
 
 Functions with no corresponding graphical component
 can be used to set some global parameters; they
-are prefixed by ``set_()``:
+are prefixed by ``set_``:
 
 * ``set_font_size()``
 * ``set_language()``
