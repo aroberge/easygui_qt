@@ -35,7 +35,7 @@ Please see the api for more details
 |  passwordbox          |  get_password               | Gets string from user, the text is masked as it is typed in                                  |
 +-----------------------+-----------------------------+----------------------------------------------------------------------------------------------+
 |  textbox              |                             | Displays text in proportional font, with word wrapping for EasyGUI /                         |
-|                       | show_file(fname [html=True])| Displays text from a file, either in monospace font *or* formatted if html document          |
+|                       | show_file                   | Displays text from a file, either in monospace font *or* formatted if html document          |
 +-----------------------+-----------------------------+----------------------------------------------------------------------------------------------+
 |  codebox              |  show_code                  | Displays text in monospace font, with no word wrapping                                       |
 +-----------------------+-----------------------------+----------------------------------------------------------------------------------------------+

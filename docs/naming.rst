@@ -1,6 +1,6 @@
-==================
-Naming conventions
-==================
+=================
+Naming convention
+=================
 
 In order to make its use more intuitive, EasyGUI_Qt uses a
 consistent naming convention.
