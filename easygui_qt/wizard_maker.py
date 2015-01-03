@@ -25,6 +25,16 @@ class WizardCreator(QtGui.QWizard):
                 pixmap =  QtGui.QPixmap(value)
                 label.setPixmap(pixmap)
                 layout.addWidget(label)
+            elif kind.lower() == "many images":
+                h_layout = QtGui.QHBoxLayout()
+                h_box = QtGui.QGroupBox('')
+                for image in value:
+                    label =  QtGui.QLabel()
+                    pixmap =  QtGui.QPixmap(image)
+                    label.setPixmap(pixmap)
+                    h_layout.addWidget(label)
+                h_box.setLayout(h_layout)
+                layout.addWidget(h_box)
         new_page.setLayout(layout)
         self.addPage(new_page)
 
@@ -38,8 +48,13 @@ if __name__ == '__main__':
              ("text", "More text")]
     page3 = [("text", "This is another sample text"),
              ("title", "This page has its own (sub) title")]
-
-    pages = [page1, page2, page3]
+    page4 = [("many images", ["../ignore/images/python.jpg",
+                               "../ignore/images/reeborg.png"])]
+    page5 = [("text", "This is a sample text"),
+             ("many images", ("../images/contribute.png",
+                              "../images/contribute.png")),
+             ("text", "More text")]
+    pages = [page1, page2, page3, page4, page5]
     wizard = WizardCreator(title="Hello World", pages=pages)
     wizard.exec_()
     app.quit()
