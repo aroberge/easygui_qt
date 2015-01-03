@@ -57,7 +57,7 @@ Unlike the original EasyGUI, which sometimes used cryptic names like
 ``msgbox`` or ``ynbox``, EasyGUI_Qt attempts to use descriptive names
 which follow PEP8 convention.  Thus, instead of ``msgbox``, it uses
 ``show_message``; instead of ``ynbox``, it has ``get_yes_or_no``.
-Most function names start with either ``get_`` or ``set_``.
+Most function names start with either ``get_``, ``show_`` or ``set_``.
 
 EasyGUI_QT is based on PyQt; it leverages the available dialogs that
 come with PyQt whenever possible.  This makes it possible to have

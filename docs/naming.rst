@@ -2,44 +2,51 @@
 Naming convention
 =================
 
+.. warning:: The naming convention is currently used as a guide helping
+             to finalize the API.  Not all widgets listed here are
+             implemented yet, or may be implemented using slightly
+             different names.
+
 In order to make its use more intuitive, EasyGUI_Qt uses a
 consistent naming convention.
 
 All instructions meant to display information to a user
-without getting a response back are prefixed with ``show_()``.
+without getting a response back start with ``show()``.
 The functions available are:
 
+* ``show()``
 * ``show_code()``
 * ``show_file()``
-* ``show_message()``
 * ``show_story()``
 
 Note that a detailed description of all of these is given
 on the next page.
 
 When a response is expected from the user, the prefixed
-used is ``get_()``.  Thus we have:
+used is ``get_()``.  Thus we have, in alphabetical order:
 
 * ``get_abort()``
+* ``get_button()``
 * ``get_choice()``
-* ``get_list_of_choices()``
-* ``get_float()``
-* ``get_int()``
-* ``get_integer()``
-* ``get_string()``
-* ``get_many_strings()``
-* ``get_password()``
-* ``get_username_password()``
-* ``get_new_password()``
-* ``get_yes_or_no()``
-* ``get_continue_or_cancel()``
 * ``get_color_hex()``
 * ``get_color_rgb()``
+* ``get_continue_or_cancel()``
 * ``get_date()``
 * ``get_directory_name()``
 * ``get_file_names()``
-* ``get_save_file_name()``
+* ``get_float()``
+* ``get_int()``
+* ``get_integer()``
 * ``get_language()``
+* ``get_list_of_choices()``
+* ``get_many_strings()``
+* ``get_new_password()``
+* ``get_password()``
+* ``get_save_file_name()``
+* ``get_string()``
+* ``get_username_password()``
+* ``get_yes_or_no()``
+
 
 One exception to the above is the special widget used
 to handle exceptions, appropriately called:
