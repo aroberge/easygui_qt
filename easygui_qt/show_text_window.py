@@ -1,7 +1,6 @@
 """A simple text window used to display either Python code with some
 simple syntax highlighting, or some other document which will be formatted as
-though it was an html file ... and one other possibility which you can
-see by looking at the code below.
+though it was an html file or a simple text file.
 
 The syntax highlighter for Python code is really inadequate;  HELP!! :-)
 """
@@ -14,8 +13,10 @@ if sys.version_info < (3,):
 else:
     from io import StringIO
 
+
 class TextWindow(QtGui.QMainWindow):
-    def __init__(self, title="Title", file_name=None, html=False, code=None):
+    def __init__(self, file_name=None, title="Title", file_type='text',
+                 code=None):
         super(TextWindow, self).__init__(None)
 
         self.setWindowTitle(title)
@@ -24,27 +25,39 @@ class TextWindow(QtGui.QMainWindow):
         self.setCentralWidget(self.editor)
         self.editor.setFocus()
 
-        if file_name is None and code:
-            self.handle_code(code)
-        else:
-            self.handle_file(file_name, html)
+        self.handle_file(file_name, file_type, code)
 
 
-    def handle_file(self, file_name, html):
+
+    def handle_file(self, file_name, file_type, code):
         '''handling of file'''
         if file_name is None:
-            file_name = __file__
-        self.load(file_name)
+            if code is None:
+                file_name = __file__ # use this very file as a default
+                file_type = "code"
+            else:
+                self.handle_code(code)
+                return
+        text = self.load(file_name)
 
-        if file_name.endswith('py') or file_name.endswith('pyw'):
+        if file_type == 'text':
+            self.editor.setPlainText(text)
+        elif file_type == 'code':
             self.set_editor_default()
-            self.highlighter = Highlighter(self.editor.document())
-            self.editor.setPlainText(self.text)
-        elif html:
-            self.editor.setHtml(self.text)
+            if file_name.endswith('py') or file_name.endswith('pyw'):
+                self.highlighter = Highlighter(self.editor.document())
+                self.editor.setPlainText(text)
+        elif file_type == 'html':
+            self.editor.setHtml(text)
         else:
-            self.set_editor_default()
-            self.editor.setPlainText(self.text)
+            title = "Problem found"
+            message = "Unknown file_type: {}".format(file_type)
+            reply = QtGui.QMessageBox.critical(None, title, message,
+            QtGui.QMessageBox.Abort | QtGui.QMessageBox.Ignore)
+            if reply == QtGui.QMessageBox.Abort:
+                sys.exit()
+            else:
+                pass
 
     def set_editor_default(self):
         font = QtGui.QFont()
@@ -62,7 +75,7 @@ class TextWindow(QtGui.QMainWindow):
         file_handle.open(QtCore.QFile.ReadOnly)
         data = file_handle.readAll()
         codec = QtCore.QTextCodec.codecForHtml(data)
-        self.text = codec.toUnicode(data)
+        return codec.toUnicode(data)
 
     def handle_code(self, text):
         '''Handling of code passed as a string'''
@@ -123,17 +136,24 @@ class Highlighter(QtGui.QSyntaxHighlighter):
 if __name__ == '__main__':
     app = QtGui.QApplication([])
 
-    editor1 = TextWindow("../README.rst", title="README.rst (current version)")
+    editor1 = TextWindow(file_name="../README.rst",
+                         title="README.rst (current version)",
+                         file_type = 'text')
     editor1.move(10, 10)
     editor1.show()
 
-    editor2 = TextWindow("readme.html", title="readme.html (old version)",
-                         html=True)
+    editor2 = TextWindow(file_name = "readme.html",
+                         title="readme.html (old version)",
+                         file_type="html")
     editor2.move(840, 10)
     editor2.show()
 
     editor3 = TextWindow(title="Demo of Python file")
     editor3.move(440, 410)
     editor3.show()
+
+    editor4 = TextWindow(file_name="../README.rst",
+                         title="README.rst (current version)",
+                         file_type = 'Dummy')
 
     sys.exit(app.exec_())

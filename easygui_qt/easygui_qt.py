@@ -796,21 +796,22 @@ def set_font_size(font_size):
     app.quit()
     print(font_size)  # info for launcher
 
-def show_file(title="title", file_name=None, html=False):
+def show_file(file_name=None, title="title", file_type="text"):
     '''Displays a file in a window.  While it looks as though the file
        can be edited, the only changes that happened are in the window
        and nothing can be saved.
 
        :param title: the window title
-       :param file_name: the file name, relative to the calling program
-       :param html: indicates if the file is an html document.
+       :param file_name: the file name, (path) relative to the calling program
+       :param file_type: possible values: ``html``, ``text``, ``code``.
 
-       When html is set to True, the file is formatted assuming
-       it uses html syntax.  Otherwise, it formats it in a
-       monospace font and, if the file name ends with
-       "py" or "pyw", some code highlighting is done.
+       By default, file_type is assumed to be ``text``; if set to ``code``,
+       the content is displayed with a monospace font and, if
+       the file name ends with "py" or "pyw", some code highlighting is done.
+       If the file_type is ``html``, it is processed assuming it follows
+       html syntax.
 
-       **Note**: a better hightlighter would be most welcome!
+       **Note**: a better Python code hightlighter would be most welcome!
 
        >>> import easygui_qt as easy
        >>> easy.show_file()
@@ -818,8 +819,9 @@ def show_file(title="title", file_name=None, html=False):
        .. image:: ../docs/images/show_file.png
     '''
     app = SimpleApp()
-    editor = show_text_window.TextWindow(title=title, file_name=file_name,
-                                         html=html)
+    editor = show_text_window.TextWindow(file_name=file_name,
+                                         title=title,
+                                         file_type="text")
     editor.show()
     app.exec_()
 
