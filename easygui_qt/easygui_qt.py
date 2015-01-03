@@ -54,10 +54,10 @@ __all__ = [
     'get_save_file_name',
     'handle_exception',
     'set_font_size',
-    'select_language',
+    'get_language',
     'set_language',
     'show_message',
-    'show_abort',
+    'get_abort',
     'show_file',
     'show_code',
     'find_help'
@@ -294,7 +294,7 @@ def get_date(title="Select Date"):
 
 #================ language/locale related
 
-def select_language(title="Select language", name="Language codes",
+def get_language(title="Select language", name="Language codes",
                     instruction=None):
     """Dialog to choose language based on some locale code for
        files found on default path.
@@ -312,9 +312,9 @@ def select_language(title="Select language", name="Language codes",
        reverts the choice to the original (English here).
 
        >>> import easygui_qt as easy
-       >>> easy.select_language()
+       >>> easy.get_language()
 
-       .. image:: ../docs/images/select_language.png
+       .. image:: ../docs/images/get_language.png
     """
     app = SimpleApp()
     if instruction is None:
@@ -578,7 +578,7 @@ def get_username_password(title="title", labels=None):
     if len(labels) != 2:
         _title = "Error found"
         message = "labels should have 2 elements; {} were found".format(len(labels))
-        show_abort(title=_title, message=message)
+        get_abort(title=_title, message=message)
     masks = [False, True]
     return get_many_strings(title=title, labels=labels, masks=masks)
 
@@ -610,7 +610,7 @@ def get_new_password(title="title", labels=None):
     if len(labels) != 3:
         _title = "Error found"
         message = "labels should have 3 elements; {} were found".format(len(labels))
-        show_abort(title=_title, message=message)
+        get_abort(title=_title, message=message)
     masks = [True, True, True]
     class Parent:
         pass
@@ -840,7 +840,7 @@ def show_code(title="title", code=None):
     editor.show()
     app.exec_()
 
-def show_abort(title="Major problem encountered!",
+def get_abort(title="Major problem encountered!",
                message="Major problem - or at least we think there is one..."):
     '''Displays a message about a problem.
        If the user clicks on "abort", sys.exit() is called and the
@@ -851,9 +851,9 @@ def show_abort(title="Major problem encountered!",
        :param message: the message to display
 
        >>> import easygui_qt as easy
-       >>> easy.show_abort()
+       >>> easy.get_abort()
 
-       .. image:: ../docs/images/show_abort.png
+       .. image:: ../docs/images/get_abort.png
     '''
 
     app = SimpleApp()
@@ -881,7 +881,7 @@ def handle_exception(title="Exception raised!"):
     except AttributeError:
         return "No exception was raised"
 
-    show_abort(title=title, message=message)
+    get_abort(title=title, message=message)
 
 def find_help():
     '''Opens a web browser, pointing at the documention about EasyGUI_Qt

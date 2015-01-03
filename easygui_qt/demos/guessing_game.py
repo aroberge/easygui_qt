@@ -23,7 +23,7 @@ def guessing_game():
         local PyQt default (likely English).</p>"""
 
     eg.show_message(message=message, title="For information")
-    eg.select_language()
+    eg.get_language()
 
     eg.show_message(message="Hello {}. Let's play a game".format(name),
                       title="Guessing game!")

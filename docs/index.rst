@@ -14,6 +14,7 @@ Contents:
    readme
    installation
    usage
+   naming
    api
    easygui_compare
    contributing

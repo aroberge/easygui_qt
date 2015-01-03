@@ -65,8 +65,8 @@ class Dialog(QtGui.QDialog):
                 'get_color_hex', 'get_color_rgb',
                 'get_date', 'get_directory_name',
                 'get_file_names', 'get_save_file_name',
-                'select_language', 'set_font_size',
-                'show_file', 'show_code', 'show_abort', 'find_help']
+                'get_language', 'set_font_size',
+                'show_file', 'show_code', 'get_abort', 'find_help']
         for n, fxn in enumerate(fxns):
             self.button[fxn] = QtGui.QPushButton(fxn + "()")
             self.button[fxn].clicked.connect(getattr(self, fxn))
@@ -187,10 +187,10 @@ class Dialog(QtGui.QDialog):
         output = launch('get_save_file_name')
         self.label['get_save_file_name'].setText("{}".format(output))
 
-    def select_language(self):
-        output = launch('select_language')
+    def get_language(self):
+        output = launch('get_language')
         output = output.split()[0]
-        self.label['select_language'].setText("{}".format(output))
+        self.label['get_language'].setText("{}".format(output))
 
     def set_language(self):
         _loc = launch('get_string', "Enter desired language code: 'fr', 'es', etc.")
@@ -210,8 +210,8 @@ class Dialog(QtGui.QDialog):
     def show_code(self):
         launch('show_code', 'Zen of Python', 'import this')
 
-    def show_abort(self):
-        launch('show_abort')
+    def get_abort(self):
+        launch('get_abort')
 
     def find_help(self):
         launch('find_help')
