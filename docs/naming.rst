@@ -66,3 +66,17 @@ function which will open the API page on the
 ReadTheDocs website:
 
 * ``find_help()``
+
+Specifying arguments
+====================
+
+Arguments are all keyword based arguments.  However, in order to enable
+simplified entry, they are generally listed in a consistent way.
+
+The first argument is ``message``: this is the text that appears in
+the window itself and is usually the most important information that
+is conveyed to the user.
+
+
+
+
