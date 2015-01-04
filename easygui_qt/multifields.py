@@ -60,7 +60,7 @@ class MultipleFieldsDialog(QtGui.QDialog):
         """Selection completed, set the value and close"""
         o_dict = self.parent.o_dict
         for index, item in enumerate(self._labels_):
-            o_dict[item.text()] = unicode(self.fields[index].text())
+            o_dict[unicode(item.text())] = unicode(self.fields[index].text())
         self.close()
 
 
