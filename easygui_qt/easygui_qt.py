@@ -3,7 +3,6 @@
 EasyGUI_Qt is inspired by EasyGUI and contains a number
 of different basic graphical user interface components
 """
-
 import os
 import sys
 import traceback
@@ -177,7 +176,7 @@ def show_message(message="Message", title="Title"):
     app.quit()
 
 
-def get_yes_or_no(question="Answer this question", title="Title"):
+def get_yes_or_no(message="Answer this question", title="Title"):
     """Simple yes or no question.
 
        :param question: Question (string) asked
@@ -199,7 +198,7 @@ def get_yes_or_no(question="Answer this question", title="Title"):
     box.show()
     box.raise_()
 
-    reply = box.question(None, title, question, flags)
+    reply = box.question(None, title, message, flags)
     app.quit()
     if reply == QtGui.QMessageBox.Yes:
         return True
@@ -207,7 +206,7 @@ def get_yes_or_no(question="Answer this question", title="Title"):
         return False
 
 
-def get_continue_or_cancel(question="Processed will be cancelled!",
+def get_continue_or_cancel(message="Processed will be cancelled!",
                            title="Title"):
     """Continue or cancel question, shown as a warning (i.e. more urgent than
        simple message)
@@ -224,7 +223,7 @@ def get_continue_or_cancel(question="Processed will be cancelled!",
        .. image:: ../docs/images/get_continue_or_cancel.png
     """
     app = SimpleApp()
-    message_box = QtGui.QMessageBox(QtGui.QMessageBox.Warning, title, question,
+    message_box = QtGui.QMessageBox(QtGui.QMessageBox.Warning, title, message,
                                     QtGui.QMessageBox.NoButton)
     message_box.addButton("No, please continue", QtGui.QMessageBox.AcceptRole)
     message_box.addButton("Cancel", QtGui.QMessageBox.RejectRole)
@@ -553,12 +552,13 @@ def get_choice(message="Select one item", title="Title", choices=None):
         return choice
 
 
-def get_username_password(title="title", labels=None):
+def get_username_password(title="Title", labels=None):
     """User name and password input box.
 
        :param title: Window title
        :param labels: an iterable containing the labels for "user name"
-                      and "password" - useful for languages other than English
+                      and "password"; if the value not specified, the
+                      default values will be used.
 
        :return: An ordered dict containing the fields item as keys, and
                 the input from the user (empty string by default) as value
@@ -583,7 +583,7 @@ def get_username_password(title="title", labels=None):
     return get_many_strings(title=title, labels=labels, masks=masks)
 
 
-def get_new_password(title="title", labels=None):
+def get_new_password(title="Title", labels=None):
     """Change password input box.
 
        :param title: Window title
@@ -796,7 +796,7 @@ def set_font_size(font_size):
     app.quit()
     print(font_size)  # info for launcher
 
-def show_file(file_name=None, title="title", file_type="text"):
+def show_file(file_name=None, title="Title", file_type="text"):
     '''Displays a file in a window.  While it looks as though the file
        can be edited, the only changes that happened are in the window
        and nothing can be saved.
@@ -825,7 +825,7 @@ def show_file(file_name=None, title="title", file_type="text"):
     editor.show()
     app.exec_()
 
-def show_code(title="title", code=None):
+def show_code(title="Title", code=None):
     '''Displays some text in a window, in a monospace file.
 
        :param title: the window title
@@ -842,8 +842,8 @@ def show_code(title="title", code=None):
     editor.show()
     app.exec_()
 
-def get_abort(title="Major problem encountered!",
-               message="Major problem - or at least we think there is one..."):
+def get_abort(message="Major problem - or at least we think there is one...",
+              title="Major problem encountered!"):
     '''Displays a message about a problem.
        If the user clicks on "abort", sys.exit() is called and the
        program ends.  If the user clicks on "ignore", the program
