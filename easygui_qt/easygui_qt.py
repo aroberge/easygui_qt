@@ -301,10 +301,10 @@ def get_language(title="Select language", name="Language codes",
        :param title: Window title
        :param name: Heading for valid values of locale appearing in checkboxes
        :param instruction: Like the name says; when set to None, a default
-                        string is used which includes the current language used.
+                       string is used which includes the current language used.
 
-       The first time an EasyGUI_Qt widget is created in a program, the
-       PyQt language files found in the standard location of the user's computer
+       The first time an EasyGUI_Qt widget is created in a program, the PyQt
+       language files found in the standard location of the user's computer
        are scanned and recorded; these provide some translations of standard
        GUI components (like name of buttons).  Note that "en" is not found
        as a locale (at least, not on the author's computer) but using "default"

@@ -33,7 +33,7 @@ setup(
     package_dir={'easygui_qt':
                  'easygui_qt'},
     include_package_data=True,
-    install_requires='PyQt4',
+    install_requires='',
     license="BSD",
     zip_safe=False,
     keywords='easygui_qt',

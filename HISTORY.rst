@@ -3,6 +3,19 @@
 History
 =======
 
+0.9.1
+-----
+
+- removed verification from get_new_password
+- added find_help
+- created "back end" for wizard creator - will become show_story()
+- documented and changed naming convention
+- renamed select_language() : get_language()
+- renamed show_message() : show()
+- fixed a unicode bug for Python 2
+- changed the way show_file works
+- removed required_install PyQt4 from setup.py
+
 0.9.0a
 ------
 
