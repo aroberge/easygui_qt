@@ -55,7 +55,7 @@ __all__ = [
     'set_font_size',
     'get_language',
     'set_language',
-    'show_message',
+    'show',
     'get_abort',
     'show_file',
     'show_code',
@@ -155,14 +155,14 @@ class SimpleApp(QtGui.QApplication):
 
 #========== Message Boxes ====================#
 
-def show_message(message="Message", title="Title"):
+def show(message="Message", title="Title"):
     """Simple message box.
 
        :param message: message string
        :param title: window title
 
        >>> import easygui_qt as easy
-       >>> easy.show_message()
+       >>> easy.show()
 
        .. image:: ../docs/images/show_message.png
     """
