@@ -29,30 +29,41 @@ def create_page(page):
     layout = QtGui.QVBoxLayout()
     for kind, value in page:
         if kind.lower() == "text":
-            label = QtGui.QLabel(value)
-            label.setWordWrap(True)
-            layout.addWidget(label)
+            add_text_to_layout(layout, value)
         elif kind.lower() == "image":
-            label =  QtGui.QLabel()
-            pixmap =  QtGui.QPixmap(value)
-            label.setPixmap(pixmap)
-            layout.addWidget(label)
-        elif kind.lower() == "image_list":
-            h_layout = QtGui.QHBoxLayout()
-            h_box = QtGui.QGroupBox('')
-            for image in value:
-                label =  QtGui.QLabel()
-                pixmap =  QtGui.QPixmap(image)
-                label.setPixmap(pixmap)
-                h_layout.addWidget(label)
-            h_box.setLayout(h_layout)
-            layout.addWidget(h_box)
+            add_image_to_layout(layout, value)
+        elif kind.lower() == "list of images":
+            add_list_of_images_to_layout(layout, value)
     new_page.setLayout(layout)
     return new_page
 
 
+def add_text_to_layout(layout, text):
+    '''adds some text, as a QLabel, to a layout'''
+    label = QtGui.QLabel(text)
+    label.setWordWrap(True)
+    layout.addWidget(label)
+
+def add_image_to_layout(layout, image_file_name):
+    '''adds an image, as a QLabel, to a layout'''
+    label =  QtGui.QLabel()
+    pixmap =  QtGui.QPixmap(image_file_name)
+    label.setPixmap(pixmap)
+    layout.addWidget(label)
+
+def add_list_of_images_to_layout(layout, images):
+    ''' adds a list of images shown in a horizontal layout to an
+        already existing layout'''
+    h_layout = QtGui.QHBoxLayout()
+    h_box = QtGui.QGroupBox('')
+    for image in images:
+        add_image_to_layout(h_layout, image)
+    h_box.setLayout(h_layout)
+    layout.addWidget(h_box)
+
+
 class MyPageDialog(QtGui.QDialog):
-    """docstring to be added """
+    """Creates a "complex" dialog based on a description as a "page"."""
     def __init__(self, title="title", page=None):
         super(MyPageDialog, self).__init__(None,
                          QtCore.Qt.WindowSystemMenuHint |
@@ -72,8 +83,13 @@ class MyPageDialog(QtGui.QDialog):
 if __name__ == '__main__':
     app = QtGui.QApplication([])
     page = [("text", "This is a sample text"),
-         ("image", "../ignore/images/python.jpg"),
-         ("text", "More text")]
+            ("image", "../ignore/images/python.jpg"),
+            ("text", "More text"),
+            ("list of images", ["../ignore/images/python.jpg",
+                                "../ignore/images/python.jpg",
+                                "../ignore/images/python.jpg"]
+                                )
+           ]
     dialog = MyPageDialog(title="Hello World", page=page)
     dialog.exec_()
     app.quit()
