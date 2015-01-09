@@ -34,6 +34,10 @@ def create_page(page):
             add_image_to_layout(layout, value)
         elif kind.lower() == "list of images":
             add_list_of_images_to_layout(layout, value)
+        elif kind.lower() == "list of images with captions":
+            add_list_of_images_with_captions_to_layout(layout, value)
+        else:
+            print("Unrecognized page item: {}".format(kind))
     new_page.setLayout(layout)
     return new_page
 
@@ -61,6 +65,21 @@ def add_list_of_images_to_layout(layout, images):
     h_box.setLayout(h_layout)
     layout.addWidget(h_box)
 
+def add_list_of_images_with_captions_to_layout(layout, images):
+    ''' adds a list of images shown in a horizontal layout with
+        caption underneath to an already existing layout'''
+    h_layout = QtGui.QHBoxLayout()
+    h_box = QtGui.QGroupBox('')
+    for image, caption in images:
+        widget = QtGui.QWidget()
+        v_layout = QtGui.QVBoxLayout()
+        add_image_to_layout(v_layout, image)
+        add_text_to_layout(v_layout, caption)
+        widget.setLayout(v_layout)
+        h_layout.addWidget(widget)
+    h_box.setLayout(h_layout)
+    layout.addWidget(h_box)
+
 
 class MyPageDialog(QtGui.QDialog):
     """Creates a "complex" dialog based on a description as a "page"."""
@@ -85,10 +104,14 @@ if __name__ == '__main__':
     page = [("text", "This is a sample text"),
             ("image", "../ignore/images/python.jpg"),
             ("text", "More text"),
+            ("list of images with captions",
+                 [("../ignore/images/python.jpg", "caption"),
+                  ("../ignore/images/python.jpg", "a much longer caption"),
+                  ("../ignore/images/python.jpg", "yet another long caption")
+                  ]),
             ("list of images", ["../ignore/images/python.jpg",
                                 "../ignore/images/python.jpg",
-                                "../ignore/images/python.jpg"]
-                                )
+                                "../ignore/images/python.jpg"])
            ]
     dialog = MyPageDialog(title="Hello World", page=page)
     dialog.exec_()
