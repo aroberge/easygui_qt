@@ -272,14 +272,11 @@ def get_color_rgb(app=None):
 
 #================ Date ===================
 
-def get_date(title="Select Date", numeric_format=False):
+def get_date(title="Select Date"):
     """Calendar widget
 
        :param title: window title
-       :param numeric_format: ``False`` by default; if ``True``, numeric
-                       format will be used e.g. ``"Fri Jan 9 2015"`` will
-                       become ``"09.01.2015"``.
-       :return: the selected date as a string
+       :return: the selected date as a ``datetime.date`` instance
 
        >>> import easygui_qt as easy
        >>> date = easy.get_date()
@@ -289,12 +286,7 @@ def get_date(title="Select Date", numeric_format=False):
     app = SimpleApp()
     cal = calendar_widget.CalendarWidget(title=title)
     app.exec_()
-    if numeric_format:
-        date = cal.date.toString("dd.MM.yyy")
-    else:
-        date = cal.date.toString()
-    if sys.version_info < (3,):
-        return unicode(date)
+    date = cal.date.toPyDate()
     return date
 
 #================ language/locale related
