@@ -3,6 +3,9 @@
 History
 =======
 
+- started creation of custom "page format" for more complex dialogs
+- added a numeric format option for get_date()
+
 0.9.1
 -----
 
