@@ -18,7 +18,7 @@ def find_qm_files():
                 all_files[locale] = root
     return all_files
 
-def create_page(page):
+def create_page(page, parent=None):
     """A page is a custom layout made by stacking vertically various
        widgets which can be themselves horizontal collections of widgets
 
@@ -36,6 +36,8 @@ def create_page(page):
             add_list_of_images_to_layout(layout, value)
         elif kind.lower() == "list of images with captions":
             add_list_of_images_with_captions_to_layout(layout, value)
+        elif kind.lower() == "button":
+            add_button(layout, value, parent)
         else:
             print("Unrecognized page item: {}".format(kind))
     new_page.setLayout(layout)
@@ -80,23 +82,35 @@ def add_list_of_images_with_captions_to_layout(layout, images):
     h_box.setLayout(h_layout)
     layout.addWidget(h_box)
 
+def add_button(layout, label, parent):
+    btn = parent.buttons[label] = QtGui.QPushButton(label)
+    btn.clicked.connect(parent.button_clicked)
+    width = btn.fontMetrics().boundingRect(label).width() + 15
+    btn.setMaximumWidth(width)
+    layout.addWidget(btn)
+
 
 class MyPageDialog(QtGui.QDialog):
     """Creates a "complex" dialog based on a description as a "page"."""
-    def __init__(self, title="title", page=None):
+    def __init__(self, title="title", page=None, response=None):
         super(MyPageDialog, self).__init__(None,
                          QtCore.Qt.WindowSystemMenuHint |
                          QtCore.Qt.WindowTitleHint)
         self.setWindowTitle(title)
         if page is None:
             raise AttributeError
+        self.response = response
 
+        self.buttons = {}
         layout = QtGui.QVBoxLayout()
-
-        widget = create_page(page)
+        widget = create_page(page, parent=self)
         layout.addWidget(widget)
         self.setLayout(layout)
 
+    def button_clicked(self):
+        sender = self.sender()
+        self.response.append(sender.text())
+        self.close()
 
 
 if __name__ == '__main__':
@@ -104,6 +118,8 @@ if __name__ == '__main__':
     page = [("text", "This is a sample text"),
             ("image", "../ignore/images/python.jpg"),
             ("text", "More text"),
+            ("button", "button 1"),
+            ("button", "button 2"),
             ("list of images with captions",
                  [("../ignore/images/python.jpg", "caption"),
                   ("../ignore/images/python.jpg", "a much longer caption"),
@@ -113,7 +129,9 @@ if __name__ == '__main__':
                                 "../ignore/images/python.jpg",
                                 "../ignore/images/python.jpg"])
            ]
-    dialog = MyPageDialog(title="Hello World", page=page)
+    response = []
+    dialog = MyPageDialog(title="Hello World", page=page, response=response)
     dialog.exec_()
     app.quit()
+    print(response)
 
