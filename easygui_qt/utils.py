@@ -38,6 +38,8 @@ def create_page(page, parent=None):
             add_list_of_images_with_captions_to_layout(layout, value)
         elif kind.lower() == "list of images with buttons":
             add_list_of_images_with_buttons_to_layout(layout, value, parent)
+        elif kind.lower() == "list of buttons":
+            add_list_of_buttons_to_layout(layout, value, parent)
         elif kind.lower() == "button":
             add_button(layout, value, parent)
         else:
@@ -99,8 +101,18 @@ def add_list_of_images_with_buttons_to_layout(layout, images, parent):
     h_box.setLayout(h_layout)
     layout.addWidget(h_box)
 
+def add_list_of_buttons_to_layout(layout, button_labels, parent):
+    ''' adds a list of buttons shown in a horizontal layout to an
+        already existing layout'''
+    h_layout = QtGui.QHBoxLayout()
+    h_box = QtGui.QGroupBox('')
+    for label in button_labels:
+        add_button(h_layout, label, parent)
+    h_box.setLayout(h_layout)
+    layout.addWidget(h_box)
+
 def add_button(layout, label, parent):
-    btn = parent.buttons[label] = QtGui.QPushButton(label)
+    btn = QtGui.QPushButton(label)
     btn.clicked.connect(parent.button_clicked)
     width = btn.fontMetrics().boundingRect(label).width() + 15
     btn.setMaximumWidth(width)
@@ -118,7 +130,6 @@ class MyPageDialog(QtGui.QDialog):
             raise AttributeError
         self.response = response
 
-        self.buttons = {}
         layout = QtGui.QVBoxLayout()
         widget = create_page(page, parent=self)
         layout.addWidget(widget)
@@ -135,11 +146,11 @@ if __name__ == '__main__':
     page = [("text", "This is a sample text"),
             ("image", "../ignore/images/python.jpg"),
             ("text", "More text"),
-            ("button", "button 1"),
+            ("button", "button"),
             ("button", "button 2"),
             ("list of images with captions",
                  [("../ignore/images/python.jpg", "caption"),
-                  ("../ignore/images/python.jpg", "a much longer caption"),
+                  ("../ignore/images/reeborg.png", "a much longer caption"),
                   ("../ignore/images/python.jpg", "yet another long caption")
                   ]),
             ("list of images with buttons",
@@ -149,7 +160,12 @@ if __name__ == '__main__':
                   ]),
             ("list of images", ["../ignore/images/python.jpg",
                                 "../ignore/images/python.jpg",
-                                "../ignore/images/python.jpg"])
+                                "../ignore/images/python.jpg"]),
+            ("list of buttons", ["button A",
+                                "buttton B",
+                                "button C",
+                                "button D",
+                                "button E"])
            ]
     response = []
     dialog = MyPageDialog(title="Hello World", page=page, response=response)
