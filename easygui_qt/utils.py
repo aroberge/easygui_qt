@@ -36,6 +36,8 @@ def create_page(page, parent=None):
             add_list_of_images_to_layout(layout, value)
         elif kind.lower() == "list of images with captions":
             add_list_of_images_with_captions_to_layout(layout, value)
+        elif kind.lower() == "list of images with buttons":
+            add_list_of_images_with_buttons_to_layout(layout, value, parent)
         elif kind.lower() == "button":
             add_button(layout, value, parent)
         else:
@@ -77,6 +79,21 @@ def add_list_of_images_with_captions_to_layout(layout, images):
         v_layout = QtGui.QVBoxLayout()
         add_image_to_layout(v_layout, image)
         add_text_to_layout(v_layout, caption)
+        widget.setLayout(v_layout)
+        h_layout.addWidget(widget)
+    h_box.setLayout(h_layout)
+    layout.addWidget(h_box)
+
+def add_list_of_images_with_buttons_to_layout(layout, images, parent):
+    ''' adds a list of images shown in a horizontal layout with
+        button underneath to an already existing layout'''
+    h_layout = QtGui.QHBoxLayout()
+    h_box = QtGui.QGroupBox('')
+    for image, label in images:
+        widget = QtGui.QWidget()
+        v_layout = QtGui.QVBoxLayout()
+        add_image_to_layout(v_layout, image)
+        add_button(v_layout, label, parent)
         widget.setLayout(v_layout)
         h_layout.addWidget(widget)
     h_box.setLayout(h_layout)
@@ -124,6 +141,11 @@ if __name__ == '__main__':
                  [("../ignore/images/python.jpg", "caption"),
                   ("../ignore/images/python.jpg", "a much longer caption"),
                   ("../ignore/images/python.jpg", "yet another long caption")
+                  ]),
+            ("list of images with buttons",
+                 [("../ignore/images/python.jpg", "button"),
+                  ("../ignore/images/python.jpg", "another button"),
+                  ("../ignore/images/python.jpg", "a button with longer label")
                   ]),
             ("list of images", ["../ignore/images/python.jpg",
                                 "../ignore/images/python.jpg",
