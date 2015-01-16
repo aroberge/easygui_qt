@@ -1,6 +1,9 @@
 import sys
 from collections import OrderedDict
-from PyQt4 import QtGui, QtCore
+try:
+    from PyQt4 import QtGui, QtCore
+except ImportError:
+    from PyQt5 import QtGui, QtCore  # untested
 
 if sys.version_info >= (3,):
     unicode = str

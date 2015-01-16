@@ -5,7 +5,11 @@ though it was an html file or a simple text file.
 The syntax highlighter for Python code is really inadequate;  HELP!! :-)
 """
 
-from PyQt4 import QtCore, QtGui
+try:
+    from PyQt4 import QtGui, QtCore
+except ImportError:
+    from PyQt5 import QtGui, QtCore  # untested
+
 import keyword
 import sys
 if sys.version_info < (3,):

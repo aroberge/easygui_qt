@@ -4,7 +4,7 @@ History
 =======
 
 - started creation of custom "page format" for more complex dialogs
-- added a numeric format option for get_date()
+- changed get_date() so that it returns a datetime date instance
 
 0.9.1
 -----

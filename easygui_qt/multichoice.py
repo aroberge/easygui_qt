@@ -1,7 +1,10 @@
 
 
 import sys
-from PyQt4 import QtGui, QtCore
+try:
+    from PyQt4 import QtGui, QtCore
+except ImportError:
+    from PyQt5 import QtGui, QtCore  # untested
 
 class MultipleChoicesDialog(QtGui.QDialog):
     """Dialog with the possibility of selecting one or more
