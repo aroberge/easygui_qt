@@ -41,10 +41,10 @@ class MultipleChoicesDialog(QtGui.QDialog):
         cancel_btn.clicked.connect(self.cancel)
 
         button_box = QtGui.QWidget()
-        button_box_layout.addWidget(select_all_btn, 0, 0)
-        button_box_layout.addWidget(clear_all_btn, 1, 0)
+        button_box_layout.addWidget(selection_completed_btn, 0, 0)
         button_box_layout.addWidget(cancel_btn, 0, 1)
-        button_box_layout.addWidget(selection_completed_btn, 1, 1)
+        button_box_layout.addWidget(select_all_btn, 1, 0)
+        button_box_layout.addWidget(clear_all_btn, 1, 1)
         button_box.setLayout(button_box_layout)
 
         main_layout.addWidget(button_box)
@@ -73,6 +73,14 @@ class MultipleChoicesDialog(QtGui.QDialog):
         """cancel and set the selection to an empty list"""
         self.selection = []
         self.close()
+
+    def keyPressEvent(self, e):
+        if e.key() == QtCore.Qt.Key_Escape:
+            self.cancel()
+        elif e.key() == QtCore.Qt.Key_Enter:
+            self.selection_completed()
+        else:
+            super(MultipleChoicesDialog, self).keyPressEvent(e)
 
 if __name__ == '__main__':
     app = QtGui.QApplication([])
