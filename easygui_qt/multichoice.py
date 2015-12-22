@@ -74,6 +74,14 @@ class MultipleChoicesDialog(QtGui.QDialog):
         self.selection = []
         self.close()
 
+    def keyPressEvent(self, e):
+        if e.key() == QtCore.Qt.Key_Escape:
+            self.cancel()
+        elif e.key() == QtCore.Qt.Key_Enter:
+            self.selection_completed()
+        else:
+            super(MultipleChoicesDialog, self).keyPressEvent(e)
+
 if __name__ == '__main__':
     app = QtGui.QApplication([])
     dialog = MultipleChoicesDialog()
