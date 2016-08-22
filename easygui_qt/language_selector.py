@@ -37,7 +37,7 @@ class LanguageSelector(QtGui.QDialog):
         # adding default language option. When using the PyQt distribution
         # no "en" files were found and yet "en" was the obvious default.
         # We need this option in case we want to revert a change.
-        check_box = QtGui.QCheckBox("default")
+        check_box = QtGui.QCheckBox("Default")
         check_box.setAutoExclusive(True)
         self.qm_files_choices[check_box] = "default"
         check_box.toggled.connect(self.check_box_toggled)

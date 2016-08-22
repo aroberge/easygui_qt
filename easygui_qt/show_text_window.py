@@ -19,8 +19,14 @@ else:
 
 
 class TextWindow(QtGui.QMainWindow):
-    def __init__(self, file_name=None, title="Title", file_type='text',
-                 code=None):
+    def __init__(self, file_name=None, title="Title", text_type='text',
+                 text='Default text'):
+        """Simple text window whose input comes from a file, if a file_name 
+           is specified, or from a supplied string.
+
+           text_type can be one of  4 values: 'text', 'code', 'html', 'python'.
+           If 'python' is specified, some basic syntax highlighting is added.
+        """
         super(TextWindow, self).__init__(None)
 
         self.setWindowTitle(title)
@@ -29,69 +35,55 @@ class TextWindow(QtGui.QMainWindow):
         self.setCentralWidget(self.editor)
         self.editor.setFocus()
 
-        self.handle_file(file_name, file_type, code)
+        if file_name is not None:
+            text = self.load(file_name)
 
+        if text_type == 'text' or text_type == 'html':
+            self.set_text_font()
+        elif text_type == 'code':
+            self.set_monospace_font()
+        elif text_type == 'python':
+            self.set_monospace_font()
+            self.highlighter = Highlighter(self.editor.document())
+        else:
+            self.set_text_font()
+            text = "Unknown text_type: {}".format(text_type)
 
-
-    def handle_file(self, file_name, file_type, code):
-        '''handling of file'''
-        if file_name is None:
-            if code is None:
-                file_name = __file__ # use this very file as a default
-                file_type = "code"
-            else:
-                self.handle_code(code)
-                return
-        text = self.load(file_name)
-
-        if file_type == 'text':
-            self.editor.setPlainText(text)
-        elif file_type == 'code':
-            self.set_editor_default()
-            if file_name.endswith('py') or file_name.endswith('pyw'):
-                self.highlighter = Highlighter(self.editor.document())
-                self.editor.setPlainText(text)
-        elif file_type == 'html':
+        if text_type == 'html':
             self.editor.setHtml(text)
         else:
-            title = "Problem found"
-            message = "Unknown file_type: {}".format(file_type)
-            reply = QtGui.QMessageBox.critical(None, title, message,
-            QtGui.QMessageBox.Abort | QtGui.QMessageBox.Ignore)
-            if reply == QtGui.QMessageBox.Abort:
-                sys.exit()
-            else:
-                pass
+            self.editor.setPlainText(text)
 
-    def set_editor_default(self):
+
+    def set_text_font(self):
+        font = QtGui.QFont()
+        font.setFamily('Arial')
+        font.setFixedPitch(False)
+        font.setPointSize(12)
+        self.editor.setFont(font)
+
+    def set_monospace_font(self):
         font = QtGui.QFont()
         font.setFamily('Courier')
         font.setFixedPitch(True)
         font.setPointSize(12)
         self.editor.setFont(font)
 
+
     def load(self, f):
         if not QtCore.QFile.exists(f):
-            self.text = "<h1>File could not be found</h1>"
-            return
+            self.text_type = 'text'
+            return "File %s could not be found." % f
 
-        file_handle = QtCore.QFile(f)
-        file_handle.open(QtCore.QFile.ReadOnly)
-        data = file_handle.readAll()
-        codec = QtCore.QTextCodec.codecForHtml(data)
-        return codec.toUnicode(data)
-
-    def handle_code(self, text):
-        '''Handling of code passed as a string'''
-        self.set_editor_default()
-        if text == "import this":  # surprise :-)
-            zen = StringIO()
-            old_stdout = sys.stdout
-            sys.stdout = zen
-            import this
-            sys.stdout = old_stdout
-            text = zen.getvalue()
-        self.editor.setPlainText(text)
+        try:
+            file_handle = QtCore.QFile(f)
+            file_handle.open(QtCore.QFile.ReadOnly)
+            data = file_handle.readAll()
+            codec = QtCore.QTextCodec.codecForHtml(data)
+            return codec.toUnicode(data)
+        except:
+            self.text_type = 'text'
+            return 'Problem reading file %s' % f
 
 
 class Highlighter(QtGui.QSyntaxHighlighter):
@@ -141,23 +133,24 @@ if __name__ == '__main__':
     app = QtGui.QApplication([])
 
     editor1 = TextWindow(file_name="../README.rst",
-                         title="README.rst (current version)",
-                         file_type = 'text')
+                         title="Demo of text file",
+                         text_type = 'text')
     editor1.move(10, 10)
     editor1.show()
 
     editor2 = TextWindow(file_name = "readme.html",
-                         title="readme.html (old version)",
-                         file_type="html")
+                         title="Demo of html file",
+                         text_type="html")
     editor2.move(840, 10)
     editor2.show()
 
-    editor3 = TextWindow(title="Demo of Python file")
+    editor3 = TextWindow(title="Demo of Python file", file_name=__file__, text_type='python')
     editor3.move(440, 410)
     editor3.show()
 
     editor4 = TextWindow(file_name="../README.rst",
-                         title="README.rst (current version)",
-                         file_type = 'Dummy')
+                         title="Demo of unknown test_type",
+                         text_type = 'unknown')
+    editor4.show()
 
     sys.exit(app.exec_())

@@ -59,10 +59,12 @@ __all__ = [
     'set_font_size',
     'get_language',
     'set_language',
-    'show',
     'get_abort',
+    'show_message',    
     'show_file',
+    'show_text',
     'show_code',
+    'show_html',
     'find_help'
 ]
 
@@ -158,15 +160,15 @@ class SimpleApp(QtGui.QApplication):
             self.save_config()
 
 #========== Message Boxes ====================#
-
-def show(message="Message", title="Title"):
+def show_message(message="Message",
+                 title="Title"):
     """Simple message box.
 
        :param message: message string
        :param title: window title
 
        >>> import easygui_qt as easy
-       >>> easy.show()
+       >>> easy.show_message()
 
        .. image:: ../docs/images/show_message.png
     """
@@ -204,21 +206,20 @@ def get_yes_or_no(message="Answer this question", title="Title"):
 
     reply = box.question(None, title, message, flags)
     app.quit()
-    if reply == QtGui.QMessageBox.Yes:
-        return True
-    elif reply == QtGui.QMessageBox.No:
-        return False
+    return reply == QtGui.QMessageBox.Yes
 
 
 def get_continue_or_cancel(message="Processed will be cancelled!",
-                           title="Title"):
+                           title="Title",
+                           continue_button_text="Continue",
+                           cancel_button_text="Cancel"):
     """Continue or cancel question, shown as a warning (i.e. more urgent than
        simple message)
 
        :param question: Question (string) asked
        :param title: Window title (string)
 
-       :return: "continue" for "No, please continue",
+       :return: "continue" for "Continue",
                 "cancel" for "Cancel" (or dismissing the dialog)
 
        >>> import easygui_qt as easy
@@ -229,17 +230,15 @@ def get_continue_or_cancel(message="Processed will be cancelled!",
     app = SimpleApp()
     message_box = QtGui.QMessageBox(QtGui.QMessageBox.Warning, title, message,
                                     QtGui.QMessageBox.NoButton)
-    message_box.addButton("No, please continue", QtGui.QMessageBox.AcceptRole)
-    message_box.addButton("Cancel", QtGui.QMessageBox.RejectRole)
+    message_box.addButton(continue_button_text, QtGui.QMessageBox.AcceptRole)
+    message_box.addButton(cancel_button_text, QtGui.QMessageBox.RejectRole)
     message_box.show()
     message_box.raise_()
 
-    if message_box.exec_() == QtGui.QMessageBox.AcceptRole:
-        app.quit()
-        return "continue"
-    else:
-        app.quit()
-        return "cancel"
+    reply = message_box.exec_()
+    app.quit()
+    return reply == QtGui.QMessageBox.AcceptRole
+
 
 #============= Color dialogs =================
 
@@ -805,11 +804,11 @@ def show_file(file_name=None, title="Title", file_type="text"):
 
        :param title: the window title
        :param file_name: the file name, (path) relative to the calling program
-       :param file_type: possible values: ``html``, ``text``, ``code``.
+       :param file_type: possible values: ``text``, ``code``, ``html``, ``python``.
 
        By default, file_type is assumed to be ``text``; if set to ``code``,
        the content is displayed with a monospace font and, if
-       the file name ends with "py" or "pyw", some code highlighting is done.
+       set to ``python``, some code highlighting is done.
        If the file_type is ``html``, it is processed assuming it follows
        html syntax.
 
@@ -823,12 +822,31 @@ def show_file(file_name=None, title="Title", file_type="text"):
     app = SimpleApp()
     editor = show_text_window.TextWindow(file_name=file_name,
                                          title=title,
-                                         file_type="text")
+                                         text_type=file_type)
     editor.show()
     app.exec_()
 
-def show_code(title="Title", code=None):
-    '''Displays some text in a window, in a monospace file.
+    
+def show_text(title="Title", text=""):
+    '''Displays some text in a window.
+
+       :param title: the window title
+       :param code: a string to display in the window.
+
+       >>> import easygui_qt as easy
+       >>> easy.show_code()
+
+       .. image:: ../docs/images/show_text.png
+    '''
+    app = SimpleApp()
+    editor = show_text_window.TextWindow(title=title, text_type='text', text=text)
+    editor.resize(720, 450)
+    editor.show()
+    app.exec_()
+
+    
+def show_code(title="Title", text=""):
+    '''Displays some text in a window, in a monospace font.
 
        :param title: the window title
        :param code: a string to display in the window.
@@ -839,11 +857,30 @@ def show_code(title="Title", code=None):
        .. image:: ../docs/images/show_code.png
     '''
     app = SimpleApp()
-    editor = show_text_window.TextWindow(title=title, code=code)
+    editor = show_text_window.TextWindow(title=title, text_type='code', text=text)
     editor.resize(720, 450)
     editor.show()
     app.exec_()
 
+    
+def show_html(title="Title", text=""):
+    '''Displays some html text in a window.
+
+       :param title: the window title
+       :param code: a string to display in the window.
+
+       >>> import easygui_qt as easy
+       >>> easy.show_html()
+
+       .. image:: ../docs/images/show_html.png
+    '''
+    app = SimpleApp()
+    editor = show_text_window.TextWindow(title=title, text_type='html', text=text)
+    editor.resize(720, 450)
+    editor.show()
+    app.exec_()
+
+    
 def get_abort(message="Major problem - or at least we think there is one...",
               title="Major problem encountered!"):
     '''Displays a message about a problem.

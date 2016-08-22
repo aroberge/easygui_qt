@@ -3,8 +3,19 @@
 History
 =======
 
+0.9.2
+-----
+
+(Some of the changes noted are addition or improvements submitted by David Hughes via email)
+
+- TextWindow now shows input either from a file or from a supplied string.
+- added show_code()
+- added show_text()
+- renamed show() to show_message() [reverting change from 0.9.1]
 - started creation of custom "page format" for more complex dialogs
 - changed get_date() so that it returns a datetime date instance
+
+Note: the documentation has NOT been updated to reflect these changes.
 
 0.9.1
 -----
