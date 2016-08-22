@@ -218,9 +218,10 @@ def get_continue_or_cancel(message="Processed will be cancelled!",
 
        :param question: Question (string) asked
        :param title: Window title (string)
+       :param continue_button_text: text to display on button
+       :param cancel_button_text: text to display on button
 
-       :return: "continue" for "Continue",
-                "cancel" for "Cancel" (or dismissing the dialog)
+       :return: True for "Continue", False for "Cancel"
 
        >>> import easygui_qt as easy
        >>> choice = easy.get_continue_or_cancel()
