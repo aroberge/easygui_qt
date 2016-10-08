@@ -51,7 +51,10 @@ answer, and return the provided answer as a string.  Thus
 ``easygui_qt.get_string()`` can be used as a drop-in replacement for
 ``input()``.
 Similarly, instead of using a ``print()`` function to display a message,
-``show_message()`` is used which pops a message window.
+``show_message()`` is used which pops a message window; however, note that
+unlike ``print``, ``show_message`` interrupts the flow of the program
+and require some interaction from the user for the program to 
+continue.
 
 Unlike the original EasyGUI, which sometimes used cryptic names like
 ``msgbox`` or ``ynbox``, EasyGUI_Qt attempts to use descriptive names
