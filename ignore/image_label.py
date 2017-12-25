@@ -1,5 +1,10 @@
 
-from PyQt4.QtGui import QApplication, QLabel, QPixmap
+try:
+    from PyQt4.QtGui import QApplication, QLabel, QPixmap
+    qt_widgets = QtGui
+except ImportError:
+    from PyQt5.QtGui import QPixmap
+    from PyQt5.QtWidgets import QApplication, QLabel
 
 app = QApplication([])
 

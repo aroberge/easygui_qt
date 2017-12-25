@@ -7,8 +7,10 @@ The syntax highlighter for Python code is really inadequate;  HELP!! :-)
 
 try:
     from PyQt4 import QtGui, QtCore
+    qt_widgets = QtGui
 except ImportError:
-    from PyQt5 import QtGui, QtCore  # untested
+    from PyQt5 import QtCore, QtGui
+    from PyQt5 import QtWidgets as qt_widgets
 
 import keyword
 import sys
@@ -18,7 +20,7 @@ else:
     from io import StringIO
 
 
-class TextWindow(QtGui.QMainWindow):
+class TextWindow(qt_widgets.QMainWindow):
     def __init__(self, file_name=None, title="Title", text_type='text',
                  text='Default text'):
         """Simple text window whose input comes from a file, if a file_name 
@@ -31,7 +33,7 @@ class TextWindow(QtGui.QMainWindow):
 
         self.setWindowTitle(title)
         self.resize(900, 600)
-        self.editor = QtGui.QTextEdit(self)
+        self.editor = qt_widgets.QTextEdit(self)
         self.setCentralWidget(self.editor)
         self.editor.setFocus()
 
@@ -130,7 +132,7 @@ class Highlighter(QtGui.QSyntaxHighlighter):
 
 
 if __name__ == '__main__':
-    app = QtGui.QApplication([])
+    app = qt_widgets.QApplication([])
 
     editor1 = TextWindow(file_name="../README.rst",
                          title="Demo of text file",

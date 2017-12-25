@@ -6,10 +6,12 @@ except:
 
 try:
     from PyQt4 import QtGui, QtCore
+    qt_widgets = QtGui
 except ImportError:
-    from PyQt5 import QtGui, QtCore  # untested
+    from PyQt5 import QtCore, QtGui
+    from PyQt5 import QtWidgets as qt_widgets
 
-class LanguageSelector(QtGui.QDialog):
+class LanguageSelector(qt_widgets.QDialog):
     """A specially constructed dialog which uses informations about
        available language (qm) files which can be used to change the
        default language of the basic PyQt ui components.
@@ -26,10 +28,10 @@ class LanguageSelector(QtGui.QDialog):
         qm_files = utils.find_qm_files()
 
         # ========= check boxes ==============
-        group_box = QtGui.QGroupBox(name)
-        group_box_layout = QtGui.QGridLayout()
+        group_box = qt_widgets.QGroupBox(name)
+        group_box_layout = qt_widgets.QGridLayout()
         for i, locale in enumerate(qm_files):
-            check_box = QtGui.QCheckBox(locale)
+            check_box = qt_widgets.QCheckBox(locale)
             check_box.setAutoExclusive(True)
             self.qm_files_choices[check_box] = locale
             check_box.toggled.connect(self.check_box_toggled)
@@ -37,7 +39,7 @@ class LanguageSelector(QtGui.QDialog):
         # adding default language option. When using the PyQt distribution
         # no "en" files were found and yet "en" was the obvious default.
         # We need this option in case we want to revert a change.
-        check_box = QtGui.QCheckBox("Default")
+        check_box = qt_widgets.QCheckBox("Default")
         check_box.setAutoExclusive(True)
         self.qm_files_choices[check_box] = "default"
         check_box.toggled.connect(self.check_box_toggled)
@@ -46,14 +48,14 @@ class LanguageSelector(QtGui.QDialog):
         group_box.setLayout(group_box_layout)
 
         # ========= buttons ==============
-        button_box = QtGui.QDialogButtonBox()
-        confirm_button = button_box.addButton(QtGui.QDialogButtonBox.Ok)
+        button_box = qt_widgets.QDialogButtonBox()
+        confirm_button = button_box.addButton(qt_widgets.QDialogButtonBox.Ok)
         confirm_button.clicked.connect(self.confirm)
 
         # ========= finalizing layout ====
-        main_layout = QtGui.QVBoxLayout()
+        main_layout = qt_widgets.QVBoxLayout()
         main_layout.addWidget(group_box)
-        main_layout.addWidget(QtGui.QLabel(instruction))
+        main_layout.addWidget(qt_widgets.QLabel(instruction))
         main_layout.addWidget(button_box)
         self.setLayout(main_layout)
         self.setWindowTitle(title)
@@ -72,7 +74,7 @@ class LanguageSelector(QtGui.QDialog):
         self.close()
 
 if __name__ == '__main__':
-    app = QtGui.QApplication([])
+    app = qt_widgets.QApplication([])
     # mocks
     app.config = {'locale': None}
     app.set_locale = lambda x: x

@@ -12,8 +12,10 @@ import easygui_qt
 
 try:
     from PyQt4 import QtGui, QtCore
+    qt_widgets = QtGui
 except ImportError:
-    from PyQt5 import QtGui, QtCore  # untested
+    from PyQt5 import QtCore, QtGui
+    from PyQt5 import QtWidgets as qt_widgets
 
 def launch(name, *args):
     """Executes a script designed specifically for this launcher.
@@ -38,14 +40,14 @@ def launch(name, *args):
     return output
 
 
-class Dialog(QtGui.QDialog):
+class Dialog(qt_widgets.QDialog):
 
     def __init__(self, parent=None):
         flags = QtCore.Qt.WindowSystemMenuHint | QtCore.Qt.WindowTitleHint
         super(Dialog, self).__init__(parent, flags=flags)
 
-        frameStyle = QtGui.QFrame.Sunken | QtGui.QFrame.Panel
-        layout = QtGui.QGridLayout()
+        frameStyle = qt_widgets.QFrame.Sunken | qt_widgets.QFrame.Panel
+        layout = qt_widgets.QGridLayout()
         layout.setColumnStretch(1, 1)
         layout.setColumnMinimumWidth(1, 250)
 
@@ -71,17 +73,17 @@ class Dialog(QtGui.QDialog):
                 'get_language', 'set_font_size',
                 'show_file', 'show_code', 'get_abort', 'find_help']
         for n, fxn in enumerate(fxns):
-            self.button[fxn] = QtGui.QPushButton(fxn + "()")
+            self.button[fxn] = qt_widgets.QPushButton(fxn + "()")
             self.button[fxn].clicked.connect(getattr(self, fxn))
             self.button[fxn].setToolTip(getattr(easygui_qt, fxn).__doc__)
-            self.label[fxn] = QtGui.QLabel()
+            self.label[fxn] = qt_widgets.QLabel()
             self.label[fxn].setFrameStyle(frameStyle)
             layout.addWidget(self.button[fxn], n, 0)
             layout.addWidget(self.label[fxn], n, 1)
 
         # handle special-case display items separately:
         n += 1
-        self.python_version_label = QtGui.QLabel()
+        self.python_version_label = qt_widgets.QLabel()
         layout.addWidget(self.python_version_label, n, 0, 2, 2)
         output = subprocess.check_output(
                          ['python', '-c', "import sys;print(sys.version)"])
@@ -90,11 +92,11 @@ class Dialog(QtGui.QDialog):
 
         n += 2
 
-        self.cancel_btn = QtGui.QPushButton("Quit")
+        self.cancel_btn = qt_widgets.QPushButton("Quit")
         self.cancel_btn.clicked.connect(self.close)
         layout.addWidget(self.cancel_btn, n, 0)
 
-        self.handle_exception_label = QtGui.QLabel()
+        self.handle_exception_label = qt_widgets.QLabel()
         self.handle_exception_label.setToolTip(
                                   easygui_qt.handle_exception.__doc__)
         self.handle_exception_label.setText(" handle_exception() not shown" +
@@ -220,7 +222,7 @@ class Dialog(QtGui.QDialog):
         launch('find_help')
 
 def main():
-    _ = QtGui.QApplication([])
+    _ = qt_widgets.QApplication([])
     dialog = Dialog()
     dialog.exec_()
 
