@@ -7,6 +7,7 @@ import os
 import sys
 import traceback
 import webbrowser
+from collections import OrderedDict
 
 if sys.version_info < (3,):
     import ConfigParser as configparser
@@ -425,7 +426,7 @@ def get_int(message="Choose a number", title="Title",
     else:
         number, ok = dialog.getInt(None, title, message,
                                    default_value, min_, max_, step,
-                                   flags)      
+                                   flags)
     dialog.destroy()
     app.quit()
     if ok:
@@ -671,7 +672,17 @@ def get_many_strings(title="Title", labels=None, masks=None):
                                               parent=parent, title=title)
     dialog.exec_()
     app.quit()
-    return parent.o_dict
+
+    class IndexedOrderedDict(OrderedDict):
+        def __getitem__(self,key):
+            if isinstance(key,int):
+                i=0
+                for v in self.values():
+                   if i==key:
+                       return v
+                   i=i+1
+            return super().__getitem__(key)
+    return IndexedOrderedDict(parent.o_dict)
 
 def get_list_of_choices(title="Title", choices=None):
     """Show a list of possible choices to be selected.
