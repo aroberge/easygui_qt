@@ -210,6 +210,8 @@ def get_yes_or_no(message="Answer this question", title="Title"):
 
     reply = box.question(None, title, message, flags)
     app.quit()
+    if reply==qt_widgets.QMessageBox.Cancel:
+        return None
     return reply == qt_widgets.QMessageBox.Yes
 
 
